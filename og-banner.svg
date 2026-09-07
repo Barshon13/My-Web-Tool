@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="ogBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#030712" />
+    </linearGradient>
+
+    <!-- Subtle Grid Pattern -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" stroke-opacity="0.6" />
+    </pattern>
+
+    <!-- Cyan to Indigo Gradient -->
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#818cf8" />
+      <stop offset="100%" stop-color="#c084fc" />
+    </linearGradient>
+
+    <linearGradient id="cyanIndigo" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="50%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+
+    <linearGradient id="badgeBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <!-- Ambient Glow Effects -->
+    <filter id="ogGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="35" result="blur" />
+    </filter>
+
+    <filter id="softEmblemGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1200" height="630" fill="url(#ogBg)" />
+  <rect width="1200" height="630" fill="url(#grid)" />
+
+  <!-- Ambient Glowing Spheres -->
+  <circle cx="150" cy="120" r="180" fill="#06b6d4" opacity="0.15" filter="url(#ogGlow)" />
+  <circle cx="1050" cy="500" r="220" fill="#6366f1" opacity="0.18" filter="url(#ogGlow)" />
+  <circle cx="600" cy="280" r="260" fill="#3b82f6" opacity="0.08" filter="url(#ogGlow)" />
+
+  <!-- Outer Border Frame -->
+  <rect x="20" y="20" width="1160" height="590" rx="24" fill="none" stroke="#334155" stroke-width="1.5" stroke-opacity="0.8" />
+
+  <!-- Brand Mark / Icon Header Group (Top Center) -->
+  <g transform="translate(600, 130)">
+    <!-- Squircle Icon (80x80) -->
+    <rect x="-40" y="-40" width="80" height="80" rx="20" fill="#0f172a" stroke="url(#cyanIndigo)" stroke-width="2.5" filter="url(#softEmblemGlow)" />
+    <!-- Scaling Frame inside icon -->
+    <rect x="-24" y="-24" width="48" height="48" rx="8" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3 2" />
+    <!-- Mountain vector -->
+    <path d="M -18 12 L -6 -6 L 4 6 L 14 -10 L 22 12 Z" fill="url(#cyanIndigo)" />
+    <!-- Sun particle -->
+    <circle cx="-10" cy="-14" r="4" fill="#38bdf8" />
+  </g>
+
+  <!-- Brand Sub-Pill -->
+  <g transform="translate(600, 205)">
+    <rect x="-115" y="-15" width="230" height="30" rx="15" fill="#1e293b" stroke="#38bdf8" stroke-width="1" stroke-opacity="0.6" />
+    <text x="0" y="5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#38bdf8" letter-spacing="2.5" text-anchor="middle">RESIZEHUB.VERCEL.APP</text>
+  </g>
+
+  <!-- Main Headline -->
+  <text x="600" y="280" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="52" font-weight="900" fill="#ffffff" letter-spacing="-1" text-anchor="middle">
+    ResizeHub - Next-Gen Client-Side Image Suite
+  </text>
+
+  <!-- Tagline / Subtitle -->
+  <text x="600" y="330" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="22" font-weight="400" fill="#94a3b8" letter-spacing="0.2" text-anchor="middle">
+    High-Fidelity Image Optimization, Vector Tracing &amp; Upscaling Directly in Your Web Browser
+  </text>
+
+  <!-- Key Capability Badges Container -->
+  <g transform="translate(100, 395)">
+    <!-- Badge 1: Zero Server Uploads -->
+    <g transform="translate(0, 0)">
+      <rect width="230" height="64" rx="14" fill="url(#badgeBg)" stroke="#334155" stroke-width="1.5" />
+      <circle cx="34" cy="32" r="14" fill="#06b6d4" opacity="0.2" />
+      <!-- Shield / Lock icon -->
+      <path d="M 28 32 L 32 36 L 40 28" fill="none" stroke="#06b6d4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="60" y="30" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#f8fafc">100% Private</text>
+      <text x="60" y="48" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">Zero Server Uploads</text>
+    </g>
+
+    <!-- Badge 2: 8K Upscaling -->
+    <g transform="translate(256, 0)">
+      <rect width="230" height="64" rx="14" fill="url(#badgeBg)" stroke="#334155" stroke-width="1.5" />
+      <circle cx="34" cy="32" r="14" fill="#3b82f6" opacity="0.2" />
+      <!-- Arrow diagonal scale icon -->
+      <path d="M 28 36 L 40 24 M 40 24 L 32 24 M 40 24 L 40 32" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="60" y="30" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#f8fafc">8K Resolution</text>
+      <text x="60" y="48" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">2K / 4K / 8K Upscaling</text>
+    </g>
+
+    <!-- Badge 3: Exact Target KB -->
+    <g transform="translate(512, 0)">
+      <rect width="230" height="64" rx="14" fill="url(#badgeBg)" stroke="#334155" stroke-width="1.5" />
+      <circle cx="34" cy="32" r="14" fill="#8b5cf6" opacity="0.2" />
+      <!-- Target compression dial icon -->
+      <circle cx="34" cy="32" r="7" fill="none" stroke="#8b5cf6" stroke-width="2" />
+      <circle cx="34" cy="32" r="2" fill="#8b5cf6" />
+      <text x="60" y="30" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#f8fafc">Exact Target KB</text>
+      <text x="60" y="48" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">Byte-Budget Compressor</text>
+    </g>
+
+    <!-- Badge 4: Multi-Image to PDF -->
+    <g transform="translate(768, 0)">
+      <rect width="230" height="64" rx="14" fill="url(#badgeBg)" stroke="#334155" stroke-width="1.5" />
+      <circle cx="34" cy="32" r="14" fill="#ec4899" opacity="0.2" />
+      <!-- PDF Document icon -->
+      <path d="M 28 26 L 36 26 L 40 30 L 40 40 L 28 40 Z" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="60" y="30" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#f8fafc">Image to PDF</text>
+      <text x="60" y="48" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="500" fill="#94a3b8">Multi-Page Assembler</text>
+    </g>
+  </g>
+
+  <!-- Footer Info Line -->
+  <g transform="translate(600, 530)">
+    <text x="0" y="0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="600" fill="#64748b" text-anchor="middle">
+      100% Free · Client-Side Execution · Instant Processing · WebP · PNG · JPG · SVG · PDF
+    </text>
+  </g>
+</svg>

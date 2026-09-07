@@ -1734,8 +1734,8 @@
           <a href="#" id="downloadBtn" class="btn btn-primary" download="pixelhub-processed.webp">
             Download Processed File
           </a>
-          <button type="button" class="btn btn-outline" id="resetBtn">
-            Choose Another Image
+          <button type="button" id="resetWorkspaceBtn" class="px-4 py-2 border border-slate-700 hover:bg-slate-800 text-slate-200 rounded-lg font-medium transition-colors cursor-pointer text-sm">
+            Convert Another Image
           </button>
         </div>
       </div>
@@ -2091,7 +2091,7 @@
       const metricNewSize = document.getElementById('metricNewSize');
       const metricSaved = document.getElementById('metricSaved');
       const downloadBtn = document.getElementById('downloadBtn');
-      const resetBtn = document.getElementById('resetBtn');
+      const resetWorkspaceBtn = document.getElementById('resetWorkspaceBtn') || document.getElementById('resetBtn');
 
       // New Features DOM Elements
       const upscaleSelector = document.getElementById('upscaleSelector');
@@ -3042,21 +3042,28 @@
 
       processBtn.addEventListener('click', executeActiveAction);
 
-      resetBtn.addEventListener('click', () => {
-        if (activeBlobUrl) {
-          URL.revokeObjectURL(activeBlobUrl);
-          activeBlobUrl = null;
-        }
-        currentImage = null;
-        currentFile = null;
-        pdfImagesList = [];
-        fileInput.value = '';
-        if (pdfExtraInput) pdfExtraInput.value = '';
-        workspace.classList.remove('active');
-        outputBox.classList.remove('active');
-        dropzone.style.display = 'block';
-        hideAlert();
-      });
+      // Post-Download Auto-Refresh & Reset Trigger
+      let reloadTimeout = null;
+      if (downloadBtn) {
+        downloadBtn.addEventListener('click', () => {
+          // Allow download stream to initiate cleanly before showing notification and triggering reload
+          setTimeout(() => {
+            showAlert('Download complete! Reloading workspace for new task...', 'success');
+            if (reloadTimeout) clearTimeout(reloadTimeout);
+            reloadTimeout = setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          }, 100);
+        });
+      }
+
+      // "Convert Another Image" / "Start Over" Instant Reload
+      if (resetWorkspaceBtn) {
+        resetWorkspaceBtn.addEventListener('click', () => {
+          if (reloadTimeout) clearTimeout(reloadTimeout);
+          window.location.reload();
+        });
+      }
 
       // Accessible FAQ Accordion Toggle
       document.querySelectorAll('.faq-item').forEach(item => {

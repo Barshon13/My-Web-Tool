@@ -3,20 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PixelHub - Free In-Browser Image Resizer, Compressor &amp; SVG Vectorizer</title>
-  <meta name="description" content="Ultra-fast, 100% client-side image utility. Resize, compress, convert between JPG, PNG, WEBP, and vectorize to SVG directly in your browser with PixelHub. Zero server uploads, maximum privacy.">
-  <meta name="keywords" content="image compressor, resize image, convert jpg to webp, png to svg, vectorize image, in-browser image converter, client side image tool, pixelhub">
+  <title>PixelHub - Free Online Image Converter | Convert PNG to WebP, JPG Compressor &amp; Vectorizer</title>
+  <meta name="description" content="Convert PNG to WebP, compress JPG without quality loss, and vectorize images to SVG directly in your browser with PixelHub. 100% free client-side processing with zero server uploads, maximum privacy, and lightning-fast performance.">
+  <meta name="keywords" content="png to webp, online image compressor, convert image without upload, client side image vectorizer, free svg converter, image optimizer, convert jpg to webp, png to svg, pixelhub">
   <meta name="author" content="PixelHub Studio">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://barshon13.github.io/My-Web-Tool/">
+  <link rel="canonical" href="https://my-web-tool-seven.vercel.app/">
 
   <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="PixelHub - 100% In-Browser Image Utility">
-  <meta property="og:description" content="Compress, resize, convert to WebP, and vectorize to SVG with zero server latency and total privacy.">
-  <meta property="og:image" content="https://barshon13.github.io/My-Web-Tool/og-image.png">
-  <meta property="og:url" content="https://barshon13.github.io/My-Web-Tool/">
+  <meta property="og:site_name" content="PixelHub">
+  <meta property="og:title" content="PixelHub - Free Online Image Converter | Convert PNG to WebP, JPG Compressor &amp; Vectorizer">
+  <meta property="og:description" content="Convert PNG to WebP, compress JPG without quality loss, and vectorize images to SVG directly in your browser with zero server uploads and total privacy.">
+  <meta property="og:image" content="https://my-web-tool-seven.vercel.app/og-image.png">
+  <meta property="og:url" content="https://my-web-tool-seven.vercel.app/">
+
+  <!-- Twitter Card Metadata -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PixelHub - Free Online Image Converter | Convert PNG to WebP &amp; Vectorizer">
+  <meta name="twitter:description" content="100% free client-side image converter, compressor, and SVG vectorizer with zero server uploads.">
+  <meta name="twitter:image" content="https://my-web-tool-seven.vercel.app/og-image.png">
 
   <!-- Monetag Verification Meta Tag -->
   <meta name="monetag" content="SITE_VERIFICATION_KEY">
@@ -49,22 +55,30 @@
     "@graph": [
       {
         "@type": "WebApplication",
-        "@id": "https://barshon13.github.io/My-Web-Tool/#app",
-        "name": "PixelHub Image Utility",
-        "url": "https://barshon13.github.io/My-Web-Tool/",
-        "description": "High-performance client-side image resizer, optimizer, format converter, and raster-to-SVG vectorizer.",
+        "@id": "https://my-web-tool-seven.vercel.app/#app",
+        "name": "PixelHub - Free Online Image Converter & Vectorizer",
+        "url": "https://my-web-tool-seven.vercel.app/",
+        "description": "High-performance client-side image converter, compressor, and SVG vectorizer running 100% in your browser with zero server uploads.",
         "applicationCategory": "MultimediaApplication",
-        "operatingSystem": "All modern browsers (Chrome, Firefox, Safari, Edge)",
-        "browserRequirements": "Requires JavaScript and HTML5 Canvas API support",
+        "operatingSystem": "All",
+        "browserRequirements": "Requires modern browser with JavaScript and HTML5 Canvas API support (Chrome, Firefox, Safari, Edge)",
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "USD"
-        }
+        },
+        "featureList": [
+          "Convert PNG to WebP",
+          "Compress JPG without quality loss",
+          "Vectorize bitmap graphics to SVG bezier paths",
+          "100% private client-side processing with zero server uploads",
+          "Custom dimension resizing and aspect ratio preservation",
+          "Transparent PNG to JPG compositing with white canvas background"
+        ]
       },
       {
         "@type": "FAQPage",
-        "@id": "https://barshon13.github.io/My-Web-Tool/#faq",
+        "@id": "https://my-web-tool-seven.vercel.app/#faq",
         "mainEntity": [
           {
             "@type": "Question",
@@ -76,15 +90,15 @@
           },
           {
             "@type": "Question",
-            "name": "Why should I convert my website images to WebP?",
+            "name": "Why should I convert my website images to modern WebP?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "WebP offers superior lossy and lossless compression compared to JPG and PNG, generally reducing file sizes by 25% to 35% at identical visual fidelity. This significantly boosts page load speeds and Google Core Web Vitals scores."
+              "text": "WebP offers superior lossy and lossless compression compared to JPG and PNG, generally reducing file sizes by 25% to 35% at identical visual fidelity. This significantly boosts page load speeds and Google Core Web Vitals scores (LCP)."
             }
           },
           {
             "@type": "Question",
-            "name": "How does transparent PNG to JPG conversion work?",
+            "name": "How does transparent PNG to JPG conversion work without black backgrounds?",
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "Because the JPEG standard does not support alpha transparency channels, PixelHub automatically composites transparent areas against a solid pure white (#ffffff) canvas to prevent black background artifacts."
@@ -96,6 +110,14 @@
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "PixelHub utilizes color quantization and edge-tracing algorithms powered by ImageTracerJS. It detects color boundaries and converts raster pixel grids into mathematical bezier curve SVG vector paths that remain crystal clear at any scale."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is there any limit to the number of images I can compress or convert?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "There are zero limits, watermarks, or paywalls. Because computations run directly on your hardware via client-side JavaScript, you can compress and convert as many images as your computer or smartphone can comfortably handle."
             }
           }
         ]
@@ -749,6 +771,164 @@
       color: var(--color-success);
     }
 
+    /* Visual Workflow Steps & SEO Scaffolding */
+    .workflow-section {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--color-radius-lg);
+      padding: 36px 32px;
+      margin-bottom: 32px;
+      box-sizing: border-box;
+    }
+
+    .workflow-section h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .workflow-card {
+      background: #F8FAFC;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .workflow-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border-color: var(--color-primary);
+    }
+
+    .workflow-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--color-primary);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+    }
+
+    .workflow-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+      margin-bottom: 8px;
+    }
+
+    .workflow-card p {
+      font-size: 0.92rem;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* Comparison Table & Metrics */
+    .seo-table-container {
+      overflow-x: auto;
+      margin: 20px 0 28px 0;
+      border-radius: 10px;
+      border: 1px solid var(--color-border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .seo-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.92rem;
+    }
+
+    .seo-table th {
+      background: #F1F5F9;
+      color: var(--color-text-main);
+      font-weight: 700;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--color-border);
+      white-space: nowrap;
+    }
+
+    .seo-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--color-border);
+      color: #334155;
+    }
+
+    .seo-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .seo-table tr:hover td {
+      background: #F8FAFC;
+    }
+
+    .pill-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .pill-webp {
+      background: #EFF6FF;
+      color: #1D4ED8;
+    }
+
+    .pill-green {
+      background: #ECFDF5;
+      color: #059669;
+    }
+
+    .pill-gray {
+      background: #F1F5F9;
+      color: #475569;
+    }
+
+    .vitals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 20px 0 24px 0;
+    }
+
+    .vitals-card {
+      background: #F8FAFC;
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+
+    .vitals-metric {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--color-primary);
+      margin-bottom: 4px;
+    }
+
+    .vitals-label {
+      font-size: 0.84rem;
+      color: var(--color-text-muted);
+      line-height: 1.4;
+    }
+
     /* SEO Articles & Editorial Guide (600+ words) */
     .editorial-section {
       background: #FFFFFF;
@@ -1225,33 +1405,130 @@
     <!-- ======================================================== -->
     <div id="monetag-in-page-push-zone" style="display:none;"></div>
 
+    <!-- Step-by-Step Visual Usage Workflow -->
+    <section class="workflow-section" id="how-to-use">
+      <h2>How to Convert &amp; Optimize Images with PixelHub</h2>
+      <p style="color:var(--color-text-muted); font-size: 0.94rem; margin-top: 4px;">Three simple steps to optimize and convert your media with 100% client-side security and zero cloud latency.</p>
+      
+      <div class="workflow-grid">
+        <div class="workflow-card">
+          <div class="workflow-badge">1</div>
+          <h3>Upload or Drag &amp; Drop</h3>
+          <p>Drop your JPG, PNG, WEBP, or SVG file directly into the converter. Your files stay strictly in local memory and are never uploaded to any remote server.</p>
+        </div>
+        <div class="workflow-card">
+          <div class="workflow-badge">2</div>
+          <h3>Select Format &amp; Quality</h3>
+          <p>Select your desired output format (WebP for maximum web speed, SVG for infinite vector scaling). Fine-tune the quality slider or custom width/height dimensions.</p>
+        </div>
+        <div class="workflow-card">
+          <div class="workflow-badge">3</div>
+          <h3>Instant 1-Click Export</h3>
+          <p>Click "Convert Image" to process instantly in milliseconds via HTML5 Canvas buffers. Review real-time byte savings and download your optimized asset.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- Organic SEO Editorial Guide Section (600+ Words) -->
     <section class="editorial-section" id="guide">
       <div class="article-header">
-        <h2>Modern Image Optimization &amp; Vectorization Architecture</h2>
-        <p style="color:var(--color-text-muted); font-size: 0.92rem;">An in-depth technical analysis of raster compression, browser quantization, and scalable vector conversion.</p>
+        <h2>Modern Image Optimization &amp; Web Performance Architecture</h2>
+        <p style="color:var(--color-text-muted); font-size: 0.94rem;">An in-depth technical analysis of raster compression, modern WebP conversion, Google Core Web Vitals, and scalable vectorization.</p>
       </div>
 
       <article class="editorial-content">
-        <h3>1. The Mechanics of Client-Side Browser Compression</h3>
+        <h3>1. Why Convert to Modern WebP? (Core Web Vitals &amp; SEO Impact)</h3>
         <p>
-          Traditional web image compression historically relied upon server-heavy microservices running binaries like ImageMagick, libvips, or MozJPEG. While reliable, server-side processing incurs significant latency, infrastructure expenses, and compromises data security by routing personal media through remote cloud hosts.
+          In modern search engine optimization, Google prioritizes web performance and user experience through <strong>Core Web Vitals</strong>—specifically <strong>Largest Contentful Paint (LCP)</strong>, <strong>Cumulative Layout Shift (CLS)</strong>, and <strong>Interaction to Next Paint (INP)</strong>. Large unoptimized raster images (traditional high-resolution JPEGs and uncompressed PNGs) are the single largest contributor to slow LCP metrics and excessive network payload on mobile devices.
+        </p>
+        <p>
+          Converting your media to modern <strong>WebP</strong> format delivers an immediate performance advantage:
+        </p>
+
+        <div class="vitals-grid">
+          <div class="vitals-card">
+            <div class="vitals-metric">25% – 35%</div>
+            <div class="vitals-label">Average byte reduction compared to JPEG and PNG at identical visual fidelity.</div>
+          </div>
+          <div class="vitals-card">
+            <div class="vitals-metric">&lt; 1.2s LCP</div>
+            <div class="vitals-label">Drastic speed acceleration on mobile 4G networks, satisfying Google's "Good" Core Web Vitals tier.</div>
+          </div>
+          <div class="vitals-card">
+            <div class="vitals-metric">Alpha &amp; Lossy</div>
+            <div class="vitals-label">Supports both 8-bit alpha transparency and predictive compression in a single versatile format.</div>
+          </div>
+        </div>
+
+        <p>
+          WebP was developed by Google using the VP8 video keyframe compression algorithm for lossy encoding and spatial transformation techniques for lossless encoding. By predicting pixel blocks based on neighboring chroma and luminance values, WebP achieves exceptional visual clarity at a fraction of legacy file sizes.
+        </p>
+
+        <!-- Format Comparison Table -->
+        <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--color-text-main); margin-top: 20px;">Image Format Comparison Matrix</h4>
+        <div class="seo-table-container">
+          <table class="seo-table">
+            <thead>
+              <tr>
+                <th>Format</th>
+                <th>Compression Type</th>
+                <th>Transparency</th>
+                <th>Animation</th>
+                <th>Typical Byte Savings</th>
+                <th>Ideal Application</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="pill-badge pill-webp">WEBP</span></td>
+                <td>Lossy &amp; Lossless (VP8)</td>
+                <td>Yes (8-bit Alpha)</td>
+                <td>Yes</td>
+                <td><span class="pill-badge pill-green">25% – 35%</span></td>
+                <td>High-performance websites, e-commerce, blog hero banners</td>
+              </tr>
+              <tr>
+                <td><span class="pill-badge pill-gray">PNG</span></td>
+                <td>Lossless (DEFLATE)</td>
+                <td>Yes (Full Alpha)</td>
+                <td>No</td>
+                <td>Baseline</td>
+                <td>UI icons, transparent logos, technical screenshots</td>
+              </tr>
+              <tr>
+                <td><span class="pill-badge pill-gray">JPEG / JPG</span></td>
+                <td>Lossy (DCT)</td>
+                <td>No (White Composite)</td>
+                <td>No</td>
+                <td>Standard</td>
+                <td>Legacy browser fallbacks, raw digital photography</td>
+              </tr>
+              <tr>
+                <td><span class="pill-badge pill-green">SVG</span></td>
+                <td>Vector (XML Geometry)</td>
+                <td>Yes</td>
+                <td>Yes (CSS/SMIL)</td>
+                <td><span class="pill-badge pill-green">Up to 90%</span></td>
+                <td>Logos, UI glyphs, badges, infinite-resolution illustrations</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>2. The Mechanics of Client-Side Browser Compression</h3>
+        <p>
+          Traditional web image compression historically relied upon server-heavy microservices running binaries like ImageMagick, libvips, or MozJPEG. While reliable, server-side processing incurs significant network upload latency, recurring cloud compute expenses, and compromises confidential user data by transmitting personal media through remote cloud hosts.
         </p>
         <p>
           PixelHub leverages modern W3C standards—specifically the HTML5 <code>&lt;canvas&gt;</code> element, the Canvas 2D Rendering Context, and off-thread blob generation. When an image is dropped onto the canvas, the browser decodes its underlying raster pixel data into a 32-bit RGBA integer array. By interpolating these pixel values across bicubic downsampling matrices and encoding the resulting buffer through browser-native compression codecs (such as VP8/VP8L in WebP), users achieve high-efficiency file size reductions of up to 85% in milliseconds with zero byte transfers to external networks.
         </p>
 
-        <h3>2. Comparing Formats: WebP vs. PNG vs. JPG</h3>
+        <h3>3. Transparent PNG to JPG Conversion without Dark Artifacts</h3>
         <p>
-          Selecting the ideal graphical format requires balancing compression ratios, alpha-transparency preservation, and browser backward compatibility:
+          The JPEG format does not feature an alpha transparency channel. Standard converters strip transparency and leave transparent areas black or corrupted. PixelHub eliminates this issue by automatically drawing a solid pure white (<code>#ffffff</code>) canvas background prior to rendering transparent PNGs, ensuring crisp, professional outputs every time.
         </p>
-        <ul>
-          <li><strong>WebP:</strong> Developed by Google, WebP provides both lossy predictive encoding and lossless entropy compression. It yields file sizes roughly 26% smaller than PNGs and 25%–34% smaller than comparable JPEGs while supporting transparency and animation. It is the gold standard for Core Web Vitals optimization.</li>
-          <li><strong>PNG (Portable Network Graphics):</strong> A lossless bitmap format utilizing DEFLATE algorithms. PNG is indispensable for user interfaces, logos, and iconography requiring pixel-perfect sharpness and clean transparent alpha channels, though it typically results in higher byte weights.</li>
-          <li><strong>JPEG / JPG:</strong> A discrete cosine transform (DCT) based lossy standard. While universally compatible with legacy readers, JPEG lacks transparency support. When converting transparent PNGs to JPG, PixelHub composites transparent pixels onto a pure white (<code>#ffffff</code>) backing canvas to prevent ugly dark silhouette artifacts.</li>
-        </ul>
 
-        <h3>3. Vectorizing Bitmaps into Scalable Vector Graphics (SVG)</h3>
+        <h3>4. Vectorizing Bitmaps into Scalable Vector Graphics (SVG)</h3>
         <p>
           Raster formats are defined by discrete grids of pixels, meaning enlargement inevitably leads to noticeable blurriness, jagged edges, and compression distortion. Conversely, SVG files describe imagery mathematically using XML geometric primitives—such as curves, lines, points, and paths.
         </p>
@@ -1259,7 +1536,7 @@
           PixelHub’s vectorization pipeline dynamically integrates color quantization and edge-tracing algorithms powered by ImageTracerJS. The engine analyzes pixel luminance and hue gradients, clusters contiguous pixel sets into unified color layers, computes bezier curve boundary coordinates, and exports standard SVG vector paths. This allows raster logos, sketches, and illustrations to scale infinitely from a mobile screen to a 4K billboard with zero pixelation.
         </p>
 
-        <h3>4. Data Sovereignty and Zero-Server Architecture</h3>
+        <h3>5. Data Sovereignty and Zero-Server Architecture</h3>
         <p>
           In an era where personal data and intellectual property are continuously scraped and cataloged, local client-side processing provides the ultimate privacy guarantee. PixelHub processes healthcare documents, sensitive IDs, proprietary design mockups, and personal photographs entirely in your device's memory. As soon as you close or reload the browser tab, the temporary memory buffers are automatically freed.
         </p>
@@ -1271,52 +1548,52 @@
       <h2>Frequently Asked Questions</h2>
 
       <div class="faq-item">
-        <div class="faq-question">
-          <span>Are my uploaded pictures stored on any server?</span>
+        <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+          <span>Are my images uploaded to any remote server?</span>
           <span class="faq-icon">+</span>
         </div>
         <div class="faq-answer">
-          Absolutely not. PixelHub is completely client-side. The file processing, resizing, compression, and format encoding are conducted entirely within your device's web browser using JavaScript and Canvas memory buffers. No files are ever uploaded or transmitted to any server.
+          No. PixelHub operates 100% inside your local web browser using the HTML5 Canvas API and JavaScript memory buffers. Your files never touch external servers or cloud storage, guaranteeing absolute privacy.
         </div>
       </div>
 
       <div class="faq-item">
-        <div class="faq-question">
-          <span>Why does converting PNG to JPG sometimes create a black background?</span>
+        <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+          <span>Why should I convert my website images to modern WebP?</span>
           <span class="faq-icon">+</span>
         </div>
         <div class="faq-answer">
-          The JPEG specification does not support alpha (transparency) channels. When standard converters strip the alpha channel, transparent pixels default to black. PixelHub automatically handles this by drawing an explicit pure white (#ffffff) solid background layer before rendering the image.
+          WebP offers superior lossy and lossless compression compared to JPG and PNG, generally reducing file sizes by 25% to 35% at identical visual fidelity. This significantly boosts page load speeds and Google Core Web Vitals scores (LCP).
         </div>
       </div>
 
       <div class="faq-item">
-        <div class="faq-question">
-          <span>How does the compression quality slider affect file size?</span>
+        <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+          <span>How does transparent PNG to JPG conversion work without black backgrounds?</span>
           <span class="faq-icon">+</span>
         </div>
         <div class="faq-answer">
-          For lossy formats like WebP and JPG, the quality slider controls the discrete cosine transform and chroma subsampling rates. A setting between 80% and 85% usually cuts file size by 50% to 70% with virtually imperceptible loss in visual quality.
+          Because the JPEG standard does not support alpha transparency channels, PixelHub automatically composites transparent areas against a solid pure white (#ffffff) canvas to prevent black background artifacts.
         </div>
       </div>
 
       <div class="faq-item">
-        <div class="faq-question">
-          <span>What kinds of images work best with the SVG vectorizer?</span>
+        <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+          <span>How does raster-to-SVG vectorization work?</span>
           <span class="faq-icon">+</span>
         </div>
         <div class="faq-answer">
-          Vector tracing works best for logos, flat graphics, icons, typography, and line art with high-contrast boundaries. Complex photographic scenes with millions of color gradients are naturally better suited for WebP or JPG.
+          PixelHub utilizes color quantization and edge-tracing algorithms powered by ImageTracerJS. It detects color boundaries and converts raster pixel grids into mathematical bezier curve SVG vector paths that remain crystal clear at any scale.
         </div>
       </div>
 
       <div class="faq-item">
-        <div class="faq-question">
-          <span>Is there any limit to the number of files I can optimize?</span>
+        <div class="faq-question" role="button" tabindex="0" aria-expanded="false">
+          <span>Is there any limit to the number of images I can compress or convert?</span>
           <span class="faq-icon">+</span>
         </div>
         <div class="faq-answer">
-          There are no usage limits, rate limits, or paywalls. Because computations run directly on your hardware, you can compress and convert as many images as your computer or smartphone can comfortably handle.
+          There are zero limits, watermarks, or paywalls. Because computations run directly on your hardware via client-side JavaScript, you can compress and convert as many images as your computer or smartphone can comfortably handle.
         </div>
       </div>
     </section>
@@ -1794,13 +2071,30 @@
         hideAlert();
       });
 
-      // FAQ Accordion Toggle
+      // Accessible FAQ Accordion Toggle
       document.querySelectorAll('.faq-item').forEach(item => {
         const question = item.querySelector('.faq-question');
-        question.addEventListener('click', () => {
+        if (!question) return;
+
+        const toggleAccordion = () => {
           const isActive = item.classList.contains('active');
-          document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-          if (!isActive) item.classList.add('active');
+          document.querySelectorAll('.faq-item').forEach(i => {
+            i.classList.remove('active');
+            const q = i.querySelector('.faq-question');
+            if (q) q.setAttribute('aria-expanded', 'false');
+          });
+          if (!isActive) {
+            item.classList.add('active');
+            question.setAttribute('aria-expanded', 'true');
+          }
+        };
+
+        question.addEventListener('click', toggleAccordion);
+        question.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleAccordion();
+          }
         });
       });
 

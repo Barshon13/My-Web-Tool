@@ -1,0 +1,6 @@
+{
+  "name": "PixelHub",
+  "description": "High-performance, 100% in-browser image optimization and vectorization tool. Resize, compress, convert to WebP, and trace to SVG with zero server latency.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

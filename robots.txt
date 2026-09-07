@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://my-web-tool-seven.vercel.app/sitemap.xml
+Sitemap: https://resizehub.vercel.app/sitemap.xml

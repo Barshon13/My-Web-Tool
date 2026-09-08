@@ -2497,6 +2497,9 @@
               </svg>
               <span>Start Video Upscaling &amp; Export</span>
             </button>
+            <p style="margin:2px 0 0 0; font-size:0.75rem; color:#D97706; text-align:center; font-weight:500;">
+              ⚠️ Keep your screen ON and do not switch tabs while processing video.
+            </p>
             <button type="button" id="vidCancelBtn" class="workspace-back-btn" style="display:none; justify-content:center; color:#DC2626; border-color:#FECACA; background:#FEF2F2;">
               Cancel Encoding
             </button>
@@ -4173,11 +4176,17 @@
     const vidEncodingInfo = document.getElementById('vidEncodingInfo');
     const vidAlertBox = document.getElementById('vidAlertBox');
 
-    // Video & Audio Processing State
+    // Video & Audio Processing State - DOM-Attached for mobile playback & rAF compliance
     const vidSource = document.createElement('video');
+    vidSource.id = 'resizehubSourceVideo';
     vidSource.playsInline = true;
+    vidSource.webkitPlaysInline = true;
     vidSource.crossOrigin = 'anonymous';
     vidSource.preload = 'auto';
+    vidSource.style.cssText = 'position: absolute; width: 1px; height: 1px; top: 0; left: 0; opacity: 0; pointer-events: none; z-index: -9999;';
+    if (!document.getElementById('resizehubSourceVideo')) {
+      document.body.appendChild(vidSource);
+    }
 
     // Off-screen canvas for export & blur rendering
     const exportCanvas = document.createElement('canvas');
@@ -4722,10 +4731,26 @@
       return blob;
     }
 
+    // Loop management for hybrid animation frame + interval backup
+    let exportRafId = null;
+    let exportIntervalId = null;
+
+    function stopExportLoops() {
+      if (exportRafId) {
+        cancelAnimationFrame(exportRafId);
+        exportRafId = null;
+      }
+      if (exportIntervalId) {
+        clearInterval(exportIntervalId);
+        exportIntervalId = null;
+      }
+    }
+
     // Cancel Export
     function cancelExport() {
       isExportCancelled = true;
       isExporting = false;
+      stopExportLoops();
       vidSource.onended = null;
       if (mediaRecorder && mediaRecorder.state !== 'inactive') {
         try { mediaRecorder.stop(); } catch (e) {}
@@ -4749,7 +4774,7 @@
 
     // Upscale & Export Execution Engine
     if (vidExportBtn) {
-      vidExportBtn.addEventListener('click', async () => {
+      vidExportBtn.addEventListener('click', () => {
         if (!vidSource.src || !vidSource.videoWidth) {
           showVideoAlert('Please load a video clip first before exporting.', 'error');
           return;
@@ -4759,21 +4784,7 @@
 
         // Resume Web Audio Context if suspended
         if (audioCtx && audioCtx.state === 'suspended') {
-          try { await audioCtx.resume(); } catch (e) {}
-        }
-
-        // 1. Ensure the source video element is fully buffered and ready
-        if (vidSource.readyState < 2) {
-          showVideoAlert('Buffering video stream for export...', 'info');
-          await new Promise((resolve) => {
-            const onReady = () => {
-              vidSource.removeEventListener('canplay', onReady);
-              vidSource.removeEventListener('canplaythrough', onReady);
-              resolve();
-            };
-            vidSource.addEventListener('canplay', onReady);
-            vidSource.addEventListener('canplaythrough', onReady);
-          });
+          try { audioCtx.resume(); } catch (e) {}
         }
 
         const [targetW, targetH] = getTargetDimensions();
@@ -4783,81 +4794,64 @@
         exportCanvas.width = targetW;
         exportCanvas.height = targetH;
 
-        // Capture video stream from offscreen canvas at chosen FPS
-        const videoStream = exportCanvas.captureStream(currentFps);
-        const videoTracks = videoStream.getVideoTracks();
-
-        // Capture audio tracks with cross-browser fallback
+        // 4. Bulletproof Audio Muxing & Canvas Stream
+        const canvasStream = exportCanvas.captureStream(30);
         let audioTracks = [];
-        if (typeof vidSource.captureStream === 'function') {
-          try {
-            audioTracks = vidSource.captureStream().getAudioTracks();
-          } catch (e) {}
-        }
-        if ((!audioTracks || audioTracks.length === 0) && typeof vidSource.mozCaptureStream === 'function') {
-          try {
-            audioTracks = vidSource.mozCaptureStream().getAudioTracks();
-          } catch (e) {}
+        if (vidSource.captureStream) {
+          try { audioTracks = vidSource.captureStream().getAudioTracks(); } catch (e) {}
+        } else if (vidSource.mozCaptureStream) {
+          try { audioTracks = vidSource.mozCaptureStream().getAudioTracks(); } catch (e) {}
         }
         if ((!audioTracks || audioTracks.length === 0) && audioDestNode && hasAudioTrack) {
-          try {
-            audioTracks = audioDestNode.stream.getAudioTracks();
-          } catch (e) {}
+          try { audioTracks = audioDestNode.stream.getAudioTracks(); } catch (e) {}
         }
+        const combinedStream = new MediaStream([...canvasStream.getTracks(), ...audioTracks]);
 
-        // Combine into unified MediaStream
-        const combinedStream = new MediaStream([...videoTracks, ...audioTracks]);
-
-        // 2. Format & MimeType Compatibility: prioritize MP4/H.264 over VP9
-        const mimeTypes = [
-          'video/mp4;codecs=avc1',
-          'video/mp4',
-          'video/webm;codecs=h264',
-          'video/webm;codecs=vp8,opus',
-          'video/webm'
-        ];
-        const selectedMimeType = mimeTypes.find(type => MediaRecorder.isTypeSupported(type)) || 'video/webm';
-
-        // Bitrate allocation based on target resolution
-        let videoBitrate = 12000000; // 12 Mbps default for 1080p
-        if (!isMobileDevice && currentRes === '4k') videoBitrate = 36000000;      // 36 Mbps for 4K UHD
-        else if (!isMobileDevice && currentRes === '2k') videoBitrate = 22000000; // 22 Mbps for 2K QHD
-        else if (currentRes === '720p') videoBitrate = 6000000;                   // 6 Mbps for 720p
+        // Codec selection (prioritize video/webm, fallback to video/mp4 on iOS Safari)
+        let chosenMime = 'video/webm';
+        if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported('video/webm')) {
+          chosenMime = 'video/webm';
+        } else if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported('video/mp4')) {
+          chosenMime = 'video/mp4';
+        }
 
         try {
-          mediaRecorder = new MediaRecorder(combinedStream, {
-            mimeType: selectedMimeType,
-            videoBitsPerSecond: videoBitrate
-          });
-        } catch (err) {
-          console.warn('Standard bitrate initialization fallback:', err);
-          mediaRecorder = new MediaRecorder(combinedStream, { mimeType: selectedMimeType });
+          mediaRecorder = new MediaRecorder(combinedStream, { mimeType: chosenMime });
+        } catch (e) {
+          try {
+            mediaRecorder = new MediaRecorder(combinedStream);
+            chosenMime = mediaRecorder.mimeType || 'video/webm';
+          } catch (e2) {
+            showVideoAlert('Browser does not support in-browser video recording: ' + e2.message, 'error');
+            return;
+          }
         }
 
-        recordedChunks = [];
+        // 2. The Timeslice Recording Hack: collect chunks in 500ms intervals
+        let chunks = [];
         mediaRecorder.ondataavailable = (e) => {
           if (e.data && e.data.size > 0) {
-            recordedChunks.push(e.data);
+            chunks.push(e.data);
           }
         };
 
         mediaRecorder.onstop = async () => {
           if (isExportCancelled) return;
 
-          // Build final video Blob
-          let blob = new Blob(recordedChunks, { type: selectedMimeType });
+          // Build final video Blob from slices
+          let blob = new Blob(chunks, { type: chosenMime });
 
-          // If WebM, patch the EBML duration header so Android/Windows players don't show 0:00
-          if (selectedMimeType.includes('webm')) {
+          // If WebM, patch the EBML duration header so players don't display 0:00
+          if (chosenMime.includes('webm')) {
             blob = await patchWebmDuration(blob, duration);
           }
 
-          const isMp4 = selectedMimeType.includes('mp4');
+          const isMp4 = chosenMime.includes('mp4');
           const ext = isMp4 ? 'mp4' : 'webm';
           const base = originalFileName.replace(/\.[^/.]+$/, '');
           const downloadName = `${base}-${currentRatio}-${currentRes}-upscaled.${ext}`;
 
-          // Automatic download trigger ONLY when all chunks are collected
+          // Automatic download trigger
           const downloadUrl = URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = downloadUrl;
@@ -4871,6 +4865,7 @@
           if (monitorGainNode) monitorGainNode.gain.value = 1.0;
           isExporting = false;
           vidSource.onended = null;
+          stopExportLoops();
 
           if (vidProgressBox) vidProgressBox.style.display = 'none';
           if (vidExportBtn) {
@@ -4880,18 +4875,19 @@
           if (vidCancelBtn) vidCancelBtn.style.display = 'none';
 
           const sizeStr = formatBytes(blob.size);
-          showVideoAlert(`🎉 Upscaling complete! Exported ${targetW}×${targetH} (${ext.toUpperCase()}) • ${sizeStr} • Duration: ${formatTime(duration)}`, 'success');
+          showVideoAlert(`🎉 Video export complete! Saved ${targetW}×${targetH} (${ext.toUpperCase()}) • ${sizeStr} • Duration: ${formatTime(duration)}`, 'success');
         };
 
         // Initialize state for export run
         isExporting = true;
         isExportCancelled = false;
+        stopExportLoops();
         pauseVideo();
 
         // Mute local speaker monitor during encoding so user doesn't hear fast-forward audio
         if (monitorGainNode) monitorGainNode.gain.value = 0;
 
-        // UI state: disable export button, display progress box and cancel button
+        // UI state
         if (vidExportBtn) {
           vidExportBtn.disabled = true;
           vidExportBtn.style.display = 'none';
@@ -4901,15 +4897,15 @@
         hideVideoAlert();
 
         if (vidEncodingInfo) {
-          vidEncodingInfo.textContent = `Rendering to ${targetW}×${targetH} • ${currentFps} FPS • ${selectedMimeType.split(';')[0]} • ${audioTracks.length > 0 ? 'Audio Synced' : 'Video Only'}`;
+          vidEncodingInfo.textContent = `Processing ${targetW}×${targetH} • ${chosenMime.split(';')[0]} • ${audioTracks.length > 0 ? 'Audio Synced' : 'Video'}`;
         }
 
         let isFinished = false;
 
-        // Ensure MediaRecorder stops ONLY after video.onended event triggers + 500ms safety buffer
         const finishExport = () => {
           if (isFinished) return;
           isFinished = true;
+          stopExportLoops();
 
           if (vidProgressBar) vidProgressBar.style.width = '100%';
           if (vidProgressPercent) vidProgressPercent.textContent = '100%';
@@ -4929,34 +4925,19 @@
 
         vidSource.onended = finishExport;
 
-        // Seek to beginning and wait for seeked event before launching recording
-        await new Promise((resolve) => {
-          if (Math.abs(vidSource.currentTime) < 0.05) {
-            resolve();
-          } else {
-            const onSeeked = () => {
-              vidSource.removeEventListener('seeked', onSeeked);
-              resolve();
-            };
-            vidSource.addEventListener('seeked', onSeeked, { once: true });
-            vidSource.currentTime = 0;
-          }
-        });
+        // 2. The Timeslice Recording Hack: start in 500ms chunks
+        mediaRecorder.start(500);
 
-        // Start recording with 250ms chunks
-        mediaRecorder.start(250);
+        // 3. Hybrid Frame Drawing Loop (rAF + setInterval backup)
+        const fps = 30;
+        const drawFrame = () => {
+          if (vidSource.paused || vidSource.ended || !isExporting || isFinished) return;
 
-        // Frame rendering loop with requestVideoFrameCallback (fallback to requestAnimationFrame)
-        function renderLoop() {
-          if (!isExporting || isExportCancelled || isFinished) return;
-
-          // Explicitly draw current video frame onto exportCanvas
+          // Render pristine frame onto export canvas (no safe-zone overlay)
           renderFrame(exportCtx, targetW, targetH, true);
-
-          // Mirror onto preview canvas
           renderPreview();
 
-          // Live rendering percentage
+          // Real-time progress update
           const currentT = vidSource.currentTime || 0;
           const pct = Math.min(99, Math.round((currentT / duration) * 100));
 
@@ -4969,30 +4950,42 @@
             vidTimeDetails.textContent = `${formatTime(currentT)} / ${formatTime(duration)}`;
           }
 
-          // Safety check if video reached the end
+          // Safety check for completion
           if ((vidSource.ended || currentT >= duration - 0.05) && !isFinished) {
             finishExport();
             return;
           }
 
-          if ('requestVideoFrameCallback' in vidSource) {
-            vidSource.requestVideoFrameCallback(renderLoop);
-          } else {
-            requestAnimationFrame(renderLoop);
-          }
-        }
+          exportRafId = requestAnimationFrame(drawFrame);
+        };
 
-        // Start playback and trigger frame render loop
-        vidSource.play().then(() => {
-          if ('requestVideoFrameCallback' in vidSource) {
-            vidSource.requestVideoFrameCallback(renderLoop);
-          } else {
-            requestAnimationFrame(renderLoop);
-          }
-        }).catch(err => {
-          cancelExport();
-          showVideoAlert('Video playback failed during encoding: ' + err.message, 'error');
-        });
+        const startHybridLoop = () => {
+          stopExportLoops();
+          exportRafId = requestAnimationFrame(drawFrame);
+          // setInterval backup ensures frames are continuously captured even if mobile browser throttles rAF
+          exportIntervalId = setInterval(() => {
+            if (!isExporting || isExportCancelled || isFinished) {
+              stopExportLoops();
+              return;
+            }
+            drawFrame();
+          }, Math.max(20, Math.floor(1000 / fps)));
+        };
+
+        // Hook hybrid loop to 'play' event
+        vidSource.addEventListener('play', () => {
+          startHybridLoop();
+        }, { once: true });
+
+        // Reset seek to beginning and trigger play under the user's explicit click gesture
+        vidSource.currentTime = 0;
+        const playPromise = vidSource.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(err => {
+            cancelExport();
+            showVideoAlert('Video playback could not start: ' + err.message, 'error');
+          });
+        }
       });
     }
 

@@ -50,13 +50,6 @@
     gtag('config', 'G-XXXXXXXXXX');
   </script>
 
-  <!-- Monetization: Monetag Multi-Tag / Vignette / In-Page Push -->
-  <script>(function(s){s.dataset.zone='11743661',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-  <script>(function(s){s.dataset.zone='11743662',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-  <script src="https://quge5.com/88/tag.min.js" data-zone="277871" async data-cfasync="false"></script>
-
-  <!-- Monetization: Adsterra Social Bar / In-Page Push Network -->
-  <script src="https://pl31247915.profitableratecpmnetwork.com/21/cd/ef/21cdef6bb1847b92d4861c5bd592be3e.js"></script>
 
   <!-- Schema.org JSON-LD Structured Data: WebApplication & FAQPage -->
   <script type="application/ld+json">
@@ -1130,6 +1123,158 @@
       accent-color: #2563EB;
     }
 
+    /* Video Ratio Adapter & 4K Resolution Scaler Modal Styles */
+    .video-modal-dialog {
+      background: #FFFFFF;
+      border-radius: var(--color-radius-lg);
+      max-width: 1040px;
+      width: 96%;
+      padding: 24px;
+      position: relative;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.35);
+    }
+    .video-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 24px;
+      margin-top: 16px;
+    }
+    @media (max-width: 880px) {
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .vid-preview-container {
+      background: #090D16;
+      background-image: 
+        linear-gradient(45deg, #101726 25%, transparent 25%),
+        linear-gradient(-45deg, #101726 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #101726 75%),
+        linear-gradient(-45deg, transparent 75%, #101726 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #1E293B;
+    }
+    .vid-canvas-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .vid-preview-canvas {
+      max-height: 420px;
+      max-width: 100%;
+      width: auto;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+    .vid-progress-box {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 14px;
+      display: none;
+    }
+    .vid-progress-bar-bg {
+      width: 100%;
+      height: 10px;
+      background: #E2E8F0;
+      border-radius: 9999px;
+      overflow: hidden;
+      margin: 8px 0 4px;
+    }
+    .vid-progress-bar-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #2563EB, #7C3AED, #EC4899);
+      border-radius: 9999px;
+      transition: width 0.15s ease-out;
+    }
+    .vid-player-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      margin-top: 10px;
+      background: #0F172A;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+    .vid-play-btn {
+      background: #2563EB;
+      color: #fff;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .vid-play-btn:hover {
+      background: #1D4ED8;
+    }
+    .vid-seek-slider {
+      flex: 1;
+      accent-color: #2563EB;
+      cursor: pointer;
+    }
+    .vid-time-display {
+      font-size: 0.76rem;
+      font-family: monospace;
+      color: #94A3B8;
+      flex-shrink: 0;
+    }
+    .vid-chips-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .vid-chip {
+      padding: 7px 12px;
+      border-radius: 8px;
+      border: 1px solid #CBD5E1;
+      background: #FFFFFF;
+      color: #334155;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease-in-out;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .vid-chip:hover {
+      border-color: #94A3B8;
+      background: #F8FAFC;
+    }
+    .vid-chip.active {
+      border-color: #7C3AED;
+      background: #F5F3FF;
+      color: #6D28D9;
+      box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.18);
+    }
+
     /* PDF Multi-image preview grid */
     .pdf-preview-grid {
       display: grid;
@@ -1316,17 +1461,17 @@
           <circle cx="11" cy="11" r="8"/>
           <line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
-        <input type="text" id="toolSearchInput" class="search-input" placeholder="Search tools (e.g. passport, signature, 50kb, pdf, safe-zone, shorts, reels, instagram, 8k)..." aria-label="Search all tools">
+        <input type="text" id="toolSearchInput" class="search-input" placeholder="Search tools (e.g. video, 4k, upscale, shorts, reels, passport, signature, 50kb, pdf, safe-zone, 8k)..." aria-label="Search all tools">
         <button type="button" id="clearSearchBtn" class="search-clear-btn" aria-label="Clear search">&times;</button>
       </div>
 
       <!-- Category Filter Chips -->
       <div class="category-nav-chips">
-        <a class="cat-chip active" href="#all">All Tools (13)</a>
+        <a class="cat-chip active" href="#all">All Tools (14)</a>
         <a class="cat-chip" href="#gov-tools">🏛️ Government &amp; Exam</a>
         <a class="cat-chip" href="#resize-tools">⚡ Resize &amp; Compress</a>
         <a class="cat-chip" href="#pdf-tools">📄 PDF Tools</a>
-        <a class="cat-chip" href="#social-tools">📱 Social Media</a>
+        <a class="cat-chip" href="#social-tools">📱 Social &amp; Video</a>
       </div>
     </section>
 
@@ -1694,21 +1839,6 @@
         </div>
       </section>
 
-      <!-- Banner Ad Slot (468x60) -->
-      <div class="ad-slot-wrapper ad-slot-468">
-        <div class="ad-label">Advertisement</div>
-        <script>
-          atOptions = {
-            'key' : 'bac489b9ccace3c70afc7047950cf834',
-            'format' : 'iframe',
-            'height' : 60,
-            'width' : 468,
-            'params' : {}
-          };
-        </script>
-        <script src="https://www.highrevenueformat.com/bac489b9ccace3c70afc7047950cf834/invoke.js"></script>
-      </div>
-
       <!-- CATEGORY C: PDF TOOLS -->
       <section class="category-section" id="pdf-tools" data-cat="pdf">
         <div class="category-header">
@@ -1766,21 +1896,6 @@
         </div>
       </section>
 
-      <!-- Skyscraper Ad Slot (160x300) -->
-      <div class="ad-slot-wrapper ad-slot-160-300">
-        <div class="ad-label">Advertisement</div>
-        <script>
-          atOptions = {
-            'key' : 'f345bc62d01e6f0ec8e9a82ca3a6933d',
-            'format' : 'iframe',
-            'height' : 300,
-            'width' : 160,
-            'params' : {}
-          };
-        </script>
-        <script src="https://www.highrevenueformat.com/f345bc62d01e6f0ec8e9a82ca3a6933d/invoke.js"></script>
-      </div>
-
       <!-- CATEGORY D: SOCIAL MEDIA IMAGE RESIZERS -->
       <section class="category-section" id="social-tools" data-cat="social">
         <div class="category-header">
@@ -1788,14 +1903,41 @@
             <div class="category-title-icon icon-purple">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
             </div>
-            <h2 class="category-title">Social Media Image Resizers</h2>
+            <h2 class="category-title">Social Media &amp; Video Tools</h2>
           </div>
-          <span class="category-count">5 Tools</span>
+          <span class="category-count">6 Tools</span>
         </div>
 
         <div class="tools-grid">
+          <!-- Tool: Social Video Ratio Adapter & Resolution Scaler -->
+          <div class="tool-card-item tool-card-featured" data-tool="video-scaler" onclick="openVideoModal()">
+            <div class="tool-card-top">
+              <div class="tool-card-header">
+                <div class="tool-icon-box icon-purple">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="2" width="20" height="20" rx="4"/>
+                    <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/>
+                    <line x1="2" y1="7" x2="22" y2="7"/>
+                    <line x1="7" y1="2" x2="7" y2="7"/>
+                    <line x1="17" y1="2" x2="17" y2="7"/>
+                  </svg>
+                </div>
+                <div class="tool-badges">
+                  <span class="tool-badge badge-accent">NEW • 4K UHD</span>
+                  <span class="tool-badge badge-emerald">Audio Passthrough</span>
+                </div>
+              </div>
+              <h3 class="tool-card-title">Social Video Ratio Adapter &amp; 4K Scaler</h3>
+              <p class="tool-card-desc">Adapt 1:1, 4:5, or 16:9 video clips to 9:16 Shorts/Reels with intelligent Gaussian blur backdrop padding and upscale video up to 4K UHD with synchronized audio passthrough.</p>
+            </div>
+            <div class="tool-card-action">
+              <span class="tool-tag">Shorts &bull; Reels &bull; 4K UHD &bull; Audio</span>
+              <span class="tool-action-btn">Open Video Scaler &rarr;</span>
+            </div>
+          </div>
+
           <!-- Tool: Cross-Platform Safe-Zone & Ratio Fitter -->
-          <div class="tool-card-item tool-card-featured" data-tool="safezone" onclick="openSafezoneModal()">
+          <div class="tool-card-item" data-tool="safezone" onclick="openSafezoneModal()">
             <div class="tool-card-top">
               <div class="tool-card-header">
                 <div class="tool-icon-box icon-purple">
@@ -1904,21 +2046,6 @@
           </div>
         </div>
       </section>
-
-      <!-- Skyscraper Ad Slot (160x600) -->
-      <div class="ad-slot-wrapper ad-slot-160-600">
-        <div class="ad-label">Advertisement</div>
-        <script>
-          atOptions = {
-            'key' : 'cab41592ecb4f71dab970c07c49fccb8',
-            'format' : 'iframe',
-            'height' : 600,
-            'width' : 160,
-            'params' : {}
-          };
-        </script>
-        <script src="https://www.highrevenueformat.com/cab41592ecb4f71dab970c07c49fccb8/invoke.js"></script>
-      </div>
 
     </div>
 
@@ -2039,6 +2166,7 @@
         <div class="footer-col">
           <h4>Image &amp; Social</h4>
           <ul>
+            <li><a onclick="openVideoModal()">Social Video 4K Adapter</a></li>
             <li><a onclick="openSafezoneModal()">Safe-Zone &amp; Ratio Fitter</a></li>
             <li><a onclick="openTool('compress')">Image Compressor</a></li>
             <li><a onclick="openTool('upscale')">8K Image Upscaler</a></li>
@@ -2235,6 +2363,229 @@
     </div>
   </div>
 
+  <!-- Social Video Ratio Adapter & Resolution Scaler Dedicated Modal -->
+  <div class="modal-backdrop" id="videoModal">
+    <div class="modal-dialog video-modal-dialog">
+      <button type="button" class="modal-close-btn" onclick="closeVideoModal()">&times;</button>
+      
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+        <div class="tool-icon-box icon-purple" style="width:42px; height:42px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="20" rx="4"/>
+            <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/>
+            <line x1="2" y1="7" x2="22" y2="7"/>
+            <line x1="7" y1="2" x2="7" y2="7"/>
+            <line x1="17" y1="2" x2="17" y2="7"/>
+          </svg>
+        </div>
+        <div>
+          <h3 style="font-size:1.35rem; font-weight:800; color:#0F172A; margin:0;">Social Video Ratio Adapter &amp; Resolution Scaler</h3>
+          <p style="font-size:0.84rem; color:var(--color-text-muted); margin:2px 0 0;">Convert clips to 9:16 Shorts/Reels with smart blur padding &amp; upscale to 1080p, 2K, or 4K with audio passthrough</p>
+        </div>
+      </div>
+
+      <!-- Ingest Dropzone inside Modal -->
+      <div class="dropzone" id="vidDropzone" style="margin: 14px 0 16px 0;">
+        <input type="file" id="vidFileInput" class="dropzone-input" accept="video/mp4,video/webm,video/quicktime,video/mov,.mp4,.webm,.mov">
+        <div class="dropzone-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <rect x="2" y="2" width="20" height="20" rx="4"/>
+            <polygon points="10 8 16 12 10 16 10 8"/>
+          </svg>
+        </div>
+        <div class="dropzone-title" id="vidDropzoneTitle">Drop video clip (.mp4, .webm, .mov) or click to browse</div>
+        <div class="dropzone-desc" id="vidDropzoneDesc">100% In-Browser Privacy &bull; Audio Synchronized &bull; Up to 4K UHD Output</div>
+      </div>
+
+      <!-- Controls & Preview Grid -->
+      <div class="video-grid" id="vidWorkspaceArea" style="display:none;">
+        
+        <!-- Controls Column -->
+        <div class="video-controls-col">
+          
+          <!-- 1. Target Ratio Preset Pills -->
+          <div style="margin-bottom:14px;">
+            <label class="control-label" style="margin-bottom:6px; font-weight:700;">1. Target Aspect Ratio &amp; Platform</label>
+            <div class="vid-chips-group" id="vidRatioChips">
+              <button type="button" class="vid-chip active" data-ratio="9-16">
+                <span>📱 9:16 Shorts / Reels</span>
+              </button>
+              <button type="button" class="vid-chip" data-ratio="4-5">
+                <span>📸 4:5 Instagram Portrait</span>
+              </button>
+              <button type="button" class="vid-chip" data-ratio="1-1">
+                <span>🔲 1:1 Square Feed</span>
+              </button>
+              <button type="button" class="vid-chip" data-ratio="16-9">
+                <span>🖥️ 16:9 YouTube Video</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. Target Resolution Preset Pills -->
+          <div style="margin-bottom:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <label class="control-label" style="margin-bottom:0; font-weight:700;">2. Target Resolution / Upscale Quality</label>
+              <span id="vidResDetailBadge" style="font-size:0.75rem; font-weight:700; color:#7C3AED; background:#EDE9FE; padding:2px 8px; border-radius:6px;">1080 × 1920 px</span>
+            </div>
+            <div class="vid-chips-group" id="vidResChips">
+              <button type="button" class="vid-chip" data-res="720p">
+                <span>⚡ 720p HD (Fastest)</span>
+              </button>
+              <button type="button" class="vid-chip active" data-res="1080p">
+                <span>✨ 1080p Full HD (Standard)</span>
+              </button>
+              <button type="button" class="vid-chip" data-res="2k">
+                <span>🚀 2K QHD (1440p)</span>
+              </button>
+              <button type="button" class="vid-chip" data-res="4k">
+                <span>💎 4K UHD (2160p)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3. Background Extension Mode Pills -->
+          <div style="margin-bottom:14px;">
+            <label class="control-label" style="margin-bottom:6px; font-weight:700;">3. Backdrop Extension Mode (Letterbox Fill)</label>
+            <div class="vid-chips-group" id="vidModeChips">
+              <button type="button" class="vid-chip active" data-mode="blur">
+                <span>✨ Smart Blur Padding</span>
+              </button>
+              <button type="button" class="vid-chip" data-mode="black">
+                <span>⬛ Solid Black</span>
+              </button>
+              <button type="button" class="vid-chip" data-mode="white">
+                <span>⬜ Solid White</span>
+              </button>
+              <button type="button" class="vid-chip" data-mode="custom">
+                <span>🎨 Custom Color</span>
+              </button>
+            </div>
+
+            <!-- Custom Color Picker Row -->
+            <div id="vidCustomColorWrap" style="display:none; align-items:center; gap:10px; margin-top:10px; background:#F8FAFC; padding:8px 12px; border-radius:8px; border:1px solid #CBD5E1;">
+              <input type="color" id="vidColorPicker" value="#1E293B" style="width:36px; height:36px; border:none; border-radius:6px; cursor:pointer;">
+              <input type="text" id="vidHexInput" value="#1E293B" class="control-input" style="width:110px; font-family:monospace; padding:6px 10px; font-size:0.85rem;" maxlength="7">
+              <span style="font-size:0.80rem; color:var(--color-text-muted);">Choose custom backdrop color</span>
+            </div>
+          </div>
+
+          <!-- 4. Frame Rate (FPS) Selector -->
+          <div style="margin-bottom:14px;">
+            <label class="control-label" style="margin-bottom:6px; font-weight:700;">4. Export Frame Rate</label>
+            <div class="vid-chips-group" id="vidFpsChips">
+              <button type="button" class="vid-chip active" data-fps="30">
+                <span>30 FPS (Standard / Reliable)</span>
+              </button>
+              <button type="button" class="vid-chip" data-fps="60">
+                <span>60 FPS (Ultra Smooth)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 5. Interactive Safe-Zone Toggle -->
+          <label class="sz-toggle-switch" for="vidSafezoneToggle" style="margin-bottom:16px;">
+            <input type="checkbox" id="vidSafezoneToggle" checked>
+            <span>Show Platform Safe-Zone Guide on Preview (Not in Export)</span>
+          </label>
+
+          <!-- Export Action & Progress Container -->
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <button type="button" class="btn-primary" id="vidExportBtn" style="padding:14px 20px; font-size:1.02rem; justify-content:center; width:100%; border-radius:10px; background:linear-gradient(135deg, #2563EB, #7C3AED); box-shadow:0 10px 20px -5px rgba(124, 58, 237, 0.4);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              </svg>
+              <span>Start Video Upscaling &amp; Export</span>
+            </button>
+            <button type="button" id="vidCancelBtn" class="workspace-back-btn" style="display:none; justify-content:center; color:#DC2626; border-color:#FECACA; background:#FEF2F2;">
+              Cancel Encoding
+            </button>
+          </div>
+
+          <!-- Real-Time Progress Box -->
+          <div class="vid-progress-box" id="vidProgressBox">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span id="vidStatusText" style="font-size:0.86rem; font-weight:700; color:#0F172A;">Rendering &amp; Encoding...</span>
+              <span id="vidProgressPercent" style="font-size:0.86rem; font-weight:800; color:#7C3AED;">0%</span>
+            </div>
+            <div class="vid-progress-bar-bg">
+              <div class="vid-progress-bar-fill" id="vidProgressBar"></div>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.76rem; color:#64748B;">
+              <span id="vidTimeDetails">00:00 / 00:00</span>
+              <span id="vidEncodingInfo">Encoding Client-Side Audio + Video</span>
+            </div>
+          </div>
+
+          <!-- Status / Alert Box -->
+          <div id="vidAlertBox" class="alert-box" style="display:none; margin-top:12px;"></div>
+
+        </div>
+
+        <!-- Preview Column -->
+        <div class="video-preview-col">
+          <div class="vid-preview-container">
+            <div class="vid-canvas-wrapper">
+              <canvas id="vidPreviewCanvas" class="vid-preview-canvas" width="360" height="640"></canvas>
+            </div>
+
+            <!-- Video Player Controls Bar -->
+            <div class="vid-player-bar">
+              <button type="button" class="vid-play-btn" id="vidPlayToggleBtn" aria-label="Play or pause video">
+                <svg id="vidPlayIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                <svg id="vidPauseIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+                  <rect x="6" y="4" width="4" height="16"/>
+                  <rect x="14" y="4" width="4" height="16"/>
+                </svg>
+              </button>
+              <input type="range" id="vidSeekSlider" class="vid-seek-slider" min="0" max="100" step="0.1" value="0">
+              <span id="vidTimeDisplay" class="vid-time-display">00:00 / 00:00</span>
+            </div>
+          </div>
+
+          <!-- Metadata & Diagnostics Badges -->
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; justify-content:space-between; align-items:center;">
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <span id="vidTargetResBadge" style="font-size:0.75rem; font-weight:700; color:#1E293B; background:#F1F5F9; padding:4px 8px; border-radius:6px; border:1px solid #CBD5E1;">
+                Output: 1080 × 1920 (1080p)
+              </span>
+              <span id="vidSourceMetaBadge" style="font-size:0.75rem; color:#64748B; background:#F8FAFC; padding:4px 8px; border-radius:6px; border:1px solid #E2E8F0;">
+                Source: -
+              </span>
+            </div>
+            <span id="vidAudioBadge" style="font-size:0.75rem; font-weight:700; color:#059669; background:#ECFDF5; padding:4px 8px; border-radius:6px; border:1px solid #A7F3D0;">
+              🔊 Audio Synced
+            </span>
+          </div>
+
+          <!-- Safe Zone Legend -->
+          <div class="safezone-legend" id="vidSafezoneLegend">
+            <div class="safezone-legend-item">
+              <span class="safezone-legend-dot safezone-legend-danger"></span>
+              <span>Header/Camera (Top 15%)</span>
+            </div>
+            <div class="safezone-legend-item">
+              <span class="safezone-legend-dot safezone-legend-danger"></span>
+              <span>Captions/Audio (Bottom 25%)</span>
+            </div>
+            <div class="safezone-legend-item">
+              <span class="safezone-legend-dot safezone-legend-safe"></span>
+              <span>Clean Safe Center Zone</span>
+            </div>
+            <div class="safezone-legend-item">
+              <span class="safezone-legend-dot safezone-legend-side"></span>
+              <span>Action Buttons (Right 18%)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
   <div class="modal-backdrop" id="privacyModal">
     <div class="modal-dialog">
       <button type="button" class="modal-close-btn" onclick="closeModal('privacyModal')">&times;</button>
@@ -2245,7 +2596,7 @@
         <h4 style="font-weight:700; color:#0F172A; margin:14px 0 6px;">1. Zero Server Uploads &amp; Local Execution</h4>
         <p style="margin-bottom:12px;">All image resizing, cropping, compression, conversion, and PDF operations are executed entirely within your local web browser using the HTML5 Canvas API, Typed Arrays, and Web Workers. <strong>No photos, signatures, exam cards, or documents are ever uploaded, transmitted, or stored on any external server or cloud database.</strong> Your media remains strictly on your personal device at all times.</p>
         <h4 style="font-weight:700; color:#0F172A; margin:14px 0 6px;">2. Third-Party Advertising &amp; Cookies</h4>
-        <p style="margin-bottom:12px;">ResizeHub is supported by privacy-conscious third-party advertising networks, including <strong>Adsterra</strong> and <strong>Monetag</strong>. These advertising providers may use cookies, web beacons, or non-personally identifiable identifiers to serve contextual advertisements and measure ad performance. These third-party vendors have their own independent privacy policies, and no user images or personal documents are ever accessible to or shared with advertising networks.</p>
+        <p style="margin-bottom:12px;">ResizeHub is supported by privacy-conscious third-party advertising networks, including <strong>Adsterra</strong>. These advertising providers may use cookies, web beacons, or non-personally identifiable identifiers to serve contextual advertisements and measure ad performance. These third-party vendors have their own independent privacy policies, and no user images or personal documents are ever accessible to or shared with advertising networks.</p>
         <h4 style="font-weight:700; color:#0F172A; margin:14px 0 6px;">3. Web Analytics</h4>
         <p style="margin-bottom:12px;">We use lightweight web telemetry (such as Vercel Analytics) to track aggregate, non-personally identifiable metrics including page views, referrer URLs, and tool usage frequencies to optimize site performance.</p>
         <h4 style="font-weight:700; color:#0F172A; margin:14px 0 6px;">4. User Consent &amp; Rights</h4>
@@ -2485,6 +2836,20 @@
         showTargetKb: false,
         showDimensions: false,
         showFormat: false
+      },
+      'video-scaler': {
+        title: 'Social Video Ratio Adapter & Resolution Scaler',
+        desc: 'Convert video clips to 9:16 Shorts/Reels with smart blur padding & boost resolution to 1080p, 2K, or 4K with audio passthrough',
+        iconClass: 'icon-purple',
+        defaultW: 1080, defaultH: 1920,
+        aspectLocked: false,
+        format: 'mp4',
+        targetKb: null,
+        showPassportBg: false,
+        showSigFilter: false,
+        showTargetKb: false,
+        showDimensions: false,
+        showFormat: false
       }
     };
 
@@ -2649,6 +3014,10 @@
 
     // Open Tool in Workspace
     window.openTool = function (toolKey) {
+      if (toolKey === 'video-scaler') {
+        openVideoModal();
+        return;
+      }
       if (toolKey === 'safezone') {
         openSafezoneModal();
         return;
@@ -3753,6 +4122,759 @@
             window.location.reload();
           }, 2000);
         }, mimeType, quality);
+      });
+    }
+
+  })();
+
+  /* ==========================================================================
+     SOCIAL VIDEO RATIO ADAPTER & 4K RESOLUTION SCALER ENGINE (100% IN-BROWSER)
+     ========================================================================== */
+  (function () {
+    // DOM Elements
+    const vidModal = document.getElementById('videoModal');
+    const vidDropzone = document.getElementById('vidDropzone');
+    const vidFileInput = document.getElementById('vidFileInput');
+    const vidDropzoneTitle = document.getElementById('vidDropzoneTitle');
+    const vidDropzoneDesc = document.getElementById('vidDropzoneDesc');
+    const vidWorkspaceArea = document.getElementById('vidWorkspaceArea');
+
+    const vidRatioChips = document.getElementById('vidRatioChips');
+    const vidResChips = document.getElementById('vidResChips');
+    const vidModeChips = document.getElementById('vidModeChips');
+    const vidFpsChips = document.getElementById('vidFpsChips');
+    const vidCustomColorWrap = document.getElementById('vidCustomColorWrap');
+    const vidColorPicker = document.getElementById('vidColorPicker');
+    const vidHexInput = document.getElementById('vidHexInput');
+    const vidSafezoneToggle = document.getElementById('vidSafezoneToggle');
+    const vidSafezoneLegend = document.getElementById('vidSafezoneLegend');
+
+    const vidResDetailBadge = document.getElementById('vidResDetailBadge');
+    const vidTargetResBadge = document.getElementById('vidTargetResBadge');
+    const vidSourceMetaBadge = document.getElementById('vidSourceMetaBadge');
+    const vidAudioBadge = document.getElementById('vidAudioBadge');
+
+    const vidPreviewCanvas = document.getElementById('vidPreviewCanvas');
+    const vidPreviewCtx = vidPreviewCanvas ? vidPreviewCanvas.getContext('2d') : null;
+
+    const vidPlayToggleBtn = document.getElementById('vidPlayToggleBtn');
+    const vidPlayIcon = document.getElementById('vidPlayIcon');
+    const vidPauseIcon = document.getElementById('vidPauseIcon');
+    const vidSeekSlider = document.getElementById('vidSeekSlider');
+    const vidTimeDisplay = document.getElementById('vidTimeDisplay');
+
+    const vidExportBtn = document.getElementById('vidExportBtn');
+    const vidCancelBtn = document.getElementById('vidCancelBtn');
+    const vidProgressBox = document.getElementById('vidProgressBox');
+    const vidProgressBar = document.getElementById('vidProgressBar');
+    const vidProgressPercent = document.getElementById('vidProgressPercent');
+    const vidStatusText = document.getElementById('vidStatusText');
+    const vidTimeDetails = document.getElementById('vidTimeDetails');
+    const vidEncodingInfo = document.getElementById('vidEncodingInfo');
+    const vidAlertBox = document.getElementById('vidAlertBox');
+
+    // Video & Audio Processing State
+    const vidSource = document.createElement('video');
+    vidSource.playsInline = true;
+    vidSource.crossOrigin = 'anonymous';
+    vidSource.preload = 'auto';
+
+    // Off-screen canvas for export & blur rendering
+    const exportCanvas = document.createElement('canvas');
+    const exportCtx = exportCanvas.getContext('2d', { alpha: false });
+    const blurCanvas = document.createElement('canvas');
+    const blurCtx = blurCanvas.getContext('2d', { alpha: false });
+
+    let currentFile = null;
+    let originalFileName = 'video';
+    let currentRatio = '9-16';
+    let currentRes = '1080p';
+    let currentMode = 'blur';
+    let currentCustomColor = '#1E293B';
+    let currentFps = 30;
+    let showSafeZone = true;
+
+    let isPlaying = false;
+    let isExporting = false;
+    let isExportCancelled = false;
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let animFrameId = null;
+
+    // Web Audio API Routing for audio passthrough
+    let audioCtx = null;
+    let audioSourceNode = null;
+    let audioDestNode = null;
+    let monitorGainNode = null;
+    let hasAudioTrack = false;
+
+    // Dimension Matrix [width, height]
+    const DIMENSION_TABLE = {
+      '9-16': {
+        '720p':  [720, 1280],
+        '1080p': [1080, 1920],
+        '2k':    [1440, 2560],
+        '4k':    [2160, 3840]
+      },
+      '4-5': {
+        '720p':  [720, 900],
+        '1080p': [1080, 1350],
+        '2k':    [1440, 1800],
+        '4k':    [2160, 2700]
+      },
+      '1-1': {
+        '720p':  [720, 720],
+        '1080p': [1080, 1080],
+        '2k':    [1440, 1440],
+        '4k':    [2160, 2160]
+      },
+      '16-9': {
+        '720p':  [1280, 720],
+        '1080p': [1920, 1080],
+        '2k':    [2560, 1440],
+        '4k':    [3840, 2160]
+      }
+    };
+
+    function getTargetDimensions() {
+      const ratioObj = DIMENSION_TABLE[currentRatio] || DIMENSION_TABLE['9-16'];
+      return ratioObj[currentRes] || [1080, 1920];
+    }
+
+    function formatTime(seconds) {
+      if (!seconds || isNaN(seconds) || seconds < 0) return '00:00';
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    function updateDimensionBadges() {
+      const [w, h] = getTargetDimensions();
+      const label = `${w} × ${h} px`;
+      if (vidResDetailBadge) vidResDetailBadge.textContent = label;
+      if (vidTargetResBadge) {
+        const resName = currentRes.toUpperCase();
+        vidTargetResBadge.textContent = `Output: ${w} × ${h} (${resName})`;
+      }
+    }
+
+    // Modal Controls
+    window.openVideoModal = function () {
+      openModal('videoModal');
+      if (vidSource.src && vidSource.videoWidth) {
+        renderPreview();
+      }
+    };
+
+    window.closeVideoModal = function () {
+      if (isExporting) {
+        if (!confirm('Video upscaling/export is currently in progress. Cancel and close?')) {
+          return;
+        }
+        cancelExport();
+      }
+      pauseVideo();
+      closeModal('videoModal');
+    };
+
+    // File Ingest
+    function handleVideoFile(file) {
+      if (!file) return;
+      const validTypes = ['video/mp4', 'video/webm', 'video/quicktime', 'video/mov', 'video/x-m4v', 'video/ogg'];
+      const ext = file.name.split('.').pop().toLowerCase();
+      const isVideoExt = ['mp4', 'webm', 'mov', 'm4v', 'ogv', 'mkv'].includes(ext);
+
+      if (!file.type.startsWith('video/') && !validTypes.includes(file.type) && !isVideoExt) {
+        showVideoAlert('Please upload a valid video file (.mp4, .webm, or .mov).', 'error');
+        return;
+      }
+
+      currentFile = file;
+      originalFileName = file.name || 'social-video';
+
+      if (vidDropzoneTitle) vidDropzoneTitle.textContent = `Active Video: ${originalFileName}`;
+      if (vidDropzoneDesc) vidDropzoneDesc.textContent = `Loading metadata & initializing browser decoder...`;
+
+      const blobUrl = URL.createObjectURL(file);
+      vidSource.src = blobUrl;
+      vidSource.load();
+    }
+
+    // Web Audio Routing Initializer
+    function setupAudioRouting() {
+      try {
+        if (!audioCtx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (AudioContextClass) {
+            audioCtx = new AudioContextClass();
+          }
+        }
+        if (audioCtx && !audioSourceNode) {
+          audioSourceNode = audioCtx.createMediaElementSource(vidSource);
+          audioDestNode = audioCtx.createMediaStreamDestination();
+          monitorGainNode = audioCtx.createGain();
+          monitorGainNode.gain.value = 1.0;
+
+          // Split audio stream: one to MediaRecorder destination, one to monitor speakers
+          audioSourceNode.connect(audioDestNode);
+          audioSourceNode.connect(monitorGainNode);
+          monitorGainNode.connect(audioCtx.destination);
+          hasAudioTrack = true;
+        }
+      } catch (err) {
+        console.warn('Web Audio Graph routing note:', err);
+      }
+    }
+
+    // Video Source Events
+    vidSource.addEventListener('loadedmetadata', () => {
+      const srcW = vidSource.videoWidth || 1080;
+      const srcH = vidSource.videoHeight || 1920;
+      const dur = vidSource.duration || 0;
+
+      if (vidDropzoneDesc) {
+        vidDropzoneDesc.textContent = `${srcW} × ${srcH} px • ${formatTime(dur)} • Click or drop to change video`;
+      }
+      if (vidSourceMetaBadge) {
+        vidSourceMetaBadge.textContent = `Source: ${srcW} × ${srcH} (${formatTime(dur)})`;
+      }
+      if (vidWorkspaceArea) vidWorkspaceArea.style.display = 'grid';
+
+      // Setup audio routing
+      setupAudioRouting();
+      if (vidAudioBadge) {
+        vidAudioBadge.textContent = hasAudioTrack ? '🔊 Audio Track Synced' : '🔇 Video Track Only';
+      }
+
+      // Reset seek bar
+      if (vidSeekSlider) {
+        vidSeekSlider.min = 0;
+        vidSeekSlider.max = dur;
+        vidSeekSlider.value = 0;
+      }
+      if (vidTimeDisplay) {
+        vidTimeDisplay.textContent = `00:00 / ${formatTime(dur)}`;
+      }
+
+      updateDimensionBadges();
+      renderPreview();
+    });
+
+    vidSource.addEventListener('timeupdate', () => {
+      if (!isExporting) {
+        if (vidSeekSlider) vidSeekSlider.value = vidSource.currentTime;
+        if (vidTimeDisplay) {
+          vidTimeDisplay.textContent = `${formatTime(vidSource.currentTime)} / ${formatTime(vidSource.duration)}`;
+        }
+      }
+    });
+
+    vidSource.addEventListener('ended', () => {
+      if (!isExporting) {
+        pauseVideo();
+        if (vidSeekSlider) vidSeekSlider.value = vidSource.duration;
+      }
+    });
+
+    // Drag and drop listeners
+    if (vidDropzone && vidFileInput) {
+      vidDropzone.addEventListener('click', () => vidFileInput.click());
+      vidFileInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (file) handleVideoFile(file);
+      });
+
+      ['dragenter', 'dragover'].forEach(eventName => {
+        vidDropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          vidDropzone.classList.add('dragover');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        vidDropzone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          vidDropzone.classList.remove('dragover');
+        });
+      });
+
+      vidDropzone.addEventListener('drop', (e) => {
+        const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        if (file) handleVideoFile(file);
+      });
+    }
+
+    // Playback Controls
+    function playVideo() {
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      vidSource.play().then(() => {
+        isPlaying = true;
+        if (vidPlayIcon) vidPlayIcon.style.display = 'none';
+        if (vidPauseIcon) vidPauseIcon.style.display = 'block';
+        startPreviewLoop();
+      }).catch(err => {
+        console.warn('Video play blocked:', err);
+      });
+    }
+
+    function pauseVideo() {
+      vidSource.pause();
+      isPlaying = false;
+      if (vidPlayIcon) vidPlayIcon.style.display = 'block';
+      if (vidPauseIcon) vidPauseIcon.style.display = 'none';
+      if (animFrameId) cancelAnimationFrame(animFrameId);
+    }
+
+    if (vidPlayToggleBtn) {
+      vidPlayToggleBtn.addEventListener('click', () => {
+        if (isPlaying) {
+          pauseVideo();
+        } else {
+          playVideo();
+        }
+      });
+    }
+
+    if (vidSeekSlider) {
+      vidSeekSlider.addEventListener('input', () => {
+        pauseVideo();
+        vidSource.currentTime = parseFloat(vidSeekSlider.value);
+        renderPreview();
+        if (vidTimeDisplay) {
+          vidTimeDisplay.textContent = `${formatTime(vidSource.currentTime)} / ${formatTime(vidSource.duration)}`;
+        }
+      });
+    }
+
+    function startPreviewLoop() {
+      if (!isPlaying || isExporting) return;
+      renderPreview();
+      animFrameId = requestAnimationFrame(startPreviewLoop);
+    }
+
+    // Interactive Safe-Zone Guides Renderer (ONLY for preview, NEVER for export)
+    function drawSafeZoneGuides(ctx, width, height) {
+      if (!showSafeZone) return;
+
+      ctx.save();
+      if (currentRatio === '9-16') {
+        // Vertical 9:16 layout overlay (Shorts, Reels, TikTok)
+        const topH = height * 0.15;
+        const botH = height * 0.25;
+        const rightW = width * 0.18;
+        const rightTop = height * 0.35;
+        const rightH = height * 0.40;
+
+        // Top 15% Danger Zone (Header, search, camera pill)
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.22)';
+        ctx.fillRect(0, 0, width, topH);
+        ctx.strokeStyle = 'rgba(239, 68, 68, 0.8)';
+        ctx.setLineDash([4, 4]);
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(0, topH);
+        ctx.lineTo(width, topH);
+        ctx.stroke();
+
+        ctx.font = 'bold 10px sans-serif';
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillText('Header & Camera Zone (Danger)', 10, 18);
+
+        // Bottom 25% Danger Zone (Captions, Audio strip, CTA)
+        const botY = height - botH;
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.24)';
+        ctx.fillRect(0, botY, width, botH);
+        ctx.strokeStyle = 'rgba(239, 68, 68, 0.8)';
+        ctx.beginPath();
+        ctx.moveTo(0, botY);
+        ctx.lineTo(width, botY);
+        ctx.stroke();
+
+        ctx.fillText('Captions, Audio & Meta Zone (Danger)', 10, botY + 16);
+
+        // Right 18% Action Icons Zone (Like, Comments, Share, Audio Disc)
+        const rightX = width - rightW;
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.22)';
+        ctx.fillRect(rightX, rightTop, rightW, rightH);
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.8)';
+        ctx.strokeRect(rightX, rightTop, rightW, rightH);
+
+        // Center Optimal Safe Zone Outline
+        ctx.strokeStyle = 'rgba(16, 185, 129, 0.75)';
+        ctx.setLineDash([6, 4]);
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(16, topH + 8, width - 32 - rightW, botY - topH - 16);
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.9)';
+        ctx.fillText('✓ Optimal Safe Visual Center', 22, topH + 24);
+
+      } else if (currentRatio === '4-5') {
+        // 4:5 Instagram Portrait (Show 1:1 Square Grid Crop Guide)
+        const squareH = width; // 1:1 height equals width
+        const squareY = (height - squareH) / 2;
+        ctx.strokeStyle = 'rgba(59, 130, 246, 0.85)';
+        ctx.setLineDash([5, 5]);
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(0, squareY, width, squareH);
+        ctx.fillStyle = 'rgba(59, 130, 246, 0.9)';
+        ctx.font = 'bold 10px sans-serif';
+        ctx.fillText('1:1 Profile Grid Crop Preview', 10, squareY + 16);
+      }
+      ctx.restore();
+    }
+
+    // Core Canvas Frame Rendering
+    function renderFrame(targetCtx, targetW, targetH, isExport) {
+      targetCtx.imageSmoothingEnabled = true;
+      targetCtx.imageSmoothingQuality = 'high';
+
+      // 1. Draw Background
+      if (currentMode === 'blur') {
+        // Use downscaled offscreen blur buffer for fast interpolation
+        const bufW = Math.max(160, Math.floor(targetW / 4));
+        const bufH = Math.max(240, Math.floor(targetH / 4));
+        blurCanvas.width = bufW;
+        blurCanvas.height = bufH;
+        blurCtx.drawImage(vidSource, 0, 0, bufW, bufH);
+
+        targetCtx.save();
+        targetCtx.filter = 'blur(22px)';
+        targetCtx.drawImage(blurCanvas, 0, 0, targetW, targetH);
+        targetCtx.restore();
+
+        // Subtle dark contrast scrim for background depth
+        targetCtx.fillStyle = 'rgba(0, 0, 0, 0.28)';
+        targetCtx.fillRect(0, 0, targetW, targetH);
+      } else if (currentMode === 'black') {
+        targetCtx.fillStyle = '#000000';
+        targetCtx.fillRect(0, 0, targetW, targetH);
+      } else if (currentMode === 'white') {
+        targetCtx.fillStyle = '#FFFFFF';
+        targetCtx.fillRect(0, 0, targetW, targetH);
+      } else if (currentMode === 'custom') {
+        targetCtx.fillStyle = currentCustomColor;
+        targetCtx.fillRect(0, 0, targetW, targetH);
+      }
+
+      // 2. Draw Centered Source Video
+      const srcW = vidSource.videoWidth || 1080;
+      const srcH = vidSource.videoHeight || 1920;
+      const scale = Math.min(targetW / srcW, targetH / srcH);
+      const dw = srcW * scale;
+      const dh = srcH * scale;
+      const dx = (targetW - dw) / 2;
+      const dy = (targetH - dh) / 2;
+
+      targetCtx.shadowColor = 'rgba(0, 0, 0, 0.55)';
+      targetCtx.shadowBlur = Math.round(20 * (targetW / 1080));
+      targetCtx.drawImage(vidSource, dx, dy, dw, dh);
+      targetCtx.shadowColor = 'transparent';
+      targetCtx.shadowBlur = 0;
+    }
+
+    // Render Preview
+    function renderPreview() {
+      if (!vidPreviewCanvas || !vidPreviewCtx) return;
+      const [targetW, targetH] = getTargetDimensions();
+
+      // Determine preview dimensions (max height ~410px)
+      const prevH = 410;
+      const prevW = Math.round(prevH * (targetW / targetH));
+
+      if (vidPreviewCanvas.width !== prevW || vidPreviewCanvas.height !== prevH) {
+        vidPreviewCanvas.width = prevW;
+        vidPreviewCanvas.height = prevH;
+      }
+
+      // Render video frame on preview
+      renderFrame(vidPreviewCtx, prevW, prevH, false);
+
+      // Overlay safe-zone guide lines (preview only, never in export)
+      drawSafeZoneGuides(vidPreviewCtx, prevW, prevH);
+    }
+
+    // Preset Chip Click Handlers
+    function setupChips(container, onSelect) {
+      if (!container) return;
+      container.addEventListener('click', (e) => {
+        const btn = e.target.closest('.vid-chip');
+        if (!btn) return;
+        container.querySelectorAll('.vid-chip').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        onSelect(btn);
+      });
+    }
+
+    // Ratio chips
+    setupChips(vidRatioChips, (btn) => {
+      currentRatio = btn.getAttribute('data-ratio');
+      updateDimensionBadges();
+      if (vidSafezoneLegend) {
+        vidSafezoneLegend.style.display = currentRatio === '9-16' ? 'flex' : 'none';
+      }
+      renderPreview();
+    });
+
+    // Resolution chips
+    setupChips(vidResChips, (btn) => {
+      currentRes = btn.getAttribute('data-res');
+      updateDimensionBadges();
+      renderPreview();
+    });
+
+    // Mode chips
+    setupChips(vidModeChips, (btn) => {
+      currentMode = btn.getAttribute('data-mode');
+      if (vidCustomColorWrap) {
+        vidCustomColorWrap.style.display = currentMode === 'custom' ? 'flex' : 'none';
+      }
+      renderPreview();
+    });
+
+    // FPS chips
+    setupChips(vidFpsChips, (btn) => {
+      currentFps = parseInt(btn.getAttribute('data-fps'), 10) || 30;
+    });
+
+    // Color picker
+    if (vidColorPicker && vidHexInput) {
+      vidColorPicker.addEventListener('input', () => {
+        currentCustomColor = vidColorPicker.value;
+        vidHexInput.value = vidColorPicker.value.toUpperCase();
+        if (currentMode === 'custom') renderPreview();
+      });
+      vidHexInput.addEventListener('input', () => {
+        const val = vidHexInput.value.trim();
+        if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+          currentCustomColor = val;
+          vidColorPicker.value = val;
+          if (currentMode === 'custom') renderPreview();
+        }
+      });
+    }
+
+    // Safezone toggle
+    if (vidSafezoneToggle) {
+      vidSafezoneToggle.addEventListener('change', () => {
+        showSafeZone = vidSafezoneToggle.checked;
+        renderPreview();
+      });
+    }
+
+    // Alerts
+    function showVideoAlert(msg, type = 'info') {
+      if (!vidAlertBox) return;
+      vidAlertBox.className = `alert-box ${type}`;
+      vidAlertBox.textContent = msg;
+      vidAlertBox.style.display = 'block';
+    }
+
+    function hideVideoAlert() {
+      if (vidAlertBox) vidAlertBox.style.display = 'none';
+    }
+
+    // Cancel Export
+    function cancelExport() {
+      isExportCancelled = true;
+      isExporting = false;
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        try { mediaRecorder.stop(); } catch (e) {}
+      }
+      pauseVideo();
+
+      if (monitorGainNode) monitorGainNode.gain.value = 1.0;
+      if (vidProgressBox) vidProgressBox.style.display = 'none';
+      if (vidExportBtn) vidExportBtn.style.display = 'inline-flex';
+      if (vidCancelBtn) vidCancelBtn.style.display = 'none';
+
+      showVideoAlert('Video upscaling cancelled.', 'error');
+    }
+
+    if (vidCancelBtn) {
+      vidCancelBtn.addEventListener('click', cancelExport);
+    }
+
+    // Upscale & Export Execution Engine
+    if (vidExportBtn) {
+      vidExportBtn.addEventListener('click', async () => {
+        if (!vidSource.src || !vidSource.videoWidth) {
+          showVideoAlert('Please load a video clip first before exporting.', 'error');
+          return;
+        }
+
+        if (isExporting) return;
+
+        // Resume Web Audio Context if suspended
+        if (audioCtx && audioCtx.state === 'suspended') {
+          await audioCtx.resume();
+        }
+
+        const [targetW, targetH] = getTargetDimensions();
+        const duration = vidSource.duration || 1;
+
+        // Prepare full-resolution export canvas
+        exportCanvas.width = targetW;
+        exportCanvas.height = targetH;
+
+        // Capture video stream from offscreen canvas at chosen FPS
+        const videoStream = exportCanvas.captureStream(currentFps);
+        const videoTracks = videoStream.getVideoTracks();
+
+        // Capture audio tracks from Web Audio destination
+        const audioTracks = (audioDestNode && hasAudioTrack) ? audioDestNode.stream.getAudioTracks() : [];
+
+        // Combine into unified MediaStream
+        const combinedStream = new MediaStream([...videoTracks, ...audioTracks]);
+
+        // Supported Mime Types check (VP9 / WebM / MP4)
+        const candidates = [
+          'video/webm;codecs=vp9,opus',
+          'video/webm;codecs=vp8,opus',
+          'video/webm',
+          'video/mp4;codecs=avc1,mp4a.40.2',
+          'video/mp4'
+        ];
+
+        let chosenMime = '';
+        for (const candidate of candidates) {
+          if (MediaRecorder.isTypeSupported(candidate)) {
+            chosenMime = candidate;
+            break;
+          }
+        }
+
+        if (!chosenMime) {
+          showVideoAlert('Browser does not support in-memory MediaRecorder video encoding.', 'error');
+          return;
+        }
+
+        // Bitrate allocation based on target resolution
+        let videoBitrate = 12000000; // 12 Mbps default for 1080p
+        if (currentRes === '4k') videoBitrate = 36000000;      // 36 Mbps for 4K UHD
+        else if (currentRes === '2k') videoBitrate = 22000000; // 22 Mbps for 2K QHD
+        else if (currentRes === '720p') videoBitrate = 6000000; // 6 Mbps for 720p
+
+        try {
+          mediaRecorder = new MediaRecorder(combinedStream, {
+            mimeType: chosenMime,
+            videoBitsPerSecond: videoBitrate
+          });
+        } catch (err) {
+          console.warn('Standard bitrate initialization fallback:', err);
+          mediaRecorder = new MediaRecorder(combinedStream, { mimeType: chosenMime });
+        }
+
+        recordedChunks = [];
+        mediaRecorder.ondataavailable = (e) => {
+          if (e.data && e.data.size > 0) {
+            recordedChunks.push(e.data);
+          }
+        };
+
+        mediaRecorder.onstop = () => {
+          if (isExportCancelled) return;
+
+          // Build final video Blob
+          const blob = new Blob(recordedChunks, { type: chosenMime });
+          const isMp4 = chosenMime.includes('mp4');
+          const ext = isMp4 ? 'mp4' : 'webm';
+          const base = originalFileName.replace(/\.[^/.]+$/, '');
+          const downloadName = `${base}-${currentRatio}-${currentRes}-upscaled.${ext}`;
+
+          // Automatic download trigger
+          const downloadUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = downloadUrl;
+          a.download = downloadName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+
+          // Restore audio monitor and UI
+          if (monitorGainNode) monitorGainNode.gain.value = 1.0;
+          isExporting = false;
+
+          if (vidProgressBox) vidProgressBox.style.display = 'none';
+          if (vidExportBtn) vidExportBtn.style.display = 'inline-flex';
+          if (vidCancelBtn) vidCancelBtn.style.display = 'none';
+
+          const sizeStr = formatBytes(blob.size);
+          showVideoAlert(`🎉 Upscaling complete! Exported ${targetW}×${targetH} (${currentRes.toUpperCase()}) video (${sizeStr}) with synchronized audio.`, 'success');
+        };
+
+        // Initialize state for export run
+        isExporting = true;
+        isExportCancelled = false;
+        pauseVideo();
+
+        // Mute local speaker preview during encoding so user doesn't hear fast-forward playback
+        if (monitorGainNode) monitorGainNode.gain.value = 0;
+
+        if (vidProgressBox) vidProgressBox.style.display = 'block';
+        if (vidExportBtn) vidExportBtn.style.display = 'none';
+        if (vidCancelBtn) vidCancelBtn.style.display = 'inline-flex';
+        hideVideoAlert();
+
+        if (vidEncodingInfo) {
+          vidEncodingInfo.textContent = `Upscaling to ${targetW}×${targetH} • ${currentFps} FPS • ${hasAudioTrack ? 'Audio Synced' : 'Video'}`;
+        }
+
+        vidSource.currentTime = 0;
+
+        vidSource.addEventListener('seeked', function onInitialSeek() {
+          vidSource.removeEventListener('seeked', onInitialSeek);
+          if (isExportCancelled) return;
+
+          mediaRecorder.start(250);
+          vidSource.play().then(() => {
+            renderExportLoop();
+          }).catch(err => {
+            cancelExport();
+            showVideoAlert('Video playback failed during encoding: ' + err.message, 'error');
+          });
+        }, { once: true });
+
+        function renderExportLoop() {
+          if (!isExporting || isExportCancelled) return;
+
+          // Render pristine frame to export canvas (WITHOUT any safe-zone guide lines)
+          renderFrame(exportCtx, targetW, targetH, true);
+
+          // Mirror frame to preview canvas so user can watch progress in real time
+          renderPreview();
+
+          // Calculate progress percentage
+          const currentT = vidSource.currentTime;
+          const pct = Math.min(99, Math.round((currentT / duration) * 100));
+
+          if (vidProgressBar) vidProgressBar.style.width = `${pct}%`;
+          if (vidProgressPercent) vidProgressPercent.textContent = `${pct}%`;
+          if (vidStatusText) {
+            vidStatusText.textContent = `Upscaling & Encoding to ${currentRes.toUpperCase()} (${targetW}×${targetH}): ${pct}%...`;
+          }
+          if (vidTimeDetails) {
+            vidTimeDetails.textContent = `${formatTime(currentT)} / ${formatTime(duration)}`;
+          }
+
+          // Check for completion
+          if (vidSource.ended || currentT >= duration - 0.08) {
+            if (vidProgressBar) vidProgressBar.style.width = '100%';
+            if (vidProgressPercent) vidProgressPercent.textContent = '100%';
+            if (vidStatusText) vidStatusText.textContent = 'Finalizing container & saving...';
+
+            // Wait brief moment to capture final trailing frames and flush buffer
+            setTimeout(() => {
+              if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+              }
+              pauseVideo();
+            }, 300);
+            return;
+          }
+
+          requestAnimationFrame(renderExportLoop);
+        }
       });
     }
 

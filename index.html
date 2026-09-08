@@ -4176,11 +4176,14 @@
     const vidEncodingInfo = document.getElementById('vidEncodingInfo');
     const vidAlertBox = document.getElementById('vidAlertBox');
 
-    // Video & Audio Processing State - DOM-Attached for mobile playback & rAF compliance
+    // Video & Audio Processing State - DOM-Attached with mandatory mobile attributes
     const vidSource = document.createElement('video');
     vidSource.id = 'resizehubSourceVideo';
+    vidSource.muted = true; // REQUIRED for mobile canvas capture
+    vidSource.defaultMuted = true;
     vidSource.playsInline = true;
-    vidSource.webkitPlaysInline = true;
+    vidSource.setAttribute('playsinline', '');
+    vidSource.setAttribute('webkit-playsinline', '');
     vidSource.crossOrigin = 'anonymous';
     vidSource.preload = 'auto';
     vidSource.style.cssText = 'position: absolute; width: 1px; height: 1px; top: 0; left: 0; opacity: 0; pointer-events: none; z-index: -9999;';
@@ -4320,8 +4323,14 @@
       if (vidDropzoneTitle) vidDropzoneTitle.textContent = `Active Video: ${originalFileName}`;
       if (vidDropzoneDesc) vidDropzoneDesc.textContent = `Loading metadata & initializing browser decoder...`;
 
-      const blobUrl = URL.createObjectURL(file);
-      vidSource.src = blobUrl;
+      // Instantiate video playback with mandatory attributes for mobile canvas capture
+      vidSource.src = URL.createObjectURL(file);
+      vidSource.muted = true; // REQUIRED for mobile canvas capture
+      vidSource.defaultMuted = true;
+      vidSource.playsInline = true;
+      vidSource.setAttribute('playsinline', '');
+      vidSource.setAttribute('webkit-playsinline', '');
+      vidSource.crossOrigin = 'anonymous';
       vidSource.load();
     }
 
@@ -4549,53 +4558,45 @@
       ctx.restore();
     }
 
-    // Core Canvas Frame Rendering
-    function renderFrame(targetCtx, targetW, targetH, isExport) {
-      targetCtx.imageSmoothingEnabled = true;
-      targetCtx.imageSmoothingQuality = 'high';
+    // Core Canvas Frame Rendering Function
+    function drawFrame(ctx, video, canvasWidth, canvasHeight) {
+      if (!video || !video.videoWidth || !video.videoHeight) return;
 
-      // 1. Draw Background
+      // 1. Clear background
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+      // 2. Draw Blurred Background to fill canvas
       if (currentMode === 'blur') {
-        // Use downscaled offscreen blur buffer for fast interpolation
-        const bufW = Math.max(160, Math.floor(targetW / 4));
-        const bufH = Math.max(240, Math.floor(targetH / 4));
-        blurCanvas.width = bufW;
-        blurCanvas.height = bufH;
-        blurCtx.drawImage(vidSource, 0, 0, bufW, bufH);
-
-        targetCtx.save();
-        targetCtx.filter = 'blur(22px)';
-        targetCtx.drawImage(blurCanvas, 0, 0, targetW, targetH);
-        targetCtx.restore();
-
-        // Subtle dark contrast scrim for background depth
-        targetCtx.fillStyle = 'rgba(0, 0, 0, 0.28)';
-        targetCtx.fillRect(0, 0, targetW, targetH);
-      } else if (currentMode === 'black') {
-        targetCtx.fillStyle = '#000000';
-        targetCtx.fillRect(0, 0, targetW, targetH);
+        ctx.save();
+        ctx.filter = 'blur(20px)';
+        ctx.drawImage(video, 0, 0, canvasWidth, canvasHeight);
+        ctx.restore();
       } else if (currentMode === 'white') {
-        targetCtx.fillStyle = '#FFFFFF';
-        targetCtx.fillRect(0, 0, targetW, targetH);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
       } else if (currentMode === 'custom') {
-        targetCtx.fillStyle = currentCustomColor;
-        targetCtx.fillRect(0, 0, targetW, targetH);
-      }
+        ctx.fillStyle = currentCustomColor || '#1E293B';
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+      } // 'black' mode is already #000000 from step 1
 
-      // 2. Draw Centered Source Video
-      const srcW = vidSource.videoWidth || 1080;
-      const srcH = vidSource.videoHeight || 1920;
-      const scale = Math.min(targetW / srcW, targetH / srcH);
-      const dw = srcW * scale;
-      const dh = srcH * scale;
-      const dx = (targetW - dw) / 2;
-      const dy = (targetH - dh) / 2;
+      // 3. Draw Centered Source Video (Preserve Aspect Ratio)
+      const hRatio = canvasWidth / video.videoWidth;
+      const vRatio = canvasHeight / video.videoHeight;
+      const ratio = Math.min(hRatio, vRatio);
+      const centerShiftX = (canvasWidth - video.videoWidth * ratio) / 2;
+      const centerShiftY = (canvasHeight - video.videoHeight * ratio) / 2;
 
-      targetCtx.shadowColor = 'rgba(0, 0, 0, 0.55)';
-      targetCtx.shadowBlur = Math.round(20 * (targetW / 1080));
-      targetCtx.drawImage(vidSource, dx, dy, dw, dh);
-      targetCtx.shadowColor = 'transparent';
-      targetCtx.shadowBlur = 0;
+      ctx.drawImage(
+        video,
+        0, 0, video.videoWidth, video.videoHeight,
+        centerShiftX, centerShiftY,
+        video.videoWidth * ratio, video.videoHeight * ratio
+      );
+    }
+
+    function renderFrame(targetCtx, targetW, targetH) {
+      drawFrame(targetCtx, vidSource, targetW, targetH);
     }
 
     // Render Preview
@@ -4612,8 +4613,8 @@
         vidPreviewCanvas.height = prevH;
       }
 
-      // Render video frame on preview
-      renderFrame(vidPreviewCtx, prevW, prevH, false);
+      // Render video frame on preview using drawFrame
+      drawFrame(vidPreviewCtx, vidSource, prevW, prevH);
 
       // Overlay safe-zone guide lines (preview only, never in export)
       drawSafeZoneGuides(vidPreviewCtx, prevW, prevH);
@@ -4774,7 +4775,7 @@
 
     // Upscale & Export Execution Engine
     if (vidExportBtn) {
-      vidExportBtn.addEventListener('click', () => {
+      vidExportBtn.addEventListener('click', async () => {
         if (!vidSource.src || !vidSource.videoWidth) {
           showVideoAlert('Please load a video clip first before exporting.', 'error');
           return;
@@ -4784,7 +4785,7 @@
 
         // Resume Web Audio Context if suspended
         if (audioCtx && audioCtx.state === 'suspended') {
-          try { audioCtx.resume(); } catch (e) {}
+          try { await audioCtx.resume(); } catch (e) {}
         }
 
         const [targetW, targetH] = getTargetDimensions();
@@ -4794,7 +4795,13 @@
         exportCanvas.width = targetW;
         exportCanvas.height = targetH;
 
-        // 4. Bulletproof Audio Muxing & Canvas Stream
+        // Ensure mandatory playback attributes
+        vidSource.muted = true; // REQUIRED for mobile canvas capture
+        vidSource.playsInline = true;
+        vidSource.setAttribute('playsinline', '');
+        vidSource.setAttribute('webkit-playsinline', '');
+
+        // Capture video stream from canvas
         const canvasStream = exportCanvas.captureStream(30);
         let audioTracks = [];
         if (vidSource.captureStream) {
@@ -4827,7 +4834,7 @@
           }
         }
 
-        // 2. The Timeslice Recording Hack: collect chunks in 500ms intervals
+        // Collect chunks
         let chunks = [];
         mediaRecorder.ondataavailable = (e) => {
           if (e.data && e.data.size > 0) {
@@ -4884,7 +4891,7 @@
         stopExportLoops();
         pauseVideo();
 
-        // Mute local speaker monitor during encoding so user doesn't hear fast-forward audio
+        // Mute local speaker monitor during encoding
         if (monitorGainNode) monitorGainNode.gain.value = 0;
 
         // UI state
@@ -4900,92 +4907,62 @@
           vidEncodingInfo.textContent = `Processing ${targetW}×${targetH} • ${chosenMime.split(';')[0]} • ${audioTracks.length > 0 ? 'Audio Synced' : 'Video'}`;
         }
 
-        let isFinished = false;
-
-        const finishExport = () => {
-          if (isFinished) return;
-          isFinished = true;
-          stopExportLoops();
-
+        // 3. Playback & Recording onended handler (wait 300ms safety buffer before stop)
+        vidSource.onended = () => {
           if (vidProgressBar) vidProgressBar.style.width = '100%';
           if (vidProgressPercent) vidProgressPercent.textContent = '100%';
           if (vidStatusText) vidStatusText.textContent = 'Finalizing container & saving...';
+          stopExportLoops();
 
           setTimeout(() => {
             if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-              try {
-                mediaRecorder.stop();
-              } catch (err) {
-                console.warn('MediaRecorder stop error:', err);
-              }
+              mediaRecorder.stop();
             }
             pauseVideo();
-          }, 500);
+          }, 300);
         };
 
-        vidSource.onended = finishExport;
+        // Reset video to start
+        vidSource.currentTime = 0;
 
-        // 2. The Timeslice Recording Hack: start in 500ms chunks
-        mediaRecorder.start(500);
+        try {
+          await vidSource.play();
+        } catch (err) {
+          cancelExport();
+          showVideoAlert('Video playback could not start: ' + err.message, 'error');
+          return;
+        }
 
-        // 3. Hybrid Frame Drawing Loop (rAF + setInterval backup)
-        const fps = 30;
-        const drawFrame = () => {
-          if (vidSource.paused || vidSource.ended || !isExporting || isFinished) return;
+        // Start recording in 250ms chunks
+        mediaRecorder.start(250);
 
-          // Render pristine frame onto export canvas (no safe-zone overlay)
-          renderFrame(exportCtx, targetW, targetH, true);
+        // Step function using requestAnimationFrame backed by setInterval
+        function step() {
+          if (vidSource.paused || vidSource.ended || !isExporting || isExportCancelled) return;
+          drawFrame(exportCtx, vidSource, exportCanvas.width, exportCanvas.height);
           renderPreview();
 
-          // Real-time progress update
           const currentT = vidSource.currentTime || 0;
           const pct = Math.min(99, Math.round((currentT / duration) * 100));
-
           if (vidProgressBar) vidProgressBar.style.width = `${pct}%`;
           if (vidProgressPercent) vidProgressPercent.textContent = `${pct}%`;
-          if (vidStatusText) {
-            vidStatusText.textContent = `Rendering: ${pct}%`;
-          }
-          if (vidTimeDetails) {
-            vidTimeDetails.textContent = `${formatTime(currentT)} / ${formatTime(duration)}`;
-          }
+          if (vidStatusText) vidStatusText.textContent = `Rendering: ${pct}%`;
+          if (vidTimeDetails) vidTimeDetails.textContent = `${formatTime(currentT)} / ${formatTime(duration)}`;
 
-          // Safety check for completion
-          if ((vidSource.ended || currentT >= duration - 0.05) && !isFinished) {
-            finishExport();
+          exportRafId = requestAnimationFrame(step);
+        }
+
+        exportRafId = requestAnimationFrame(step);
+
+        // Backup setInterval in case mobile OS suspends or throttles rAF
+        exportIntervalId = setInterval(() => {
+          if (!isExporting || isExportCancelled || vidSource.paused || vidSource.ended) {
+            stopExportLoops();
             return;
           }
-
-          exportRafId = requestAnimationFrame(drawFrame);
-        };
-
-        const startHybridLoop = () => {
-          stopExportLoops();
-          exportRafId = requestAnimationFrame(drawFrame);
-          // setInterval backup ensures frames are continuously captured even if mobile browser throttles rAF
-          exportIntervalId = setInterval(() => {
-            if (!isExporting || isExportCancelled || isFinished) {
-              stopExportLoops();
-              return;
-            }
-            drawFrame();
-          }, Math.max(20, Math.floor(1000 / fps)));
-        };
-
-        // Hook hybrid loop to 'play' event
-        vidSource.addEventListener('play', () => {
-          startHybridLoop();
-        }, { once: true });
-
-        // Reset seek to beginning and trigger play under the user's explicit click gesture
-        vidSource.currentTime = 0;
-        const playPromise = vidSource.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(err => {
-            cancelExport();
-            showVideoAlert('Video playback could not start: ' + err.message, 'error');
-          });
-        }
+          drawFrame(exportCtx, vidSource, exportCanvas.width, exportCanvas.height);
+          renderPreview();
+        }, 33);
       });
     }
 

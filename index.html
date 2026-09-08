@@ -997,6 +997,139 @@
       color: #64748B;
     }
 
+    /* Safe-Zone Workspace Modal Styles */
+    .safezone-modal-dialog {
+      background: #FFFFFF;
+      border-radius: var(--color-radius-lg);
+      max-width: 960px;
+      width: 95%;
+      padding: 26px;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.35);
+    }
+    .safezone-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 24px;
+      margin-top: 16px;
+    }
+    @media (max-width: 860px) {
+      .safezone-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .safezone-preview-container {
+      background: #0B1120;
+      background-image: 
+        linear-gradient(45deg, #131d31 25%, transparent 25%),
+        linear-gradient(-45deg, #131d31 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #131d31 75%),
+        linear-gradient(-45deg, transparent 75%, #131d31 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 380px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #1E293B;
+    }
+    .safezone-canvas-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .safezone-preview-canvas {
+      max-height: 440px;
+      max-width: 100%;
+      width: auto;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+    .safezone-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      margin-top: 12px;
+      font-size: 0.78rem;
+      color: #94A3B8;
+      justify-content: center;
+    }
+    .safezone-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .safezone-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+    .safezone-legend-danger { background: rgba(239, 68, 68, 0.7); }
+    .safezone-legend-safe { background: rgba(16, 185, 129, 0.7); }
+    .safezone-legend-side { background: rgba(245, 158, 11, 0.7); }
+    
+    .sz-ratio-chips, .sz-mode-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .sz-chip {
+      padding: 8px 14px;
+      border-radius: 9999px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      background: #F1F5F9;
+      color: #334155;
+      border: 1px solid #E2E8F0;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sz-chip:hover {
+      background: #E2E8F0;
+      color: #0F172A;
+    }
+    .sz-chip.active {
+      background: #2563EB;
+      color: #FFFFFF;
+      border-color: #2563EB;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+    }
+    .sz-toggle-switch {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+      margin-bottom: 14px;
+    }
+    .sz-toggle-switch input {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #2563EB;
+    }
+
     /* PDF Multi-image preview grid */
     .pdf-preview-grid {
       display: grid;
@@ -1183,13 +1316,13 @@
           <circle cx="11" cy="11" r="8"/>
           <line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
-        <input type="text" id="toolSearchInput" class="search-input" placeholder="Search tools (e.g. passport, signature, 50kb, pdf, instagram, 8k, compress)..." aria-label="Search all tools">
+        <input type="text" id="toolSearchInput" class="search-input" placeholder="Search tools (e.g. passport, signature, 50kb, pdf, safe-zone, shorts, reels, instagram, 8k)..." aria-label="Search all tools">
         <button type="button" id="clearSearchBtn" class="search-clear-btn" aria-label="Clear search">&times;</button>
       </div>
 
       <!-- Category Filter Chips -->
       <div class="category-nav-chips">
-        <a class="cat-chip active" href="#all">All Tools (12)</a>
+        <a class="cat-chip active" href="#all">All Tools (13)</a>
         <a class="cat-chip" href="#gov-tools">🏛️ Government &amp; Exam</a>
         <a class="cat-chip" href="#resize-tools">⚡ Resize &amp; Compress</a>
         <a class="cat-chip" href="#pdf-tools">📄 PDF Tools</a>
@@ -1657,10 +1790,35 @@
             </div>
             <h2 class="category-title">Social Media Image Resizers</h2>
           </div>
-          <span class="category-count">4 Tools</span>
+          <span class="category-count">5 Tools</span>
         </div>
 
         <div class="tools-grid">
+          <!-- Tool: Cross-Platform Safe-Zone & Ratio Fitter -->
+          <div class="tool-card-item tool-card-featured" data-tool="safezone" onclick="openSafezoneModal()">
+            <div class="tool-card-top">
+              <div class="tool-card-header">
+                <div class="tool-icon-box icon-purple">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="5" y="2" width="14" height="20" rx="3" ry="3"/>
+                    <line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2.5"/>
+                    <path d="M9 6h6M9 9h6" stroke-dasharray="1 1"/>
+                  </svg>
+                </div>
+                <div class="tool-badges">
+                  <span class="tool-badge badge-accent">Featured</span>
+                  <span class="tool-badge badge-emerald">Smart Blur &amp; Safe-Zones</span>
+                </div>
+              </div>
+              <h3 class="tool-card-title">Cross-Platform Safe-Zone &amp; Ratio Fitter</h3>
+              <p class="tool-card-desc">Adapt photos to 9:16 Shorts/Reels, 4:5 Portrait, or 1:1 Square with intelligent Gaussian blur backdrop padding and interactive UI safe-zone guides.</p>
+            </div>
+            <div class="tool-card-action">
+              <span class="tool-tag">Shorts &bull; Reels &bull; Feed</span>
+              <span class="tool-action-btn">Open Tool &rarr;</span>
+            </div>
+          </div>
+
           <!-- Tool 9: Instagram Post Resizer -->
           <div class="tool-card-item" data-tool="instagram" onclick="openTool('instagram')">
             <div class="tool-card-top">
@@ -1881,6 +2039,7 @@
         <div class="footer-col">
           <h4>Image &amp; Social</h4>
           <ul>
+            <li><a onclick="openSafezoneModal()">Safe-Zone &amp; Ratio Fitter</a></li>
             <li><a onclick="openTool('compress')">Image Compressor</a></li>
             <li><a onclick="openTool('upscale')">8K Image Upscaler</a></li>
             <li><a onclick="openTool('convert')">Format Converter (WebP/SVG)</a></li>
@@ -1910,6 +2069,172 @@
   </div>
 
     <!-- Modals -->
+  <!-- Cross-Platform Safe-Zone & Ratio Fitter Dedicated Workspace Modal -->
+  <div class="modal-backdrop" id="safezoneModal">
+    <div class="modal-dialog safezone-modal-dialog">
+      <button type="button" class="modal-close-btn" onclick="closeModal('safezoneModal')">&times;</button>
+      
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+        <div class="tool-icon-box icon-purple" style="width:42px; height:42px;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="5" y="2" width="14" height="20" rx="3" ry="3"/>
+            <line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2.5"/>
+            <path d="M9 6h6M9 9h6" stroke-dasharray="1 1"/>
+          </svg>
+        </div>
+        <div>
+          <h3 style="font-size:1.35rem; font-weight:800; color:#0F172A; margin:0;">Cross-Platform Safe-Zone &amp; Ratio Fitter</h3>
+          <p style="font-size:0.84rem; color:var(--color-text-muted); margin:2px 0 0;">Intelligent smart-fit, Gaussian blur background padding &amp; live platform safe-zone preview</p>
+        </div>
+      </div>
+
+      <!-- Ingest Dropzone inside Modal -->
+      <div class="dropzone" id="szDropzone" style="margin: 14px 0 16px 0;">
+        <input type="file" id="szFileInput" class="dropzone-input" accept="image/*">
+        <div class="dropzone-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <div class="dropzone-title" id="szDropzoneTitle">Drop image to adapt or click to browse</div>
+        <div class="dropzone-desc" id="szDropzoneDesc">Square (1:1), Portrait (4:5), or Landscape (16:9) &bull; Zero Server Uploads</div>
+      </div>
+
+      <!-- Controls & Preview Grid -->
+      <div class="safezone-grid" id="szWorkspaceArea">
+        
+        <!-- Controls Column -->
+        <div class="safezone-controls-col">
+          
+          <!-- 1. Target Ratio Preset Pills -->
+          <div style="margin-bottom:14px;">
+            <label class="control-label" style="margin-bottom:6px; font-weight:700;">1. Target Ratio &amp; Platform Preset</label>
+            <div class="sz-ratio-chips" id="szRatioChips">
+              <button type="button" class="sz-chip active" data-preset="9-16">
+                <span>📱 9:16 Shorts / Reels (1080×1920)</span>
+              </button>
+              <button type="button" class="sz-chip" data-preset="4-5">
+                <span>📸 4:5 Instagram Portrait (1080×1350)</span>
+              </button>
+              <button type="button" class="sz-chip" data-preset="1-1">
+                <span>🔲 1:1 Square Feed (1080×1080)</span>
+              </button>
+              <button type="button" class="sz-chip" data-preset="16-9">
+                <span>🖥️ 16:9 YouTube / Landscape (1920×1080)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. Background Extension Mode Pills -->
+          <div style="margin-bottom:14px;">
+            <label class="control-label" style="margin-bottom:6px; font-weight:700;">2. Backdrop Extension Mode</label>
+            <div class="sz-mode-chips" id="szModeChips">
+              <button type="button" class="sz-chip active" data-mode="blur">
+                <span>✨ Smart Gaussian Blur (Default)</span>
+              </button>
+              <button type="button" class="sz-chip" data-mode="color" data-color="#000000">
+                <span>⬛ Solid Black</span>
+              </button>
+              <button type="button" class="sz-chip" data-mode="color" data-color="#FFFFFF">
+                <span>⬜ Solid White</span>
+              </button>
+              <button type="button" class="sz-chip" data-mode="color" data-color="custom">
+                <span>🎨 Custom Color</span>
+              </button>
+            </div>
+            
+            <!-- Custom Color Picker Wrapper -->
+            <div id="szCustomColorWrap" style="display:none; align-items:center; gap:8px; margin-top:8px;">
+              <span style="font-size:0.82rem; font-weight:700; color:#475569;">Pick Color:</span>
+              <input type="color" id="szColorPicker" value="#1E293B" style="width:36px; height:36px; padding:0; border:1px solid #CBD5E1; border-radius:6px; cursor:pointer;">
+              <input type="text" id="szHexInput" value="#1E293B" class="control-input" style="width:110px; padding:6px 10px; font-size:0.85rem; font-family:monospace;" placeholder="#1E293B">
+            </div>
+          </div>
+
+          <!-- 3. Safe-Zone Visual Overlay Toggle -->
+          <div style="margin-bottom:14px;">
+            <label class="sz-toggle-switch" for="szSafeZoneToggle">
+              <input type="checkbox" id="szSafeZoneToggle" checked>
+              <div>
+                <div style="font-size:0.88rem; font-weight:700; color:#0F172A;">Interactive Platform Safe-Zone Overlay</div>
+                <div style="font-size:0.75rem; color:#64748B;">Highlights UI buttons, headers &amp; captions. Preview only (never baked into export).</div>
+              </div>
+            </label>
+          </div>
+
+          <!-- 4. Foreground Scale Adjuster -->
+          <div style="margin-bottom:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <label class="control-label" for="szScaleSlider" style="margin:0; font-weight:700;">Foreground Asset Fit / Scale</label>
+              <span id="szScaleVal" style="font-size:0.82rem; font-weight:700; color:#2563EB;">100% (Fit)</span>
+            </div>
+            <input type="range" id="szScaleSlider" min="50" max="100" value="100" step="1" style="width:100%; accent-color:#2563EB; cursor:pointer;">
+          </div>
+
+          <!-- 5. Export Format Selector -->
+          <div style="margin-bottom:16px;">
+            <label class="control-label" style="margin-bottom:6px; font-weight:700;">Output Format</label>
+            <div class="sz-mode-chips" id="szFormatChips">
+              <button type="button" class="sz-chip active" data-fmt="jpg">JPG (High Quality 92%)</button>
+              <button type="button" class="sz-chip" data-fmt="png">PNG (Lossless)</button>
+            </div>
+          </div>
+
+          <!-- Export Action Buttons -->
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <button type="button" class="btn btn-primary" id="szExportBtn" style="padding:14px 20px; font-size:1rem; width:100%;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="display:inline-block; vertical-align:middle; margin-right:6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Export &amp; Download Image</span>
+            </button>
+            <button type="button" id="szChangeImgBtn" class="chip-btn" style="padding:10px 14px; text-align:center; font-weight:600; color:#475569; width:100%;">
+              Choose Different Image
+            </button>
+          </div>
+
+          <div class="alert-box" id="szAlertBox" style="margin-top:12px; display:none;"></div>
+        </div>
+
+        <!-- Preview Column -->
+        <div class="safezone-preview-col">
+          <div class="safezone-preview-container">
+            <div class="safezone-canvas-wrapper" id="szCanvasWrapper" style="display:none;">
+              <canvas id="szPreviewCanvas" class="safezone-preview-canvas"></canvas>
+            </div>
+            <div id="szEmptyNotice" style="color:#94A3B8; font-size:0.88rem; text-align:center; padding:30px 10px;">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="margin:0 auto 10px; display:block; color:#64748B;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Upload or drop an image above to see live real-time composition &amp; safe zones
+            </div>
+          </div>
+
+          <!-- Live Resolution & Safe Zone Legend -->
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; font-size:0.8rem;">
+            <span id="szResBadge" style="font-weight:700; color:#0F172A; background:#F1F5F9; padding:4px 8px; border-radius:6px;">1080 &times; 1920 px (9:16)</span>
+            <span id="szOriginalBadge" style="color:#64748B;">Original: -</span>
+          </div>
+
+          <div class="safezone-legend" id="szLegend">
+            <div class="safezone-legend-item">
+              <span class="safezone-legend-dot safezone-legend-danger"></span>
+              <span>Platform UI Warning Zone</span>
+            </div>
+            <div class="safezone-legend-item">
+              <span class="safezone-legend-dot safezone-legend-safe"></span>
+              <span>Safe Visible Content</span>
+            </div>
+            <div class="safezone-legend-item">
+              <span class="safezone-legend-dot safezone-legend-side"></span>
+              <span>Buttons &amp; Actions Buffer</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
   <div class="modal-backdrop" id="privacyModal">
     <div class="modal-dialog">
       <button type="button" class="modal-close-btn" onclick="closeModal('privacyModal')">&times;</button>
@@ -2146,6 +2471,20 @@
         showTargetKb: false,
         showDimensions: true,
         showFormat: true
+      },
+      safezone: {
+        title: 'Cross-Platform Safe-Zone & Ratio Fitter',
+        desc: 'Adapt images to 9:16, 4:5, 1:1, or 16:9 with Gaussian blur background extension & platform UI safe zones',
+        iconClass: 'icon-purple',
+        defaultW: 1080, defaultH: 1920,
+        aspectLocked: false,
+        format: 'jpg',
+        targetKb: null,
+        showPassportBg: false,
+        showSigFilter: false,
+        showTargetKb: false,
+        showDimensions: false,
+        showFormat: false
       }
     };
 
@@ -2310,6 +2649,10 @@
 
     // Open Tool in Workspace
     window.openTool = function (toolKey) {
+      if (toolKey === 'safezone') {
+        openSafezoneModal();
+        return;
+      }
       const config = TOOL_CONFIGS[toolKey];
       if (!config) return;
 
@@ -2917,6 +3260,501 @@
         });
       }
     });
+
+    // -------------------------------------------------------------
+    // Cross-Platform Safe-Zone & Ratio Fitter Engine
+    // -------------------------------------------------------------
+    const SZ_PRESETS = {
+      '9-16': { key: '9-16', name: 'Shorts / Reels / TikTok', width: 1080, height: 1920 },
+      '4-5':  { key: '4-5',  name: 'Instagram Portrait',     width: 1080, height: 1350 },
+      '1-1':  { key: '1-1',  name: 'Square Feed',            width: 1080, height: 1080 },
+      '16-9': { key: '16-9', name: 'YouTube Landscape',      width: 1920, height: 1080 }
+    };
+
+    let szCurrentPreset = SZ_PRESETS['9-16'];
+    let szMode = 'blur';
+    let szColor = '#000000';
+    let szShowSafeZones = true;
+    let szScale = 100;
+    let szFormat = 'jpg';
+    let szLoadedImage = null;
+    let szOriginalFileName = '';
+
+    const szCleanCanvas = document.createElement('canvas');
+    const szPreviewCanvas = document.getElementById('szPreviewCanvas');
+    const szFileInput = document.getElementById('szFileInput');
+    const szDropzone = document.getElementById('szDropzone');
+    const szEmptyNotice = document.getElementById('szEmptyNotice');
+    const szCanvasWrapper = document.getElementById('szCanvasWrapper');
+    const szSafeZoneToggle = document.getElementById('szSafeZoneToggle');
+    const szScaleSlider = document.getElementById('szScaleSlider');
+    const szScaleVal = document.getElementById('szScaleVal');
+    const szExportBtn = document.getElementById('szExportBtn');
+    const szChangeImgBtn = document.getElementById('szChangeImgBtn');
+    const szColorPicker = document.getElementById('szColorPicker');
+    const szHexInput = document.getElementById('szHexInput');
+    const szCustomColorWrap = document.getElementById('szCustomColorWrap');
+    const szResBadge = document.getElementById('szResBadge');
+    const szOriginalBadge = document.getElementById('szOriginalBadge');
+    const szAlertBox = document.getElementById('szAlertBox');
+    const szDropzoneTitle = document.getElementById('szDropzoneTitle');
+    const szDropzoneDesc = document.getElementById('szDropzoneDesc');
+
+    window.openSafezoneModal = function () {
+      openModal('safezoneModal');
+      if (currentImage && !szLoadedImage) {
+        szLoadImage(currentImage, currentFile ? currentFile.name : 'image');
+      } else {
+        szRender();
+      }
+    };
+
+    function szLoadImage(img, fileName) {
+      szLoadedImage = img;
+      szOriginalFileName = fileName || 'media';
+      if (szDropzoneTitle) szDropzoneTitle.textContent = `Active Image: ${szOriginalFileName}`;
+      if (szDropzoneDesc) szDropzoneDesc.textContent = `${img.naturalWidth || img.width} × ${img.naturalHeight || img.height} px • Click or drop to change`;
+      szRender();
+    }
+
+    function szHandleFile(file) {
+      if (!file || !file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          szLoadImage(img, file.name);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    if (szFileInput) {
+      szFileInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (file) szHandleFile(file);
+      });
+    }
+
+    if (szDropzone) {
+      ['dragenter', 'dragover'].forEach(name => {
+        szDropzone.addEventListener(name, (e) => {
+          e.preventDefault();
+          szDropzone.classList.add('dragover');
+        });
+      });
+      ['dragleave', 'drop'].forEach(name => {
+        szDropzone.addEventListener(name, (e) => {
+          e.preventDefault();
+          szDropzone.classList.remove('dragover');
+        });
+      });
+      szDropzone.addEventListener('drop', (e) => {
+        const file = e.dataTransfer.files && e.dataTransfer.files[0];
+        if (file) szHandleFile(file);
+      });
+    }
+
+    if (szChangeImgBtn && szFileInput) {
+      szChangeImgBtn.addEventListener('click', () => szFileInput.click());
+    }
+
+    // Ratio Preset Selection
+    document.querySelectorAll('#szRatioChips .sz-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#szRatioChips .sz-chip').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const presetKey = btn.dataset.preset;
+        if (SZ_PRESETS[presetKey]) {
+          szCurrentPreset = SZ_PRESETS[presetKey];
+          szRender();
+        }
+      });
+    });
+
+    // Background Mode Selection
+    document.querySelectorAll('#szModeChips .sz-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#szModeChips .sz-chip').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const mode = btn.dataset.mode;
+        const color = btn.dataset.color;
+        if (mode === 'blur') {
+          szMode = 'blur';
+          if (szCustomColorWrap) szCustomColorWrap.style.display = 'none';
+        } else {
+          szMode = 'color';
+          if (color === 'custom') {
+            if (szCustomColorWrap) szCustomColorWrap.style.display = 'flex';
+            szColor = szColorPicker ? szColorPicker.value : '#1E293B';
+          } else {
+            if (szCustomColorWrap) szCustomColorWrap.style.display = 'none';
+            szColor = color;
+          }
+        }
+        szRender();
+      });
+    });
+
+    // Color Pickers
+    if (szColorPicker) {
+      szColorPicker.addEventListener('input', (e) => {
+        szColor = e.target.value;
+        if (szHexInput) szHexInput.value = szColor;
+        if (szMode === 'color') szRender();
+      });
+    }
+    if (szHexInput) {
+      szHexInput.addEventListener('input', (e) => {
+        let val = e.target.value.trim();
+        if (!val.startsWith('#')) val = '#' + val;
+        if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+          szColor = val;
+          if (szColorPicker) szColorPicker.value = val;
+          if (szMode === 'color') szRender();
+        }
+      });
+    }
+
+    // Safe-Zone Toggle
+    if (szSafeZoneToggle) {
+      szSafeZoneToggle.addEventListener('change', () => {
+        szShowSafeZones = szSafeZoneToggle.checked;
+        szRender();
+      });
+    }
+
+    // Scale Slider
+    if (szScaleSlider) {
+      szScaleSlider.addEventListener('input', () => {
+        szScale = parseInt(szScaleSlider.value, 10) || 100;
+        if (szScaleVal) szScaleVal.textContent = `${szScale}%`;
+        szRender();
+      });
+    }
+
+    // Format Chips
+    document.querySelectorAll('#szFormatChips .sz-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#szFormatChips .sz-chip').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        szFormat = btn.dataset.fmt;
+      });
+    });
+
+    // Render Pipeline
+    function szRender() {
+      const targetW = szCurrentPreset.width;
+      const targetH = szCurrentPreset.height;
+
+      if (szResBadge) {
+        szResBadge.textContent = `${targetW} × ${targetH} px (${szCurrentPreset.key.replace('-', ':')})`;
+      }
+
+      if (!szLoadedImage) {
+        if (szEmptyNotice) szEmptyNotice.style.display = 'block';
+        if (szCanvasWrapper) szCanvasWrapper.style.display = 'none';
+        if (szOriginalBadge) szOriginalBadge.textContent = 'Original: -';
+        return;
+      }
+
+      if (szEmptyNotice) szEmptyNotice.style.display = 'none';
+      if (szCanvasWrapper) szCanvasWrapper.style.display = 'inline-flex';
+      const origW = szLoadedImage.naturalWidth || szLoadedImage.width;
+      const origH = szLoadedImage.naturalHeight || szLoadedImage.height;
+      if (szOriginalBadge) {
+        szOriginalBadge.textContent = `Original: ${origW} × ${origH} px`;
+      }
+
+      // Step 1: Render 100% clean production asset to offscreen canvas (NO safe zones)
+      szCleanCanvas.width = targetW;
+      szCleanCanvas.height = targetH;
+      const ctx = szCleanCanvas.getContext('2d');
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+
+      if (szMode === 'blur') {
+        ctx.save();
+        // Oversized cover to eliminate edge blur transparency
+        const coverScale = Math.max(targetW / origW, targetH / origH) * 1.15;
+        const bw = origW * coverScale;
+        const bh = origH * coverScale;
+        const bx = (targetW - bw) / 2;
+        const by = (targetH - bh) / 2;
+        ctx.filter = 'blur(25px)';
+        ctx.drawImage(szLoadedImage, bx, by, bw, bh);
+        ctx.restore();
+
+        // Subtle dark scrim for crisp foreground separation
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.20)';
+        ctx.fillRect(0, 0, targetW, targetH);
+      } else {
+        ctx.fillStyle = szColor;
+        ctx.fillRect(0, 0, targetW, targetH);
+      }
+
+      // Center original foreground image preserving natural aspect ratio (contain)
+      const containScale = Math.min(targetW / origW, targetH / origH) * (szScale / 100);
+      const fw = origW * containScale;
+      const fh = origH * containScale;
+      const fx = (targetW - fw) / 2;
+      const fy = (targetH - fh) / 2;
+
+      ctx.save();
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+      ctx.shadowBlur = 30;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 8;
+      ctx.drawImage(szLoadedImage, fx, fy, fw, fh);
+      ctx.restore();
+
+      // Step 2: Draw to on-screen preview canvas
+      if (szPreviewCanvas) {
+        szPreviewCanvas.width = targetW;
+        szPreviewCanvas.height = targetH;
+        const pCtx = szPreviewCanvas.getContext('2d');
+        pCtx.imageSmoothingEnabled = true;
+        pCtx.imageSmoothingQuality = 'high';
+        pCtx.drawImage(szCleanCanvas, 0, 0);
+
+        // Step 3: Draw interactive safe-zone overlay ONLY on preview canvas (never on clean export canvas)
+        if (szShowSafeZones) {
+          drawSafeZones(pCtx, szCurrentPreset.key, targetW, targetH);
+        }
+      }
+    }
+
+    function drawSafeZones(ctx, presetKey, w, h) {
+      function drawBadge(text, cx, cy, bg, textColor, fontSize) {
+        fontSize = fontSize || 14;
+        ctx.save();
+        ctx.font = 'bold ' + fontSize + 'px Inter, system-ui, sans-serif';
+        const textWidth = ctx.measureText(text).width;
+        const padX = 14, padY = 8;
+        const bw = textWidth + padX * 2;
+        const bh = fontSize + padY * 2;
+        const bx = cx - bw / 2;
+        const by = cy - bh / 2;
+        ctx.fillStyle = bg;
+        if (ctx.roundRect) {
+          ctx.beginPath();
+          ctx.roundRect(bx, by, bw, bh, 6);
+          ctx.fill();
+        } else {
+          ctx.fillRect(bx, by, bw, bh);
+        }
+        ctx.fillStyle = textColor;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, cx, cy);
+        ctx.restore();
+      }
+
+      if (presetKey === '9-16') {
+        // 9:16 Shorts / Reels / TikTok UI
+        // Top 15% header & audio zone
+        const topH = h * 0.15;
+        ctx.save();
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.28)';
+        ctx.fillRect(0, 0, w, topH);
+        ctx.strokeStyle = 'rgba(239, 68, 68, 0.85)';
+        ctx.lineWidth = 3;
+        ctx.setLineDash([8, 6]);
+        ctx.beginPath();
+        ctx.moveTo(0, topH);
+        ctx.lineTo(w, topH);
+        ctx.stroke();
+        ctx.restore();
+        drawBadge('⚠️ Shorts & Reels Top Header / Camera (15%)', w / 2, topH / 2, 'rgba(15, 23, 42, 0.88)', '#FCA5A5', 15);
+
+        // Bottom 25% captions, channel handle & audio title
+        const botH = h * 0.25;
+        const botY = h - botH;
+        ctx.save();
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.32)';
+        ctx.fillRect(0, botY, w, botH);
+        ctx.strokeStyle = 'rgba(239, 68, 68, 0.85)';
+        ctx.lineWidth = 3;
+        ctx.setLineDash([8, 6]);
+        ctx.beginPath();
+        ctx.moveTo(0, botY);
+        ctx.lineTo(w, botY);
+        ctx.stroke();
+        ctx.restore();
+        drawBadge('⚠️ Captions, Channel Name & Music (25%)', w / 2, botY + botH / 2, 'rgba(15, 23, 42, 0.88)', '#FCA5A5', 15);
+
+        // Right side 18% engagement action buttons buffer
+        const sideW = w * 0.18;
+        const sideX = w - sideW;
+        ctx.save();
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.26)';
+        ctx.fillRect(sideX, topH, sideW, botY - topH);
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.85)';
+        ctx.lineWidth = 3;
+        ctx.setLineDash([8, 6]);
+        ctx.beginPath();
+        ctx.moveTo(sideX, topH);
+        ctx.lineTo(sideX, botY);
+        ctx.stroke();
+        ctx.restore();
+        drawBadge('⚠️ Like/Share', sideX + sideW / 2, topH + (botY - topH) / 2 - 14, 'rgba(15, 23, 42, 0.88)', '#FDE68A', 13);
+        drawBadge('Buttons', sideX + sideW / 2, topH + (botY - topH) / 2 + 14, 'rgba(15, 23, 42, 0.88)', '#FDE68A', 13);
+
+        // Central Safe Zone (Text, Graphics & Faces)
+        const safePad = 16;
+        const safeX = safePad;
+        const safeY = topH + safePad;
+        const safeW = sideX - safePad * 2;
+        const safeH = (botY - topH) - safePad * 2;
+        ctx.save();
+        ctx.strokeStyle = '#10B981';
+        ctx.lineWidth = 4;
+        ctx.setLineDash([10, 6]);
+        ctx.strokeRect(safeX, safeY, safeW, safeH);
+        ctx.restore();
+        drawBadge('✅ SAFE VISIBLE ZONE (Text & Faces)', safeX + safeW / 2, safeY + 28, 'rgba(15, 23, 42, 0.9)', '#34D399', 14);
+
+      } else if (presetKey === '4-5') {
+        // 4:5 Instagram Portrait (Crops to 1080x1080 square in Profile Grid)
+        const cropY = (h - w) / 2;
+        ctx.save();
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.28)';
+        ctx.fillRect(0, 0, w, cropY);
+        ctx.fillRect(0, h - cropY, w, cropY);
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.85)';
+        ctx.lineWidth = 3;
+        ctx.setLineDash([8, 6]);
+        ctx.strokeRect(0, 0, w, cropY);
+        ctx.strokeRect(0, h - cropY, w, cropY);
+        ctx.restore();
+        drawBadge('⚠️ Profile Grid Crop Warning (Top 135px)', w / 2, cropY / 2, 'rgba(15, 23, 42, 0.88)', '#FDE68A', 14);
+        drawBadge('⚠️ Profile Grid Crop Warning (Bottom 135px)', w / 2, h - cropY / 2, 'rgba(15, 23, 42, 0.88)', '#FDE68A', 14);
+
+        // Center 1:1 Profile Safe Area
+        ctx.save();
+        ctx.strokeStyle = '#10B981';
+        ctx.lineWidth = 4;
+        ctx.setLineDash([10, 6]);
+        ctx.strokeRect(16, cropY + 16, w - 32, w - 32);
+        ctx.restore();
+        drawBadge('✅ 1:1 PROFILE GRID & FEED SAFE', w / 2, cropY + 40, 'rgba(15, 23, 42, 0.9)', '#34D399', 14);
+
+      } else if (presetKey === '1-1') {
+        // 1:1 Square Feed
+        const margin = w * 0.08;
+        ctx.save();
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.20)';
+        ctx.fillRect(0, 0, w, margin);
+        ctx.fillRect(0, h - margin, w, margin);
+        ctx.fillRect(0, margin, margin, h - margin * 2);
+        ctx.fillRect(w - margin, margin, margin, h - margin * 2);
+        ctx.strokeStyle = '#10B981';
+        ctx.lineWidth = 4;
+        ctx.setLineDash([10, 6]);
+        ctx.strokeRect(margin, margin, w - margin * 2, h - margin * 2);
+        ctx.restore();
+        drawBadge('✅ FEED & STORY RESHARE SAFE ZONE', w / 2, margin + 28, 'rgba(15, 23, 42, 0.9)', '#34D399', 14);
+
+      } else if (presetKey === '16-9') {
+        // 16:9 YouTube Landscape / Thumbnail
+        const scrubH = h * 0.12;
+        const scrubY = h - scrubH;
+        ctx.save();
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.25)';
+        ctx.fillRect(0, scrubY, w, scrubH);
+        ctx.strokeStyle = 'rgba(239, 68, 68, 0.85)';
+        ctx.lineWidth = 3;
+        ctx.setLineDash([8, 6]);
+        ctx.beginPath();
+        ctx.moveTo(0, scrubY);
+        ctx.lineTo(w, scrubY);
+        ctx.stroke();
+        ctx.restore();
+
+        // Bottom-Right Timestamp Badge warning
+        const badgeW = 280;
+        const badgeH = 110;
+        const badgeX = w - badgeW - 20;
+        const badgeY = h - badgeH - 20;
+        ctx.save();
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.55)';
+        ctx.fillRect(badgeX, badgeY, badgeW, badgeH);
+        ctx.strokeStyle = '#EF4444';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(badgeX, badgeY, badgeW, badgeH);
+        ctx.restore();
+        drawBadge('⚠️ YouTube Time Badge (00:00)', badgeX + badgeW / 2, badgeY + badgeH / 2, 'rgba(15, 23, 42, 0.9)', '#FCA5A5', 13);
+
+        // Safe Area
+        ctx.save();
+        ctx.strokeStyle = '#10B981';
+        ctx.lineWidth = 4;
+        ctx.setLineDash([10, 6]);
+        ctx.strokeRect(24, 24, w - 48, scrubY - 48);
+        ctx.restore();
+        drawBadge('✅ SAFE THUMBNAIL TITLE & VISUALS', w / 2, 54, 'rgba(15, 23, 42, 0.9)', '#34D399', 15);
+      }
+    }
+
+    // 1-Click Export & Download Handler
+    if (szExportBtn) {
+      szExportBtn.addEventListener('click', () => {
+        if (!szLoadedImage) {
+          if (szAlertBox) {
+            szAlertBox.className = 'alert-box error';
+            szAlertBox.textContent = 'Please upload or drop an image first.';
+            szAlertBox.style.display = 'block';
+          }
+          return;
+        }
+
+        szExportBtn.disabled = true;
+        szExportBtn.textContent = 'Exporting Clean Image...';
+
+        const mimeType = szFormat === 'png' ? 'image/png' : 'image/jpeg';
+        const ext = szFormat === 'png' ? 'png' : 'jpg';
+        const quality = szFormat === 'png' ? undefined : 0.92;
+
+        // Clean Canvas (NEVER contains safe-zone guides)
+        szCleanCanvas.toBlob((blob) => {
+          szExportBtn.disabled = false;
+          szExportBtn.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="display:inline-block; vertical-align:middle; margin-right:6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Export &amp; Download Image</span>
+          `;
+
+          if (!blob) {
+            if (szAlertBox) {
+              szAlertBox.className = 'alert-box error';
+              szAlertBox.textContent = 'Export error. Try a different format.';
+              szAlertBox.style.display = 'block';
+            }
+            return;
+          }
+
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          const baseName = szOriginalFileName ? szOriginalFileName.replace(/\.[^/.]+$/, '') : 'resizehub';
+          a.download = `${baseName}-${szCurrentPreset.key}-safezone.${ext}`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+
+          if (szAlertBox) {
+            szAlertBox.className = 'alert-box success';
+            szAlertBox.textContent = `Download initiated (${formatBytes(blob.size)})! Refreshing session in 2 seconds...`;
+            szAlertBox.style.display = 'block';
+          }
+
+          // Maintain the post-download 2-second memory flush & window.location.reload() workflow for ad impressions
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }, mimeType, quality);
+      });
+    }
 
   })();
 

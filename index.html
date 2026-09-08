@@ -4208,6 +4208,10 @@
     let monitorGainNode = null;
     let hasAudioTrack = false;
 
+    // Mobile Device Detection (Cap 4K/2K to 1080p on mobile to prevent canvas/RAM crashes)
+    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      || (navigator.maxTouchPoints && navigator.maxTouchPoints > 1 && window.innerWidth < 1024);
+
     // Dimension Matrix [width, height]
     const DIMENSION_TABLE = {
       '9-16': {
@@ -4238,7 +4242,11 @@
 
     function getTargetDimensions() {
       const ratioObj = DIMENSION_TABLE[currentRatio] || DIMENSION_TABLE['9-16'];
-      return ratioObj[currentRes] || [1080, 1920];
+      let effectiveRes = currentRes;
+      if (isMobileDevice && (currentRes === '4k' || currentRes === '2k')) {
+        effectiveRes = '1080p';
+      }
+      return ratioObj[effectiveRes] || [1080, 1920];
     }
 
     function formatTime(seconds) {
@@ -4250,11 +4258,19 @@
 
     function updateDimensionBadges() {
       const [w, h] = getTargetDimensions();
-      const label = `${w} × ${h} px`;
-      if (vidResDetailBadge) vidResDetailBadge.textContent = label;
-      if (vidTargetResBadge) {
-        const resName = currentRes.toUpperCase();
-        vidTargetResBadge.textContent = `Output: ${w} × ${h} (${resName})`;
+      if (isMobileDevice && (currentRes === '4k' || currentRes === '2k')) {
+        const label = `${w} × ${h} px (Mobile 1080p Safe)`;
+        if (vidResDetailBadge) vidResDetailBadge.textContent = label;
+        if (vidTargetResBadge) {
+          vidTargetResBadge.textContent = `Output: ${w} × ${h} (1080p Safe)`;
+        }
+      } else {
+        const label = `${w} × ${h} px`;
+        if (vidResDetailBadge) vidResDetailBadge.textContent = label;
+        if (vidTargetResBadge) {
+          const resName = currentRes.toUpperCase();
+          vidTargetResBadge.textContent = `Output: ${w} × ${h} (${resName})`;
+        }
       }
     }
 
@@ -4619,6 +4635,11 @@
     // Resolution chips
     setupChips(vidResChips, (btn) => {
       currentRes = btn.getAttribute('data-res');
+      if (isMobileDevice && (currentRes === '4k' || currentRes === '2k')) {
+        showVideoAlert('Notice: 4K/2K resolution on mobile devices is automatically scaled to 1080p to prevent mobile GPU/memory crashes.', 'info');
+      } else {
+        hideVideoAlert();
+      }
       updateDimensionBadges();
       renderPreview();
     });
@@ -4674,10 +4695,38 @@
       if (vidAlertBox) vidAlertBox.style.display = 'none';
     }
 
+    // Fix WebM 0:00 duration metadata bug by updating EBML Duration tag
+    async function patchWebmDuration(blob, durationSec) {
+      if (!blob || !blob.type.includes('webm') || durationSec <= 0) return blob;
+      try {
+        const buffer = await blob.arrayBuffer();
+        const view = new DataView(buffer);
+        const maxSearch = Math.min(buffer.byteLength - 10, 8192);
+        for (let i = 0; i < maxSearch; i++) {
+          if (view.getUint8(i) === 0x44 && view.getUint8(i + 1) === 0x89) {
+            const sizeByte = view.getUint8(i + 2);
+            const dataLength = sizeByte & 0x07;
+            const dataOffset = i + 3;
+            if (dataLength === 4) {
+              view.setFloat32(dataOffset, durationSec * 1000, false);
+              return new Blob([buffer], { type: blob.type });
+            } else if (dataLength === 8) {
+              view.setFloat64(dataOffset, durationSec * 1000, false);
+              return new Blob([buffer], { type: blob.type });
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('WebM duration patch note:', err);
+      }
+      return blob;
+    }
+
     // Cancel Export
     function cancelExport() {
       isExportCancelled = true;
       isExporting = false;
+      vidSource.onended = null;
       if (mediaRecorder && mediaRecorder.state !== 'inactive') {
         try { mediaRecorder.stop(); } catch (e) {}
       }
@@ -4685,10 +4734,13 @@
 
       if (monitorGainNode) monitorGainNode.gain.value = 1.0;
       if (vidProgressBox) vidProgressBox.style.display = 'none';
-      if (vidExportBtn) vidExportBtn.style.display = 'inline-flex';
+      if (vidExportBtn) {
+        vidExportBtn.disabled = false;
+        vidExportBtn.style.display = 'inline-flex';
+      }
       if (vidCancelBtn) vidCancelBtn.style.display = 'none';
 
-      showVideoAlert('Video upscaling cancelled.', 'error');
+      showVideoAlert('Video export cancelled.', 'error');
     }
 
     if (vidCancelBtn) {
@@ -4707,7 +4759,21 @@
 
         // Resume Web Audio Context if suspended
         if (audioCtx && audioCtx.state === 'suspended') {
-          await audioCtx.resume();
+          try { await audioCtx.resume(); } catch (e) {}
+        }
+
+        // 1. Ensure the source video element is fully buffered and ready
+        if (vidSource.readyState < 2) {
+          showVideoAlert('Buffering video stream for export...', 'info');
+          await new Promise((resolve) => {
+            const onReady = () => {
+              vidSource.removeEventListener('canplay', onReady);
+              vidSource.removeEventListener('canplaythrough', onReady);
+              resolve();
+            };
+            vidSource.addEventListener('canplay', onReady);
+            vidSource.addEventListener('canplaythrough', onReady);
+          });
         }
 
         const [targetW, targetH] = getTargetDimensions();
@@ -4721,48 +4787,51 @@
         const videoStream = exportCanvas.captureStream(currentFps);
         const videoTracks = videoStream.getVideoTracks();
 
-        // Capture audio tracks from Web Audio destination
-        const audioTracks = (audioDestNode && hasAudioTrack) ? audioDestNode.stream.getAudioTracks() : [];
+        // Capture audio tracks with cross-browser fallback
+        let audioTracks = [];
+        if (typeof vidSource.captureStream === 'function') {
+          try {
+            audioTracks = vidSource.captureStream().getAudioTracks();
+          } catch (e) {}
+        }
+        if ((!audioTracks || audioTracks.length === 0) && typeof vidSource.mozCaptureStream === 'function') {
+          try {
+            audioTracks = vidSource.mozCaptureStream().getAudioTracks();
+          } catch (e) {}
+        }
+        if ((!audioTracks || audioTracks.length === 0) && audioDestNode && hasAudioTrack) {
+          try {
+            audioTracks = audioDestNode.stream.getAudioTracks();
+          } catch (e) {}
+        }
 
         // Combine into unified MediaStream
         const combinedStream = new MediaStream([...videoTracks, ...audioTracks]);
 
-        // Supported Mime Types check (VP9 / WebM / MP4)
-        const candidates = [
-          'video/webm;codecs=vp9,opus',
+        // 2. Format & MimeType Compatibility: prioritize MP4/H.264 over VP9
+        const mimeTypes = [
+          'video/mp4;codecs=avc1',
+          'video/mp4',
+          'video/webm;codecs=h264',
           'video/webm;codecs=vp8,opus',
-          'video/webm',
-          'video/mp4;codecs=avc1,mp4a.40.2',
-          'video/mp4'
+          'video/webm'
         ];
-
-        let chosenMime = '';
-        for (const candidate of candidates) {
-          if (MediaRecorder.isTypeSupported(candidate)) {
-            chosenMime = candidate;
-            break;
-          }
-        }
-
-        if (!chosenMime) {
-          showVideoAlert('Browser does not support in-memory MediaRecorder video encoding.', 'error');
-          return;
-        }
+        const selectedMimeType = mimeTypes.find(type => MediaRecorder.isTypeSupported(type)) || 'video/webm';
 
         // Bitrate allocation based on target resolution
         let videoBitrate = 12000000; // 12 Mbps default for 1080p
-        if (currentRes === '4k') videoBitrate = 36000000;      // 36 Mbps for 4K UHD
-        else if (currentRes === '2k') videoBitrate = 22000000; // 22 Mbps for 2K QHD
-        else if (currentRes === '720p') videoBitrate = 6000000; // 6 Mbps for 720p
+        if (!isMobileDevice && currentRes === '4k') videoBitrate = 36000000;      // 36 Mbps for 4K UHD
+        else if (!isMobileDevice && currentRes === '2k') videoBitrate = 22000000; // 22 Mbps for 2K QHD
+        else if (currentRes === '720p') videoBitrate = 6000000;                   // 6 Mbps for 720p
 
         try {
           mediaRecorder = new MediaRecorder(combinedStream, {
-            mimeType: chosenMime,
+            mimeType: selectedMimeType,
             videoBitsPerSecond: videoBitrate
           });
         } catch (err) {
           console.warn('Standard bitrate initialization fallback:', err);
-          mediaRecorder = new MediaRecorder(combinedStream, { mimeType: chosenMime });
+          mediaRecorder = new MediaRecorder(combinedStream, { mimeType: selectedMimeType });
         }
 
         recordedChunks = [];
@@ -4772,17 +4841,23 @@
           }
         };
 
-        mediaRecorder.onstop = () => {
+        mediaRecorder.onstop = async () => {
           if (isExportCancelled) return;
 
           // Build final video Blob
-          const blob = new Blob(recordedChunks, { type: chosenMime });
-          const isMp4 = chosenMime.includes('mp4');
+          let blob = new Blob(recordedChunks, { type: selectedMimeType });
+
+          // If WebM, patch the EBML duration header so Android/Windows players don't show 0:00
+          if (selectedMimeType.includes('webm')) {
+            blob = await patchWebmDuration(blob, duration);
+          }
+
+          const isMp4 = selectedMimeType.includes('mp4');
           const ext = isMp4 ? 'mp4' : 'webm';
           const base = originalFileName.replace(/\.[^/.]+$/, '');
           const downloadName = `${base}-${currentRatio}-${currentRes}-upscaled.${ext}`;
 
-          // Automatic download trigger
+          // Automatic download trigger ONLY when all chunks are collected
           const downloadUrl = URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = downloadUrl;
@@ -4790,17 +4865,22 @@
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
+          setTimeout(() => URL.revokeObjectURL(downloadUrl), 15000);
 
           // Restore audio monitor and UI
           if (monitorGainNode) monitorGainNode.gain.value = 1.0;
           isExporting = false;
+          vidSource.onended = null;
 
           if (vidProgressBox) vidProgressBox.style.display = 'none';
-          if (vidExportBtn) vidExportBtn.style.display = 'inline-flex';
+          if (vidExportBtn) {
+            vidExportBtn.disabled = false;
+            vidExportBtn.style.display = 'inline-flex';
+          }
           if (vidCancelBtn) vidCancelBtn.style.display = 'none';
 
           const sizeStr = formatBytes(blob.size);
-          showVideoAlert(`🎉 Upscaling complete! Exported ${targetW}×${targetH} (${currentRes.toUpperCase()}) video (${sizeStr}) with synchronized audio.`, 'success');
+          showVideoAlert(`🎉 Upscaling complete! Exported ${targetW}×${targetH} (${ext.toUpperCase()}) • ${sizeStr} • Duration: ${formatTime(duration)}`, 'success');
         };
 
         // Initialize state for export run
@@ -4808,73 +4888,111 @@
         isExportCancelled = false;
         pauseVideo();
 
-        // Mute local speaker preview during encoding so user doesn't hear fast-forward playback
+        // Mute local speaker monitor during encoding so user doesn't hear fast-forward audio
         if (monitorGainNode) monitorGainNode.gain.value = 0;
 
+        // UI state: disable export button, display progress box and cancel button
+        if (vidExportBtn) {
+          vidExportBtn.disabled = true;
+          vidExportBtn.style.display = 'none';
+        }
         if (vidProgressBox) vidProgressBox.style.display = 'block';
-        if (vidExportBtn) vidExportBtn.style.display = 'none';
         if (vidCancelBtn) vidCancelBtn.style.display = 'inline-flex';
         hideVideoAlert();
 
         if (vidEncodingInfo) {
-          vidEncodingInfo.textContent = `Upscaling to ${targetW}×${targetH} • ${currentFps} FPS • ${hasAudioTrack ? 'Audio Synced' : 'Video'}`;
+          vidEncodingInfo.textContent = `Rendering to ${targetW}×${targetH} • ${currentFps} FPS • ${selectedMimeType.split(';')[0]} • ${audioTracks.length > 0 ? 'Audio Synced' : 'Video Only'}`;
         }
 
-        vidSource.currentTime = 0;
+        let isFinished = false;
 
-        vidSource.addEventListener('seeked', function onInitialSeek() {
-          vidSource.removeEventListener('seeked', onInitialSeek);
-          if (isExportCancelled) return;
+        // Ensure MediaRecorder stops ONLY after video.onended event triggers + 500ms safety buffer
+        const finishExport = () => {
+          if (isFinished) return;
+          isFinished = true;
 
-          mediaRecorder.start(250);
-          vidSource.play().then(() => {
-            renderExportLoop();
-          }).catch(err => {
-            cancelExport();
-            showVideoAlert('Video playback failed during encoding: ' + err.message, 'error');
-          });
-        }, { once: true });
+          if (vidProgressBar) vidProgressBar.style.width = '100%';
+          if (vidProgressPercent) vidProgressPercent.textContent = '100%';
+          if (vidStatusText) vidStatusText.textContent = 'Finalizing container & saving...';
 
-        function renderExportLoop() {
-          if (!isExporting || isExportCancelled) return;
+          setTimeout(() => {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+              try {
+                mediaRecorder.stop();
+              } catch (err) {
+                console.warn('MediaRecorder stop error:', err);
+              }
+            }
+            pauseVideo();
+          }, 500);
+        };
 
-          // Render pristine frame to export canvas (WITHOUT any safe-zone guide lines)
+        vidSource.onended = finishExport;
+
+        // Seek to beginning and wait for seeked event before launching recording
+        await new Promise((resolve) => {
+          if (Math.abs(vidSource.currentTime) < 0.05) {
+            resolve();
+          } else {
+            const onSeeked = () => {
+              vidSource.removeEventListener('seeked', onSeeked);
+              resolve();
+            };
+            vidSource.addEventListener('seeked', onSeeked, { once: true });
+            vidSource.currentTime = 0;
+          }
+        });
+
+        // Start recording with 250ms chunks
+        mediaRecorder.start(250);
+
+        // Frame rendering loop with requestVideoFrameCallback (fallback to requestAnimationFrame)
+        function renderLoop() {
+          if (!isExporting || isExportCancelled || isFinished) return;
+
+          // Explicitly draw current video frame onto exportCanvas
           renderFrame(exportCtx, targetW, targetH, true);
 
-          // Mirror frame to preview canvas so user can watch progress in real time
+          // Mirror onto preview canvas
           renderPreview();
 
-          // Calculate progress percentage
-          const currentT = vidSource.currentTime;
+          // Live rendering percentage
+          const currentT = vidSource.currentTime || 0;
           const pct = Math.min(99, Math.round((currentT / duration) * 100));
 
           if (vidProgressBar) vidProgressBar.style.width = `${pct}%`;
           if (vidProgressPercent) vidProgressPercent.textContent = `${pct}%`;
           if (vidStatusText) {
-            vidStatusText.textContent = `Upscaling & Encoding to ${currentRes.toUpperCase()} (${targetW}×${targetH}): ${pct}%...`;
+            vidStatusText.textContent = `Rendering: ${pct}%`;
           }
           if (vidTimeDetails) {
             vidTimeDetails.textContent = `${formatTime(currentT)} / ${formatTime(duration)}`;
           }
 
-          // Check for completion
-          if (vidSource.ended || currentT >= duration - 0.08) {
-            if (vidProgressBar) vidProgressBar.style.width = '100%';
-            if (vidProgressPercent) vidProgressPercent.textContent = '100%';
-            if (vidStatusText) vidStatusText.textContent = 'Finalizing container & saving...';
-
-            // Wait brief moment to capture final trailing frames and flush buffer
-            setTimeout(() => {
-              if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                mediaRecorder.stop();
-              }
-              pauseVideo();
-            }, 300);
+          // Safety check if video reached the end
+          if ((vidSource.ended || currentT >= duration - 0.05) && !isFinished) {
+            finishExport();
             return;
           }
 
-          requestAnimationFrame(renderExportLoop);
+          if ('requestVideoFrameCallback' in vidSource) {
+            vidSource.requestVideoFrameCallback(renderLoop);
+          } else {
+            requestAnimationFrame(renderLoop);
+          }
         }
+
+        // Start playback and trigger frame render loop
+        vidSource.play().then(() => {
+          if ('requestVideoFrameCallback' in vidSource) {
+            vidSource.requestVideoFrameCallback(renderLoop);
+          } else {
+            requestAnimationFrame(renderLoop);
+          }
+        }).catch(err => {
+          cancelExport();
+          showVideoAlert('Video playback failed during encoding: ' + err.message, 'error');
+        });
       });
     }
 

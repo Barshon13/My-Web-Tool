@@ -273,10 +273,11 @@
     }
     .nav-link:hover { color: var(--color-primary); }
 
-    /* Ad Placement Containers with CLS Protection */
+    /* Ad Placement Containers with CLS Protection & Responsive Overflow Handling */
     .ad-slot-wrapper {
       width: 100%;
-      margin: 18px 0;
+      max-width: 100%;
+      margin: 18px auto;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -285,7 +286,15 @@
       background: #F1F5F9;
       border: 1px dashed #CBD5E1;
       border-radius: var(--color-radius-sm);
-      overflow: hidden;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      position: relative;
+    }
+    .ad-slot-wrapper iframe {
+      max-width: 100% !important;
+      display: block;
+      margin: 0 auto;
     }
     .ad-label {
       font-size: 10px;
@@ -294,6 +303,8 @@
       letter-spacing: 0.08em;
       color: #94A3B8;
       padding: 4px 0;
+      width: 100%;
+      user-select: none;
     }
     .ad-slot-top { min-height: 90px; max-width: 728px; margin-left: auto; margin-right: auto; }
     .ad-slot-mid { min-height: 250px; max-width: 300px; margin-left: auto; margin-right: auto; }
@@ -556,6 +567,7 @@
       padding: 24px;
       box-shadow: var(--shadow-md);
       margin-bottom: 36px;
+      scroll-margin-top: 24px;
       display: none; /* revealed when tool is opened or image dropped */
     }
     .workspace-section.active {
@@ -580,15 +592,19 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      flex: 1 1 240px;
+      min-width: 0;
     }
     .workspace-tool-title {
       font-size: 1.3rem;
       font-weight: 800;
       color: var(--color-text-main);
+      word-break: break-word;
     }
     .workspace-back-btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
       background: #F1F5F9;
       border: 1px solid #CBD5E1;
@@ -598,10 +614,14 @@
       font-weight: 700;
       color: var(--color-text-main);
       cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
       transition: all 0.15s ease;
     }
     .workspace-back-btn:hover {
       background: #E2E8F0;
+      color: var(--color-primary);
+      border-color: #93C5FD;
     }
 
     /* Dropzone inside Workspace */
@@ -1035,12 +1055,16 @@
       .hero-title { font-size: 1.65rem; }
       .hero-section { margin: 12px auto 20px auto; }
       .tool-card-item { padding: 18px; }
-      .ad-slot-top { min-height: 50px; }
+      .ad-slot-top { min-height: 50px; max-width: 100%; }
+      .workspace-section { padding: 16px 12px; }
+      .workspace-top-bar { flex-direction: column; align-items: stretch; gap: 12px; }
+      .workspace-back-btn { width: 100%; text-align: center; }
     }
     @media (max-width: 480px) {
       .brand-logo { font-size: 1.12rem; gap: 6px; }
       .brand-badge { font-size: 0.58rem; padding: 2px 6px; }
       .hero-title { font-size: 1.45rem; }
+      .ad-slot-top { min-height: 50px; }
     }
   </style>
 </head>
@@ -2257,6 +2281,7 @@
 
       // Reveal Workspace & Smooth Scroll
       workspaceSection.classList.add('active');
+      if (typeof closeMobileMenu === 'function') closeMobileMenu();
       workspaceSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
       // If image is already loaded, auto-process
@@ -2270,7 +2295,8 @@
     // Back to Tools Button
     if (backToToolsBtn) {
       backToToolsBtn.addEventListener('click', () => {
-        document.getElementById('toolsDirectory').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const dir = document.getElementById('toolsDirectory');
+        if (dir) dir.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     }
 

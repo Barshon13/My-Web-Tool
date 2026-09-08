@@ -50,6 +50,9 @@
     gtag('config', 'G-XXXXXXXXXX');
   </script>
 
+  <!-- Monetization: Adsterra Social Bar / In-Page Push Network -->
+  <script src="https://pl31247915.profitableratecpmnetwork.com/21/cd/ef/21cdef6bb1847b92d4861c5bd592be3e.js"></script>
+
   <!-- Schema.org JSON-LD Structured Data: WebApplication & FAQPage -->
   <script type="application/ld+json">
   {
@@ -308,6 +311,14 @@
     }
     .ad-slot-top { min-height: 90px; max-width: 728px; margin-left: auto; margin-right: auto; }
     .ad-slot-mid { min-height: 250px; max-width: 300px; margin-left: auto; margin-right: auto; }
+    .ad-slot-728 { min-height: 90px; max-width: 728px; }
+    .ad-slot-320 { min-height: 50px; max-width: 320px; }
+    .ad-slot-300 { min-height: 250px; max-width: 300px; }
+    .ad-slot-468 { min-height: 60px; max-width: 468px; }
+    .ad-slot-160-300 { min-height: 300px; max-width: 160px; }
+    .ad-slot-160-600 { min-height: 600px; max-width: 160px; }
+    .ad-desktop-only { display: flex; }
+    .ad-mobile-only { display: none; }
 
     /* Hero Section */
     .hero-section {
@@ -1055,7 +1066,9 @@
       .hero-title { font-size: 1.65rem; }
       .hero-section { margin: 12px auto 20px auto; }
       .tool-card-item { padding: 18px; }
-      .ad-slot-top { min-height: 50px; max-width: 100%; }
+      .ad-desktop-only { display: none !important; }
+      .ad-mobile-only { display: flex !important; }
+      .ad-slot-top, .ad-slot-728, .ad-slot-468 { max-width: 100%; }
       .workspace-section { padding: 16px 12px; }
       .workspace-top-bar { flex-direction: column; align-items: stretch; gap: 12px; }
       .workspace-back-btn { width: 100%; text-align: center; }
@@ -1116,8 +1129,8 @@
       </div>
     </div>
 
-    <!-- Top Leaderboard Ad Slot (728x90) -->
-    <div class="ad-slot-wrapper ad-slot-top">
+    <!-- Top Leaderboard Ad Slot (728x90 on Desktop, 320x50 on Mobile) -->
+    <div class="ad-slot-wrapper ad-slot-top ad-slot-728 ad-desktop-only">
       <div class="ad-label">Advertisement</div>
       <script>
         atOptions = {
@@ -1129,6 +1142,20 @@
         };
       </script>
       <script src="https://www.highrevenueformat.com/13fc5279ffcd9e4727e7aad5bc00cc01/invoke.js"></script>
+    </div>
+
+    <div class="ad-slot-wrapper ad-slot-320 ad-mobile-only">
+      <div class="ad-label">Advertisement</div>
+      <script>
+        atOptions = {
+          'key' : '8df83a15b40df2925ea0e417b91bd40f',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://www.highrevenueformat.com/8df83a15b40df2925ea0e417b91bd40f/invoke.js"></script>
     </div>
 
     <!-- Modern Hero Section -->
@@ -1428,7 +1455,7 @@
       </section>
 
       <!-- Mid Banner Ad Slot (300x250) -->
-      <div class="ad-slot-wrapper ad-slot-mid">
+      <div class="ad-slot-wrapper ad-slot-mid ad-slot-300">
         <div class="ad-label">Advertisement</div>
         <script>
           atOptions = {
@@ -1520,6 +1547,21 @@
         </div>
       </section>
 
+      <!-- Banner Ad Slot (468x60) -->
+      <div class="ad-slot-wrapper ad-slot-468">
+        <div class="ad-label">Advertisement</div>
+        <script>
+          atOptions = {
+            'key' : 'bac489b9ccace3c70afc7047950cf834',
+            'format' : 'iframe',
+            'height' : 60,
+            'width' : 468,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highrevenueformat.com/bac489b9ccace3c70afc7047950cf834/invoke.js"></script>
+      </div>
+
       <!-- CATEGORY C: PDF TOOLS -->
       <section class="category-section" id="pdf-tools" data-cat="pdf">
         <div class="category-header">
@@ -1576,6 +1618,21 @@
           </div>
         </div>
       </section>
+
+      <!-- Skyscraper Ad Slot (160x300) -->
+      <div class="ad-slot-wrapper ad-slot-160-300">
+        <div class="ad-label">Advertisement</div>
+        <script>
+          atOptions = {
+            'key' : 'f345bc62d01e6f0ec8e9a82ca3a6933d',
+            'format' : 'iframe',
+            'height' : 300,
+            'width' : 160,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highrevenueformat.com/f345bc62d01e6f0ec8e9a82ca3a6933d/invoke.js"></script>
+      </div>
 
       <!-- CATEGORY D: SOCIAL MEDIA IMAGE RESIZERS -->
       <section class="category-section" id="social-tools" data-cat="social">
@@ -1675,6 +1732,21 @@
           </div>
         </div>
       </section>
+
+      <!-- Skyscraper Ad Slot (160x600) -->
+      <div class="ad-slot-wrapper ad-slot-160-600">
+        <div class="ad-label">Advertisement</div>
+        <script>
+          atOptions = {
+            'key' : 'cab41592ecb4f71dab970c07c49fccb8',
+            'format' : 'iframe',
+            'height' : 600,
+            'width' : 160,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highrevenueformat.com/cab41592ecb4f71dab970c07c49fccb8/invoke.js"></script>
+      </div>
 
     </div>
 

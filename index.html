@@ -3279,7 +3279,7 @@
       const canvas = document.createElement('canvas');
       canvas.width = targetW;
       canvas.height = targetH;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
 
@@ -3545,7 +3545,7 @@
 
         const cvs = document.createElement('canvas');
         cvs.width = w; cvs.height = h;
-        const c = cvs.getContext('2d');
+        const c = cvs.getContext('2d', { willReadFrequently: true });
         c.drawImage(img, 0, 0);
         const dataUrl = cvs.toDataURL('image/jpeg', 0.88);
 
@@ -3579,7 +3579,7 @@
             const viewport = page.getViewport({ scale: scale });
 
             const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
+            const context = canvas.getContext('2d', { willReadFrequently: true });
             canvas.height = viewport.height;
             canvas.width = viewport.width;
 
@@ -3847,7 +3847,7 @@
       // Step 1: Render 100% clean production asset to offscreen canvas (NO safe zones)
       szCleanCanvas.width = targetW;
       szCleanCanvas.height = targetH;
-      const ctx = szCleanCanvas.getContext('2d');
+      const ctx = szCleanCanvas.getContext('2d', { willReadFrequently: true });
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
 
@@ -3890,7 +3890,7 @@
       if (szPreviewCanvas) {
         szPreviewCanvas.width = targetW;
         szPreviewCanvas.height = targetH;
-        const pCtx = szPreviewCanvas.getContext('2d');
+        const pCtx = szPreviewCanvas.getContext('2d', { willReadFrequently: true });
         pCtx.imageSmoothingEnabled = true;
         pCtx.imageSmoothingQuality = 'high';
         pCtx.drawImage(szCleanCanvas, 0, 0);
@@ -4163,7 +4163,11 @@
     const vidAudioBadge = document.getElementById('vidAudioBadge');
 
     const vidPreviewCanvas = document.getElementById('vidPreviewCanvas');
-    const vidPreviewCtx = vidPreviewCanvas ? vidPreviewCanvas.getContext('2d') : null;
+    const vidPreviewCtx = vidPreviewCanvas
+      ? (vidPreviewCanvas.getContext('2d', { willReadFrequently: true, alpha: false, desynchronized: true })
+         || vidPreviewCanvas.getContext('2d', { willReadFrequently: true })
+         || vidPreviewCanvas.getContext('2d'))
+      : null;
 
     const vidPlayToggleBtn = document.getElementById('vidPlayToggleBtn');
     const vidPlayIcon = document.getElementById('vidPlayIcon');
@@ -4198,9 +4202,9 @@
 
     // Off-screen canvas for export & blur rendering
     const exportCanvas = document.createElement('canvas');
-    const exportCtx = exportCanvas.getContext('2d', { alpha: false });
+    const exportCtx = exportCanvas.getContext('2d', { alpha: false, willReadFrequently: true });
     const blurCanvas = document.createElement('canvas');
-    const blurCtx = blurCanvas.getContext('2d', { alpha: false });
+    const blurCtx = blurCanvas.getContext('2d', { alpha: false, willReadFrequently: true });
 
     let currentFile = null;
     let originalFileName = 'video';

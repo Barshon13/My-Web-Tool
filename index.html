@@ -731,6 +731,110 @@
       color: var(--color-primary);
     }
 
+    /* Trust Bar */
+    .trust-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px auto 4px;
+      max-width: 780px;
+    }
+    .trust-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      color: #15803D;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 7px 13px;
+      border-radius: 999px;
+    }
+    .trust-item svg { flex-shrink: 0; }
+    .trust-item.blue {
+      background: var(--color-primary-light);
+      border-color: #BFDBFE;
+      color: var(--color-primary);
+    }
+
+    /* Live Preview Hint */
+    .live-hint {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .live-dot {
+      width: 9px;
+      height: 9px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: #22C55E;
+      animation: livePulse 1.8s infinite;
+    }
+    @keyframes livePulse {
+      0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+      70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+      100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+    }
+
+    /* Batch Results Grid */
+    .batch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .batch-card {
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+    }
+    .batch-card img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      background: #F1F5F9;
+    }
+    .batch-card .bc-info {
+      padding: 8px;
+      font-size: 0.72rem;
+      color: var(--color-text-muted);
+    }
+    .batch-card .bc-info b {
+      display: block;
+      color: var(--color-text-main);
+      font-size: 0.74rem;
+      margin-bottom: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .batch-card a.bc-dl {
+      display: block;
+      text-align: center;
+      padding: 8px;
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      font-weight: 700;
+      font-size: 0.74rem;
+      text-decoration: none;
+      border-top: 1px solid var(--color-border);
+    }
+    .batch-card a.bc-dl:hover {
+      background: var(--color-primary);
+      color: #FFFFFF;
+    }
+
     /* Action Buttons */
     .btn {
       width: 100%;
@@ -1302,7 +1406,31 @@
     <section class="hero-section">
       <h1 class="hero-title">Free Online Image <span>Resizer, Compressor, Crop, Convert &amp; PDF</span> Tools</h1>
       <p class="hero-subtitle">Fast, lightweight browser-based tools for everyday image tasks. 100% private with zero server uploads.</p>
-      
+
+      <!-- Trust Signals -->
+      <div class="trust-bar">
+        <span class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          No Upload &mdash; Runs In Your Browser
+        </span>
+        <span class="trust-item blue">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+          No Sign-up Required
+        </span>
+        <span class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+          Free Forever &bull; Unlimited Files
+        </span>
+        <span class="trust-item blue">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+          No Watermarks
+        </span>
+        <span class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+          Works Offline
+        </span>
+      </div>
+
       <!-- Live Search Bar -->
       <div class="search-bar-wrapper">
         <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
@@ -1392,6 +1520,20 @@
           </div>
         </div>
 
+        <!-- Passport Special: Country / Document Size Presets -->
+        <div id="docPresetRow" class="mb-4" style="display:none;">
+          <label class="control-label">Official Country / Document Size Preset</label>
+          <div class="preset-chips" id="docPresetChips">
+            <button type="button" class="chip-btn active" data-doc="us">🇺🇸 US Passport 2&times;2 in</button>
+            <button type="button" class="chip-btn" data-doc="schengen">🇪🇺 Schengen Visa 35&times;45 mm</button>
+            <button type="button" class="chip-btn" data-doc="uk">🇬🇧 UK Passport 35&times;45 mm</button>
+            <button type="button" class="chip-btn" data-doc="india">🇮🇳 India 35&times;45 mm</button>
+            <button type="button" class="chip-btn" data-doc="canada">🇨🇦 Canada 50&times;70 mm</button>
+            <button type="button" class="chip-btn" data-doc="australia">🇦🇺 Australia 35&times;45 mm</button>
+            <button type="button" class="chip-btn" data-doc="china">🇨🇳 China Visa 33&times;48 mm</button>
+          </div>
+        </div>
+
         <!-- Signature Special: Ink Contrast Booster & Target Limit -->
         <div id="signatureOptionsRow" class="mb-4" style="display:none;">
           <label class="control-label">Signature Optimization &amp; Threshold</label>
@@ -1472,6 +1614,21 @@
             <button type="button" class="chip-btn" id="downloadAllPagesBtn">Download All Pages (.ZIP / All)</button>
           </div>
           <div class="pdf-preview-grid" id="pdfExtractedPagesGrid"></div>
+        </div>
+
+        <!-- Batch (Bulk) Results -->
+        <div id="batchRow" class="mb-4" style="display:none;">
+          <div class="flex justify-between items-center mb-2">
+            <span class="font-bold text-sm text-slate-700">Batch Results (<span id="batchCount">0</span> images)</span>
+            <button type="button" class="chip-btn" id="batchDownloadAllBtn">&darr; Download All</button>
+          </div>
+          <div class="batch-grid" id="batchResultsGrid"></div>
+        </div>
+
+        <!-- Live Preview Hint -->
+        <div class="live-hint" id="liveHint">
+          <span class="live-dot"></span>
+          Live preview &mdash; the output updates instantly as you adjust any setting. Nothing is uploaded; everything stays on your device.
         </div>
 
         <!-- Action Process Button -->
@@ -2259,6 +2416,7 @@
         format: 'jpg',
         targetKb: 200,
         showPassportBg: true,
+        showDocPreset: true,
         showSigFilter: false,
         showTargetKb: true,
         showDimensions: true,
@@ -2636,6 +2794,12 @@
       pdfOptionsRow.style.display = config.isPdfCreate ? 'block' : 'none';
       pdfExtractorRow.style.display = config.isPdfExtract ? 'block' : 'none';
 
+      const _docPresetRow = document.getElementById('docPresetRow');
+      if (_docPresetRow) _docPresetRow.style.display = config.showDocPreset ? 'block' : 'none';
+      const _batchRow = document.getElementById('batchRow');
+      if (_batchRow) _batchRow.style.display = 'none';
+      if (processBtn) processBtn.style.display = '';
+
       // Set dimensions
       if (config.defaultW) widthInput.value = config.defaultW;
       if (config.defaultH) heightInput.value = config.defaultH;
@@ -2734,6 +2898,145 @@
       });
     });
 
+    // Country / Document Passport Presets (dimensions in px at 300 DPI)
+    const PASSPORT_PRESETS = {
+      us:        { w: 600, h: 600, kb: 200 },
+      schengen:  { w: 413, h: 531, kb: 200 },
+      uk:        { w: 413, h: 531, kb: 200 },
+      india:     { w: 413, h: 531, kb: 200 },
+      canada:    { w: 591, h: 827, kb: 200 },
+      australia: { w: 413, h: 531, kb: 200 },
+      china:     { w: 390, h: 567, kb: 200 }
+    };
+    document.querySelectorAll('#docPresetChips .chip-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#docPresetChips .chip-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const p = PASSPORT_PRESETS[btn.getAttribute('data-doc')];
+        if (!p) return;
+        widthInput.value = p.w;
+        heightInput.value = p.h;
+        if (p.kb) {
+          selectedTargetKb = p.kb;
+          document.querySelectorAll('#targetKbChips .chip-btn').forEach(b => {
+            b.classList.toggle('active', b.getAttribute('data-targetkb') === String(p.kb));
+          });
+        }
+        if (currentImage) executeProcessing();
+      });
+    });
+
+    // ---- Batch (Bulk) Processing for Compressor & Converter ----
+    let batchBlobUrls = [];
+    const batchRowEl = document.getElementById('batchRow');
+    const batchGridEl = document.getElementById('batchResultsGrid');
+    const batchCountEl = document.getElementById('batchCount');
+    const batchDownloadAllBtn = document.getElementById('batchDownloadAllBtn');
+
+    function batchMimeExt() {
+      let fmt = selectedFormat;
+      if (fmt === 'svg') fmt = 'png'; // Vector tracing is not supported in bulk mode
+      const mimeType = fmt === 'png' ? 'image/png' : (fmt === 'webp' ? 'image/webp' : 'image/jpeg');
+      const ext = fmt === 'png' ? 'png' : (fmt === 'webp' ? 'webp' : 'jpg');
+      return { mimeType, ext };
+    }
+
+    // Render a single image to a Blob honoring the current format + target-KB limit.
+    // Keeps the last blob that is actually UNDER the limit (falls back to smallest).
+    async function renderFileToBlob(img, mimeType) {
+      const w = img.naturalWidth || img.width;
+      const h = img.naturalHeight || img.height;
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      if (mimeType === 'image/jpeg') { ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, w, h); }
+      ctx.drawImage(img, 0, 0, w, h);
+
+      const config = TOOL_CONFIGS[currentToolKey];
+      const targetLimitBytes = (config && config.showTargetKb && selectedTargetKb) ? selectedTargetKb * 1024 : null;
+
+      if (targetLimitBytes && mimeType !== 'image/png') {
+        let low = 0.05, high = 0.95;
+        let underBlob = null, smallestBlob = null;
+        for (let iter = 0; iter < 8; iter++) {
+          const mid = (low + high) / 2;
+          const b = await new Promise(r => canvas.toBlob(r, mimeType, mid));
+          if (!b) break;
+          if (!smallestBlob || b.size < smallestBlob.size) smallestBlob = b;
+          if (b.size > targetLimitBytes) {
+            high = mid;
+          } else {
+            underBlob = b; low = mid;
+            if (targetLimitBytes - b.size < targetLimitBytes * 0.08) break;
+          }
+        }
+        return underBlob || smallestBlob;
+      }
+      return await new Promise(r => canvas.toBlob(r, mimeType, 0.98));
+    }
+
+    async function processBatch(files) {
+      workspaceSection.classList.add('active');
+      outputBox.classList.remove('active');
+      batchBlobUrls.forEach(u => URL.revokeObjectURL(u));
+      batchBlobUrls = [];
+      if (batchGridEl) batchGridEl.innerHTML = '';
+      if (batchRowEl) batchRowEl.style.display = 'block';
+      if (batchCountEl) batchCountEl.textContent = files.length;
+      processBtn.style.display = 'none';
+      showAlert(`Processing ${files.length} images locally in your browser...`, 'info');
+      workspaceSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      const { mimeType, ext } = batchMimeExt();
+      let done = 0;
+
+      for (const file of files) {
+        const img = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = e => { const im = new Image(); im.onload = () => resolve(im); im.onerror = () => resolve(null); im.src = e.target.result; };
+          reader.onerror = () => resolve(null);
+          reader.readAsDataURL(file);
+        });
+        if (!img) { done++; continue; }
+
+        const blob = await renderFileToBlob(img, mimeType);
+        if (!blob) { done++; continue; }
+        const url = URL.createObjectURL(blob);
+        batchBlobUrls.push(url);
+        const baseName = file.name.replace(/\.[^/.]+$/, '');
+        const dlName = `${baseName}-resizehub.${ext}`;
+
+        const card = document.createElement('div');
+        card.className = 'batch-card';
+        card.innerHTML = `
+          <img src="${url}" alt="${baseName}">
+          <div class="bc-info"><b>${baseName}</b>${formatBytes(file.size)} &rarr; ${formatBytes(blob.size)}</div>
+          <a class="bc-dl" href="${url}" download="${dlName}">Download</a>`;
+        if (batchGridEl) batchGridEl.appendChild(card);
+        done++;
+      }
+
+      showAlert(`Batch complete! ${done} images processed. Download each card individually or use "Download All".`, 'success');
+    }
+
+    if (batchDownloadAllBtn) {
+      batchDownloadAllBtn.addEventListener('click', () => {
+        const links = batchGridEl ? batchGridEl.querySelectorAll('a.bc-dl') : [];
+        links.forEach((a, i) => {
+          setTimeout(() => {
+            const tmp = document.createElement('a');
+            tmp.href = a.href;
+            tmp.download = a.getAttribute('download');
+            document.body.appendChild(tmp);
+            tmp.click();
+            tmp.remove();
+          }, i * 350);
+        });
+      });
+    }
+
     // Aspect Ratio Lock Handling
     widthInput.addEventListener('input', () => {
       const w = parseInt(widthInput.value, 10);
@@ -2758,6 +3061,13 @@
       if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
         handlePdfExtraction(file);
         return;
+      }
+
+      // Multiple images in a batch-capable tool -> bulk process (compress / convert)
+      const BATCH_TOOLS = ['compress', 'convert'];
+      if (files.length > 1 && BATCH_TOOLS.includes(currentToolKey)) {
+        const imgs = Array.from(files).filter(f => f.type.startsWith('image/'));
+        if (imgs.length) { processBatch(imgs); return; }
       }
 
       // If multiple image files dropped in PDF Creator mode

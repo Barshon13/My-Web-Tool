@@ -40,9 +40,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <!-- PDF.js for Client-Side PDF to Image Extraction -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <!-- Client-Side FFmpeg WebAssembly Engine (ffmpeg.wasm) -->
-  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
-  <script src="https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
+  <!-- Client-Side FFmpeg WebAssembly Engine (Universal 0.11.6 - No COOP/COEP required) -->
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
 
   <!-- Google Analytics 4 (GA4) Configuration Placeholder -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -4821,49 +4820,34 @@
       }
     }
 
-    // Client-Side FFmpeg WebAssembly Engine (ffmpeg.wasm)
+    // Client-Side FFmpeg WebAssembly Engine (Universal 0.11.6 - No COOP/COEP required)
     let ffmpegInstance = null;
     let isFFmpegLoading = false;
 
     async function getFFmpegInstance(onStatusUpdate) {
-      if (ffmpegInstance) return ffmpegInstance;
+      if (ffmpegInstance && ffmpegInstance.isLoaded()) return ffmpegInstance;
       if (isFFmpegLoading) {
         while (isFFmpegLoading) {
           await new Promise(r => setTimeout(r, 100));
         }
-        if (ffmpegInstance) return ffmpegInstance;
+        if (ffmpegInstance && ffmpegInstance.isLoaded()) return ffmpegInstance;
       }
 
       isFFmpegLoading = true;
       try {
-        const FFmpegClass = (window.FFmpegWASM && window.FFmpegWASM.FFmpeg) || window.FFmpeg;
-        const util = window.FFmpegUtil || {};
-        const { toBlobURL } = util;
-
-        if (!FFmpegClass) {
+        if (!window.FFmpeg || typeof window.FFmpeg.createFFmpeg !== 'function') {
           throw new Error('FFmpeg WebAssembly library failed to load from CDN. Please verify your internet connection.');
         }
 
-        if (onStatusUpdate) onStatusUpdate('Initializing FFmpeg WebAssembly core (approx. 25MB, cached in browser)...', 5);
+        if (onStatusUpdate) onStatusUpdate('Initializing FFmpeg WebAssembly core (approx. 24MB, cached in browser)...', 5);
 
-        const ffmpeg = new FFmpegClass();
-        ffmpeg.on('log', ({ message }) => {
-          console.log('[FFmpeg Core]', message);
+        const { createFFmpeg } = window.FFmpeg;
+        const ffmpeg = createFFmpeg({
+          log: false,
+          corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js'
         });
 
-        const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
-        if (toBlobURL) {
-          await ffmpeg.load({
-            coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-            wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm')
-          });
-        } else {
-          await ffmpeg.load({
-            coreURL: `${baseURL}/ffmpeg-core.js`,
-            wasmURL: `${baseURL}/ffmpeg-core.wasm`
-          });
-        }
-
+        await ffmpeg.load();
         ffmpegInstance = ffmpeg;
         return ffmpegInstance;
       } finally {
@@ -4876,7 +4860,7 @@
       isExportCancelled = true;
       isExporting = false;
       if (ffmpegInstance) {
-        try { ffmpegInstance.terminate(); } catch (e) {}
+        try { ffmpegInstance.exit(); } catch (e) {}
         ffmpegInstance = null;
       }
       pauseVideo();
@@ -4930,10 +4914,9 @@
         }
 
         try {
-          const util = window.FFmpegUtil || {};
-          const { fetchFile } = util;
+          const { fetchFile } = window.FFmpeg || {};
           if (!fetchFile) {
-            throw new Error('FFmpegUtil.fetchFile helper is not available.');
+            throw new Error('FFmpeg fetchFile helper is not available.');
           }
 
           // 1. Initialize FFmpeg instance on user interaction
@@ -4950,43 +4933,47 @@
           if (vidProgressBar) vidProgressBar.style.width = '8%';
           if (vidProgressPercent) vidProgressPercent.textContent = '8%';
 
+          const inExt = (originalFileName.split('.').pop() || 'mp4').toLowerCase();
+          const inputVirtualName = `input.${inExt}`;
+
           const videoInputData = await fetchFile(currentFile || vidSource.src);
-          await ffmpeg.writeFile('input.mp4', videoInputData);
+          ffmpeg.FS('writeFile', inputVirtualName, videoInputData);
 
           if (isExportCancelled) return;
 
           // 3. Progress Hook: Display accurate frame-rendering percentage (0% to 100%)
-          ffmpeg.on('progress', ({ progress, time }) => {
+          ffmpeg.setProgress(({ ratio }) => {
             if (isExportCancelled) return;
-            const rawProgress = typeof progress === 'number' ? progress : 0;
-            const pct = Math.min(99, Math.max(10, Math.round(10 + rawProgress * 89)));
+            const pct = Math.min(99, Math.max(10, Math.round(10 + (ratio || 0) * 89)));
             if (vidProgressBar) vidProgressBar.style.width = `${pct}%`;
             if (vidProgressPercent) vidProgressPercent.textContent = `${pct}%`;
             if (vidStatusText) vidStatusText.textContent = `Processing frames: ${pct}%`;
-            if (vidTimeDetails && time) {
-              const timeSec = time / 1000000;
-              vidTimeDetails.textContent = `${formatTime(timeSec)} / ${formatTime(duration)}`;
+            if (vidTimeDetails && ratio) {
+              const currentT = ratio * duration;
+              vidTimeDetails.textContent = `${formatTime(currentT)} / ${formatTime(duration)}`;
             }
           });
 
           // 4. Video Processing Pipeline (Strict Hardware-Accelerated H.264 / AAC / yuv420p)
-          let execArgs = ['-i', 'input.mp4'];
+          let execArgs = ['-i', inputVirtualName];
 
           // Universal H.264 / AAC compatibility flags for smooth playback without stutter or frame drops
           const codecArgs = [
+            '-r', '30',
             '-c:v', 'libx264',
             '-pix_fmt', 'yuv420p',
-            '-preset', 'veryfast',
+            '-preset', 'ultrafast',
             '-crf', '22',
             '-c:a', 'aac',
             '-b:a', '192k',
+            '-ar', '44100',
             '-movflags', '+faststart'
           ];
 
           if (currentRatio === 'original') {
             // Preserve original aspect ratio scaled to target resolution
             execArgs.push(
-              '-vf', `scale=${targetW}:${targetH}:force_original_aspect_ratio=decrease:force_divisible_by=2`,
+              '-vf', `fps=30,scale=${targetW}:${targetH}:force_original_aspect_ratio=decrease:force_divisible_by=2,setpts=PTS-STARTPTS`,
               ...codecArgs,
               'output.mp4'
             );
@@ -4994,14 +4981,14 @@
             // Blurred backdrop & centered fit: exact filter pipeline preserving duration, framerate, and audio track
             execArgs.push(
               '-filter_complex',
-              `[0:v]scale=${targetW}:${targetH}:force_original_aspect_ratio=increase,crop=${targetW}:${targetH},boxblur=20:5[bg];[0:v]scale=${targetW}:${targetH}:force_original_aspect_ratio=decrease:force_divisible_by=2[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2`,
+              `[0:v]fps=30,scale=${targetW}:${targetH}:force_original_aspect_ratio=increase,crop=${targetW}:${targetH},boxblur=20:5,setpts=PTS-STARTPTS[bg];[0:v]fps=30,scale=${targetW}:${targetH}:force_original_aspect_ratio=decrease:force_divisible_by=2,setpts=PTS-STARTPTS[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2`,
               ...codecArgs,
               'output.mp4'
             );
           } else if (currentMode === 'white') {
             // Crisp White Padding Mode
             execArgs.push(
-              '-vf', `scale=${targetW}:${targetH}:force_original_aspect_ratio=decrease:force_divisible_by=2,pad=${targetW}:${targetH}:(ow-iw)/2:(oh-ih)/2:white`,
+              '-vf', `fps=30,scale=${targetW}:${targetH}:force_original_aspect_ratio=decrease:force_divisible_by=2,pad=${targetW}:${targetH}:(ow-iw)/2:(oh-ih)/2:white,setpts=PTS-STARTPTS`,
               ...codecArgs,
               'output.mp4'
             );
@@ -5009,35 +4996,35 @@
             // Custom Color Padding Mode
             const padColor = currentCustomColor || '#1E293B';
             execArgs.push(
-              '-vf', `scale=${targetW}:${targetH}:force_original_aspect_ratio=decrease:force_divisible_by=2,pad=${targetW}:${targetH}:(ow-iw)/2:(oh-ih)/2:${padColor}`,
+              '-vf', `fps=30,scale=${targetW}:${targetH}:force_original_aspect_ratio=decrease:force_divisible_by=2,pad=${targetW}:${targetH}:(ow-iw)/2:(oh-ih)/2:${padColor},setpts=PTS-STARTPTS`,
               ...codecArgs,
               'output.mp4'
             );
           } else {
             // Clean Black Padding Mode (Default)
             execArgs.push(
-              '-vf', `scale=${targetW}:${targetH}:force_original_aspect_ratio=decrease:force_divisible_by=2,pad=${targetW}:${targetH}:(ow-iw)/2:(oh-ih)/2:black`,
+              '-vf', `fps=30,scale=${targetW}:${targetH}:force_original_aspect_ratio=decrease:force_divisible_by=2,pad=${targetW}:${targetH}:(ow-iw)/2:(oh-ih)/2:black,setpts=PTS-STARTPTS`,
               ...codecArgs,
               'output.mp4'
             );
           }
 
           if (vidStatusText) vidStatusText.textContent = 'Encoding video with FFmpeg WASM...';
-          let exitCode = await ffmpeg.exec(execArgs);
-
-          if (exitCode !== 0) {
-            console.warn('FFmpeg execution non-zero, trying no-audio fallback if input has no audio stream...');
-            const noAudioArgs = execArgs.filter((arg, i, arr) => arg !== '-c:a' && arr[i - 1] !== '-c:a' && arg !== '-b:a' && arr[i - 1] !== '-b:a');
+          try {
+            await ffmpeg.run(...execArgs);
+          } catch (e) {
+            console.warn('FFmpeg run failed, trying no-audio fallback if input has no audio stream...', e);
+            const noAudioArgs = execArgs.filter((arg, i, arr) => arg !== '-c:a' && arr[i - 1] !== '-c:a' && arg !== '-b:a' && arr[i - 1] !== '-b:a' && arg !== '-ar' && arr[i - 1] !== '-ar');
             const outIdx = noAudioArgs.indexOf('output.mp4');
             if (outIdx !== -1) noAudioArgs.splice(outIdx, 0, '-an');
-            exitCode = await ffmpeg.exec(noAudioArgs);
+            await ffmpeg.run(...noAudioArgs);
           }
 
           if (isExportCancelled) return;
 
           // 5. Read processed binary output
           if (vidStatusText) vidStatusText.textContent = 'Reading processed MP4 file...';
-          const data = await ffmpeg.readFile('output.mp4');
+          const data = ffmpeg.FS('readFile', 'output.mp4');
           const downloadBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
           const base = originalFileName.replace(/\.[^/.]+$/, '');
@@ -5054,8 +5041,8 @@
           setTimeout(() => URL.revokeObjectURL(downloadUrl), 15000);
 
           // Clean virtual memory files
-          try { await ffmpeg.deleteFile('input.mp4'); } catch (e) {}
-          try { await ffmpeg.deleteFile('output.mp4'); } catch (e) {}
+          try { ffmpeg.FS('unlink', inputVirtualName); } catch (e) {}
+          try { ffmpeg.FS('unlink', 'output.mp4'); } catch (e) {}
 
           // Finalize UI
           if (vidProgressBar) vidProgressBar.style.width = '100%';

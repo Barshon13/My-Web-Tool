@@ -4837,8 +4837,8 @@
         vidSource.setAttribute('playsinline', '');
         vidSource.setAttribute('webkit-playsinline', '');
 
-        // Capture video stream from canvas
-        const canvasStream = exportCanvas.captureStream(30);
+        // Capture video stream from canvas at the user-selected frame rate
+        const canvasStream = exportCanvas.captureStream(currentFps || 30);
         let audioTracks = [];
         if (vidSource.captureStream) {
           try { audioTracks = vidSource.captureStream().getAudioTracks(); } catch (e) {}
@@ -4919,24 +4919,27 @@
         mediaRecorder.onstop = async () => {
           if (isExportCancelled) return;
 
-          // Build final video Blob
-          let rawBlob = new Blob(chunks, { type: chosenMime || 'video/mp4' });
+          // Use the container the browser ACTUALLY encoded. Many browsers
+          // (Firefox, older Chrome/Safari) cannot record real MP4/H.264 and
+          // silently fall back to WebM. Relabeling WebM bytes as .mp4 produced
+          // a corrupt, unplayable file, so honor the real recorded type here.
+          const actualMime = (mediaRecorder && mediaRecorder.mimeType)
+            ? mediaRecorder.mimeType
+            : (chosenMime || 'video/webm');
+          const isMp4 = actualMime.includes('mp4');
+          const ext = isMp4 ? 'mp4' : 'webm';
 
-          // If fallback was webm, patch EBML duration header
-          if (chosenMime && chosenMime.includes('webm')) {
+          let downloadBlob = new Blob(chunks, { type: actualMime });
+
+          // WebM output needs its EBML duration header patched (fixes 0:00 length)
+          if (!isMp4) {
             try {
-              rawBlob = await patchWebmDuration(rawBlob, duration);
+              downloadBlob = await patchWebmDuration(downloadBlob, duration);
             } catch (e) {}
           }
 
-          // User requirement: ONLY MP4, do not change video format
-          const ext = 'mp4';
-          const downloadBlob = (chosenMime && chosenMime.includes('mp4'))
-            ? rawBlob
-            : new Blob([rawBlob], { type: 'video/mp4' });
-
           const base = originalFileName.replace(/\.[^/.]+$/, '');
-          const downloadName = `${base}-${currentRatio}-${currentRes}-upscaled.mp4`;
+          const downloadName = `${base}-${currentRatio}-${currentRes}-upscaled.${ext}`;
 
           // Automatic download trigger
           const downloadUrl = URL.createObjectURL(downloadBlob);
@@ -4962,7 +4965,7 @@
           if (vidCancelBtn) vidCancelBtn.style.display = 'none';
 
           const sizeStr = formatBytes(downloadBlob.size);
-          showVideoAlert(`🎉 Video export complete! Saved ${targetW}×${targetH} (MP4) • ${sizeStr} • Duration: ${formatTime(duration)}`, 'success');
+          showVideoAlert(`🎉 Video export complete! Saved ${targetW}×${targetH} (${ext.toUpperCase()}) • ${sizeStr} • Duration: ${formatTime(duration)}`, 'success');
         };
 
         // Initialize state for export run
@@ -4984,7 +4987,8 @@
         hideVideoAlert();
 
         if (vidEncodingInfo) {
-          vidEncodingInfo.textContent = `Processing ${targetW}×${targetH} • ${chosenMime.split(';')[0]} • ${audioTracks.length > 0 ? 'Audio Synced' : 'Video'}`;
+          const fmtLabel = (chosenMime || 'video/webm').split(';')[0];
+          vidEncodingInfo.textContent = `Processing ${targetW}×${targetH} • ${fmtLabel} • ${audioTracks.length > 0 ? 'Audio Synced' : 'Video'}`;
         }
 
         // 3. Playback & Recording onended handler (wait 300ms safety buffer before stop)

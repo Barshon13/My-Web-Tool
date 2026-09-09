@@ -2407,7 +2407,10 @@
           <div style="margin-bottom:14px;">
             <label class="control-label" style="margin-bottom:6px; font-weight:700;">1. Target Aspect Ratio &amp; Platform</label>
             <div class="vid-chips-group" id="vidRatioChips">
-              <button type="button" class="vid-chip active" data-ratio="9-16">
+              <button type="button" class="vid-chip active" data-ratio="original">
+                <span>🔒 Original (Keep Format / No Crop)</span>
+              </button>
+              <button type="button" class="vid-chip" data-ratio="9-16">
                 <span>📱 9:16 Shorts / Reels</span>
               </button>
               <button type="button" class="vid-chip" data-ratio="4-5">
@@ -2495,7 +2498,7 @@
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
               </svg>
-              <span>Start Video Upscaling &amp; Export</span>
+              <span>Start Video Upscaling &amp; Export (MP4)</span>
             </button>
             <p style="margin:2px 0 0 0; font-size:0.75rem; color:#D97706; text-align:center; font-weight:500;">
               ⚠️ Keep your screen ON and do not switch tabs while processing video.
@@ -4199,7 +4202,7 @@
 
     let currentFile = null;
     let originalFileName = 'video';
-    let currentRatio = '9-16';
+    let currentRatio = 'original';
     let currentRes = '1080p';
     let currentMode = 'blur';
     let currentCustomColor = '#1E293B';
@@ -4253,11 +4256,25 @@
     };
 
     function getTargetDimensions() {
-      const ratioObj = DIMENSION_TABLE[currentRatio] || DIMENSION_TABLE['9-16'];
       let effectiveRes = currentRes;
       if (isMobileDevice && (currentRes === '4k' || currentRes === '2k')) {
         effectiveRes = '1080p';
       }
+
+      // If user selected Original Ratio (do not alter aspect ratio)
+      if (currentRatio === 'original') {
+        const srcW = (vidSource && vidSource.videoWidth) ? vidSource.videoWidth : 1080;
+        const srcH = (vidSource && vidSource.videoHeight) ? vidSource.videoHeight : 1920;
+        const maxDim = effectiveRes === '4k' ? 3840 : (effectiveRes === '2k' ? 2560 : (effectiveRes === '720p' ? 1280 : 1920));
+        const srcMax = Math.max(srcW, srcH);
+        const scale = Math.min(maxDim / srcMax, 2.5);
+        // Ensure even dimensions strictly required by H.264 / MP4 encoders
+        const targetW = Math.max(320, Math.round((srcW * scale) / 2) * 2);
+        const targetH = Math.max(320, Math.round((srcH * scale) / 2) * 2);
+        return [targetW, targetH];
+      }
+
+      const ratioObj = DIMENSION_TABLE[currentRatio] || DIMENSION_TABLE['9-16'];
       return ratioObj[effectiveRes] || [1080, 1920];
     }
 
@@ -4562,16 +4579,33 @@
     function drawFrame(ctx, video, canvasWidth, canvasHeight) {
       if (!video || !video.videoWidth || !video.videoHeight) return;
 
-      // 1. Clear background
+      // 1. Clear background to pitch black
       ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-      // 2. Draw Blurred Background to fill canvas
-      if (currentMode === 'blur') {
-        ctx.save();
-        ctx.filter = 'blur(20px)';
+      // 2. If Original Ratio, render video directly to full frame (no letterbox/padding)
+      if (currentRatio === 'original') {
         ctx.drawImage(video, 0, 0, canvasWidth, canvasHeight);
+        return;
+      }
+
+      // 3. Draw Blurred / Solid Background (Cover mode scaling preserving aspect ratio)
+      if (currentMode === 'blur') {
+        // Cover-mode scaling: preserve aspect ratio, 15% oversized to prevent canvas border blur bleed
+        const bgScale = Math.max(canvasWidth / video.videoWidth, canvasHeight / video.videoHeight) * 1.15;
+        const bgW = video.videoWidth * bgScale;
+        const bgH = video.videoHeight * bgScale;
+        const bgX = (canvasWidth - bgW) / 2;
+        const bgY = (canvasHeight - bgH) / 2;
+
+        ctx.save();
+        ctx.filter = 'blur(25px)';
+        ctx.drawImage(video, bgX, bgY, bgW, bgH);
         ctx.restore();
+
+        // Subtle dark contrast scrim so the foreground video is sharp and clearly separated
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.22)';
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
       } else if (currentMode === 'white') {
         ctx.fillStyle = '#FFFFFF';
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -4580,18 +4614,20 @@
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
       } // 'black' mode is already #000000 from step 1
 
-      // 3. Draw Centered Source Video (Preserve Aspect Ratio)
+      // 4. Draw Centered Source Video (Strict Aspect Ratio Preservation)
       const hRatio = canvasWidth / video.videoWidth;
       const vRatio = canvasHeight / video.videoHeight;
       const ratio = Math.min(hRatio, vRatio);
-      const centerShiftX = (canvasWidth - video.videoWidth * ratio) / 2;
-      const centerShiftY = (canvasHeight - video.videoHeight * ratio) / 2;
+      const drawW = Math.round(video.videoWidth * ratio);
+      const drawH = Math.round(video.videoHeight * ratio);
+      const centerShiftX = Math.round((canvasWidth - drawW) / 2);
+      const centerShiftY = Math.round((canvasHeight - drawH) / 2);
 
       ctx.drawImage(
         video,
         0, 0, video.videoWidth, video.videoHeight,
         centerShiftX, centerShiftY,
-        video.videoWidth * ratio, video.videoHeight * ratio
+        drawW, drawH
       );
     }
 
@@ -4814,23 +4850,61 @@
         }
         const combinedStream = new MediaStream([...canvasStream.getTracks(), ...audioTracks]);
 
-        // Codec selection (prioritize video/webm, fallback to video/mp4 on iOS Safari)
-        let chosenMime = 'video/webm';
-        if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported('video/webm')) {
-          chosenMime = 'video/webm';
-        } else if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported('video/mp4')) {
-          chosenMime = 'video/mp4';
+        // Codec selection - STRICTLY PRIORITIZE MP4 (H.264 / AVC1 / AAC)
+        const mp4Candidates = audioTracks.length > 0 ? [
+          'video/mp4;codecs=avc1.42E01E,mp4a.40.2',
+          'video/mp4;codecs=avc1,mp4a.40.2',
+          'video/mp4;codecs=h264,aac',
+          'video/mp4;codecs=avc1',
+          'video/mp4;codecs=h264',
+          'video/mp4'
+        ] : [
+          'video/mp4;codecs=avc1.42E01E',
+          'video/mp4;codecs=avc1',
+          'video/mp4;codecs=h264',
+          'video/mp4'
+        ];
+
+        let chosenMime = '';
+        if (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported) {
+          for (const cand of mp4Candidates) {
+            if (MediaRecorder.isTypeSupported(cand)) {
+              chosenMime = cand;
+              break;
+            }
+          }
+        }
+        if (!chosenMime) {
+          if (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported('video/mp4')) {
+            chosenMime = 'video/mp4';
+          } else if (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported('video/webm;codecs=vp9,opus')) {
+            chosenMime = 'video/webm;codecs=vp9,opus';
+          } else if (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported('video/webm')) {
+            chosenMime = 'video/webm';
+          }
+        }
+
+        const videoBitrate = currentRes === '4k' ? 25000000 : (currentRes === '2k' ? 15000000 : (currentRes === '720p' ? 4000000 : 8000000));
+        let recorderOptions = {
+          videoBitsPerSecond: videoBitrate,
+          audioBitsPerSecond: 192000
+        };
+        if (chosenMime) {
+          recorderOptions.mimeType = chosenMime;
         }
 
         try {
-          mediaRecorder = new MediaRecorder(combinedStream, { mimeType: chosenMime });
+          mediaRecorder = new MediaRecorder(combinedStream, recorderOptions);
         } catch (e) {
           try {
-            mediaRecorder = new MediaRecorder(combinedStream);
-            chosenMime = mediaRecorder.mimeType || 'video/webm';
+            mediaRecorder = chosenMime ? new MediaRecorder(combinedStream, { mimeType: chosenMime }) : new MediaRecorder(combinedStream);
           } catch (e2) {
-            showVideoAlert('Browser does not support in-browser video recording: ' + e2.message, 'error');
-            return;
+            try {
+              mediaRecorder = new MediaRecorder(combinedStream);
+            } catch (e3) {
+              showVideoAlert('Browser does not support in-browser video recording: ' + e3.message, 'error');
+              return;
+            }
           }
         }
 
@@ -4845,21 +4919,27 @@
         mediaRecorder.onstop = async () => {
           if (isExportCancelled) return;
 
-          // Build final video Blob from slices
-          let blob = new Blob(chunks, { type: chosenMime });
+          // Build final video Blob
+          let rawBlob = new Blob(chunks, { type: chosenMime || 'video/mp4' });
 
-          // If WebM, patch the EBML duration header so players don't display 0:00
-          if (chosenMime.includes('webm')) {
-            blob = await patchWebmDuration(blob, duration);
+          // If fallback was webm, patch EBML duration header
+          if (chosenMime && chosenMime.includes('webm')) {
+            try {
+              rawBlob = await patchWebmDuration(rawBlob, duration);
+            } catch (e) {}
           }
 
-          const isMp4 = chosenMime.includes('mp4');
-          const ext = isMp4 ? 'mp4' : 'webm';
+          // User requirement: ONLY MP4, do not change video format
+          const ext = 'mp4';
+          const downloadBlob = (chosenMime && chosenMime.includes('mp4'))
+            ? rawBlob
+            : new Blob([rawBlob], { type: 'video/mp4' });
+
           const base = originalFileName.replace(/\.[^/.]+$/, '');
-          const downloadName = `${base}-${currentRatio}-${currentRes}-upscaled.${ext}`;
+          const downloadName = `${base}-${currentRatio}-${currentRes}-upscaled.mp4`;
 
           // Automatic download trigger
-          const downloadUrl = URL.createObjectURL(blob);
+          const downloadUrl = URL.createObjectURL(downloadBlob);
           const a = document.createElement('a');
           a.href = downloadUrl;
           a.download = downloadName;
@@ -4881,8 +4961,8 @@
           }
           if (vidCancelBtn) vidCancelBtn.style.display = 'none';
 
-          const sizeStr = formatBytes(blob.size);
-          showVideoAlert(`🎉 Video export complete! Saved ${targetW}×${targetH} (${ext.toUpperCase()}) • ${sizeStr} • Duration: ${formatTime(duration)}`, 'success');
+          const sizeStr = formatBytes(downloadBlob.size);
+          showVideoAlert(`🎉 Video export complete! Saved ${targetW}×${targetH} (MP4) • ${sizeStr} • Duration: ${formatTime(duration)}`, 'success');
         };
 
         // Initialize state for export run

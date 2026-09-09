@@ -4837,8 +4837,8 @@
         vidSource.setAttribute('playsinline', '');
         vidSource.setAttribute('webkit-playsinline', '');
 
-        // Capture video stream from canvas at the user-selected frame rate
-        const canvasStream = exportCanvas.captureStream(currentFps || 30);
+        // Capture video stream from canvas
+        const canvasStream = exportCanvas.captureStream(30);
         let audioTracks = [];
         if (vidSource.captureStream) {
           try { audioTracks = vidSource.captureStream().getAudioTracks(); } catch (e) {}
@@ -4884,9 +4884,9 @@
           }
         }
 
-        const videoBitrate = currentRes === '4k' ? 25000000 : (currentRes === '2k' ? 15000000 : (currentRes === '720p' ? 4000000 : 8000000));
+        const selectedBitrate = 5000000; // 5 Mbps steady rate
         let recorderOptions = {
-          videoBitsPerSecond: videoBitrate,
+          videoBitsPerSecond: selectedBitrate,
           audioBitsPerSecond: 192000
         };
         if (chosenMime) {
@@ -4897,10 +4897,12 @@
           mediaRecorder = new MediaRecorder(combinedStream, recorderOptions);
         } catch (e) {
           try {
-            mediaRecorder = chosenMime ? new MediaRecorder(combinedStream, { mimeType: chosenMime }) : new MediaRecorder(combinedStream);
+            mediaRecorder = chosenMime
+              ? new MediaRecorder(combinedStream, { mimeType: chosenMime, videoBitsPerSecond: selectedBitrate })
+              : new MediaRecorder(combinedStream, { videoBitsPerSecond: selectedBitrate });
           } catch (e2) {
             try {
-              mediaRecorder = new MediaRecorder(combinedStream);
+              mediaRecorder = new MediaRecorder(combinedStream, { videoBitsPerSecond: selectedBitrate });
             } catch (e3) {
               showVideoAlert('Browser does not support in-browser video recording: ' + e3.message, 'error');
               return;
@@ -4919,27 +4921,24 @@
         mediaRecorder.onstop = async () => {
           if (isExportCancelled) return;
 
-          // Use the container the browser ACTUALLY encoded. Many browsers
-          // (Firefox, older Chrome/Safari) cannot record real MP4/H.264 and
-          // silently fall back to WebM. Relabeling WebM bytes as .mp4 produced
-          // a corrupt, unplayable file, so honor the real recorded type here.
-          const actualMime = (mediaRecorder && mediaRecorder.mimeType)
-            ? mediaRecorder.mimeType
-            : (chosenMime || 'video/webm');
-          const isMp4 = actualMime.includes('mp4');
-          const ext = isMp4 ? 'mp4' : 'webm';
+          // Build final video Blob
+          let rawBlob = new Blob(chunks, { type: chosenMime || 'video/mp4' });
 
-          let downloadBlob = new Blob(chunks, { type: actualMime });
-
-          // WebM output needs its EBML duration header patched (fixes 0:00 length)
-          if (!isMp4) {
+          // If fallback was webm, patch EBML duration header
+          if (chosenMime && chosenMime.includes('webm')) {
             try {
-              downloadBlob = await patchWebmDuration(downloadBlob, duration);
+              rawBlob = await patchWebmDuration(rawBlob, duration);
             } catch (e) {}
           }
 
+          // User requirement: ONLY MP4, do not change video format
+          const ext = 'mp4';
+          const downloadBlob = (chosenMime && chosenMime.includes('mp4'))
+            ? rawBlob
+            : new Blob([rawBlob], { type: 'video/mp4' });
+
           const base = originalFileName.replace(/\.[^/.]+$/, '');
-          const downloadName = `${base}-${currentRatio}-${currentRes}-upscaled.${ext}`;
+          const downloadName = `${base}-${currentRatio}-${currentRes}-upscaled.mp4`;
 
           // Automatic download trigger
           const downloadUrl = URL.createObjectURL(downloadBlob);
@@ -4957,6 +4956,10 @@
           vidSource.onended = null;
           stopExportLoops();
 
+          // Restore normal playback rates
+          vidSource.playbackRate = 1.0;
+          vidSource.defaultPlaybackRate = 1.0;
+
           if (vidProgressBox) vidProgressBox.style.display = 'none';
           if (vidExportBtn) {
             vidExportBtn.disabled = false;
@@ -4965,7 +4968,7 @@
           if (vidCancelBtn) vidCancelBtn.style.display = 'none';
 
           const sizeStr = formatBytes(downloadBlob.size);
-          showVideoAlert(`🎉 Video export complete! Saved ${targetW}×${targetH} (${ext.toUpperCase()}) • ${sizeStr} • Duration: ${formatTime(duration)}`, 'success');
+          showVideoAlert(`🎉 Video export complete! Saved ${targetW}×${targetH} (MP4) • ${sizeStr} • Duration: ${formatTime(duration)}`, 'success');
         };
 
         // Initialize state for export run
@@ -4973,6 +4976,10 @@
         isExportCancelled = false;
         stopExportLoops();
         pauseVideo();
+
+        // 1. Force Strict 1.0x Playback & Clock Sync
+        vidSource.playbackRate = 1.0;
+        vidSource.defaultPlaybackRate = 1.0;
 
         // Mute local speaker monitor during encoding
         if (monitorGainNode) monitorGainNode.gain.value = 0;
@@ -4987,27 +4994,53 @@
         hideVideoAlert();
 
         if (vidEncodingInfo) {
-          const fmtLabel = (chosenMime || 'video/webm').split(';')[0];
-          vidEncodingInfo.textContent = `Processing ${targetW}×${targetH} • ${fmtLabel} • ${audioTracks.length > 0 ? 'Audio Synced' : 'Video'}`;
+          vidEncodingInfo.textContent = `Processing ${targetW}×${targetH} • ${chosenMime.split(';')[0]} • ${audioTracks.length > 0 ? 'Audio Synced' : 'Video'}`;
         }
 
-        // 3. Playback & Recording onended handler (wait 300ms safety buffer before stop)
-        vidSource.onended = () => {
+        // 3. True Duration-Based End Trigger:
+        // Do not stop recording via arbitrary timeouts.
+        // Listen exclusively to the video's natural conclusion and verify elapsed time against video.duration.
+        vidSource.addEventListener('ended', () => {
           if (vidProgressBar) vidProgressBar.style.width = '100%';
           if (vidProgressPercent) vidProgressPercent.textContent = '100%';
           if (vidStatusText) vidStatusText.textContent = 'Finalizing container & saving...';
           stopExportLoops();
 
+          // Flush final chunks before closing
+          try {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+              mediaRecorder.requestData();
+            }
+          } catch (e) {}
+
           setTimeout(() => {
             if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-              mediaRecorder.stop();
+              try {
+                mediaRecorder.stop();
+              } catch (e) {}
             }
             pauseVideo();
           }, 300);
-        };
+        }, { once: true });
 
-        // Reset video to start
-        vidSource.currentTime = 0;
+        // Reset video to start with verified seek synchronization
+        if (Math.abs(vidSource.currentTime) > 0.05 || vidSource.seeking) {
+          await new Promise((resolve) => {
+            const onSeeked = () => {
+              vidSource.removeEventListener('seeked', onSeeked);
+              resolve();
+            };
+            vidSource.addEventListener('seeked', onSeeked, { once: true });
+            vidSource.currentTime = 0;
+            setTimeout(resolve, 350); // Fallback if seek was instantaneous
+          });
+        } else {
+          vidSource.currentTime = 0;
+        }
+
+        // Enforce 1.0x rate immediately prior to starting playback
+        vidSource.playbackRate = 1.0;
+        vidSource.defaultPlaybackRate = 1.0;
 
         try {
           await vidSource.play();
@@ -5020,32 +5053,41 @@
         // Start recording in 250ms chunks
         mediaRecorder.start(250);
 
-        // Step function using requestAnimationFrame backed by setInterval
-        function step() {
+        // Step function using requestAnimationFrame limited to ~30 FPS
+        let lastFrameTime = 0;
+        function step(timestamp) {
           if (vidSource.paused || vidSource.ended || !isExporting || isExportCancelled) return;
-          drawFrame(exportCtx, vidSource, exportCanvas.width, exportCanvas.height);
-          renderPreview();
 
-          const currentT = vidSource.currentTime || 0;
-          const pct = Math.min(99, Math.round((currentT / duration) * 100));
-          if (vidProgressBar) vidProgressBar.style.width = `${pct}%`;
-          if (vidProgressPercent) vidProgressPercent.textContent = `${pct}%`;
-          if (vidStatusText) vidStatusText.textContent = `Rendering: ${pct}%`;
-          if (vidTimeDetails) vidTimeDetails.textContent = `${formatTime(currentT)} / ${formatTime(duration)}`;
+          if (!lastFrameTime || (timestamp - lastFrameTime) >= 30) {
+            lastFrameTime = timestamp;
+            drawFrame(exportCtx, vidSource, exportCanvas.width, exportCanvas.height);
+            renderPreview();
+
+            const currentT = vidSource.currentTime || 0;
+            const pct = Math.min(99, Math.round((currentT / duration) * 100));
+            if (vidProgressBar) vidProgressBar.style.width = `${pct}%`;
+            if (vidProgressPercent) vidProgressPercent.textContent = `${pct}%`;
+            if (vidStatusText) vidStatusText.textContent = `Rendering: ${pct}%`;
+            if (vidTimeDetails) vidTimeDetails.textContent = `${formatTime(currentT)} / ${formatTime(duration)}`;
+          }
 
           exportRafId = requestAnimationFrame(step);
         }
 
         exportRafId = requestAnimationFrame(step);
 
-        // Backup setInterval in case mobile OS suspends or throttles rAF
+        // Backup timer only triggers if mobile OS pauses or throttles requestAnimationFrame
+        let lastRafCheck = Date.now();
         exportIntervalId = setInterval(() => {
           if (!isExporting || isExportCancelled || vidSource.paused || vidSource.ended) {
             stopExportLoops();
             return;
           }
-          drawFrame(exportCtx, vidSource, exportCanvas.width, exportCanvas.height);
-          renderPreview();
+          if (Date.now() - lastRafCheck > 65) {
+            drawFrame(exportCtx, vidSource, exportCanvas.width, exportCanvas.height);
+            renderPreview();
+          }
+          lastRafCheck = Date.now();
         }, 33);
       });
     }

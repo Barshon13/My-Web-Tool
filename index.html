@@ -2953,12 +2953,12 @@
             }
           }
 
-          displayResult(bestBlob || await new Promise(r => canvas.toBlob(r, mimeType, 0.7)), ext);
+          displayResult(bestBlob || await new Promise(r => canvas.toBlob(r, mimeType, 0.98)), ext);
         })();
       } else {
         canvas.toBlob((blob) => {
           displayResult(blob, ext);
-        }, mimeType, 0.88);
+        }, mimeType, 0.98);
       }
     }
 
@@ -3117,8 +3117,10 @@
         const cvs = document.createElement('canvas');
         cvs.width = w; cvs.height = h;
         const c = cvs.getContext('2d', { willReadFrequently: true });
+        c.imageSmoothingEnabled = true;
+        c.imageSmoothingQuality = 'high';
         c.drawImage(img, 0, 0);
-        const dataUrl = cvs.toDataURL('image/jpeg', 0.88);
+        const dataUrl = cvs.toDataURL('image/jpeg', 0.98);
 
         doc.addImage(dataUrl, 'JPEG', posX, posY, drawW, drawH);
       });
@@ -3150,9 +3152,11 @@
             const viewport = page.getViewport({ scale: scale });
 
             const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d', { willReadFrequently: true });
             canvas.height = viewport.height;
             canvas.width = viewport.width;
+            const context = canvas.getContext('2d', { willReadFrequently: true });
+            context.imageSmoothingEnabled = true;
+            context.imageSmoothingQuality = 'high';
 
             await page.render({ canvasContext: context, viewport: viewport }).promise;
 
@@ -3662,7 +3666,7 @@
 
         const mimeType = szFormat === 'png' ? 'image/png' : 'image/jpeg';
         const ext = szFormat === 'png' ? 'png' : 'jpg';
-        const quality = szFormat === 'png' ? undefined : 0.92;
+        const quality = szFormat === 'png' ? undefined : 0.98;
 
         // Clean Canvas (NEVER contains safe-zone guides)
         szCleanCanvas.toBlob((blob) => {

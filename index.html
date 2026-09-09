@@ -4969,15 +4969,25 @@
             }
           });
 
-          // 4. Video Processing Pipeline (Frame-Accurate Scaling & Padding)
+          // 4. Video Processing Pipeline (Strict Hardware-Accelerated H.264 / AAC / yuv420p)
           let execArgs = ['-i', 'input.mp4'];
+
+          // Universal H.264 / AAC compatibility flags for smooth playback without stutter or frame drops
+          const codecArgs = [
+            '-c:v', 'libx264',
+            '-pix_fmt', 'yuv420p',
+            '-preset', 'veryfast',
+            '-crf', '22',
+            '-c:a', 'aac',
+            '-b:a', '192k',
+            '-movflags', '+faststart'
+          ];
 
           if (currentRatio === 'original') {
             // Preserve original aspect ratio scaled to target resolution
             execArgs.push(
               '-vf', `scale=${targetW}:${targetH}:force_original_aspect_ratio=decrease:force_divisible_by=2`,
-              '-c:a', 'copy',
-              '-movflags', '+faststart',
+              ...codecArgs,
               'output.mp4'
             );
           } else if (currentMode === 'blur') {
@@ -4985,16 +4995,14 @@
             execArgs.push(
               '-filter_complex',
               `[0:v]scale=${targetW}:${targetH}:force_original_aspect_ratio=increase,crop=${targetW}:${targetH},boxblur=20:5[bg];[0:v]scale=${targetW}:${targetH}:force_original_aspect_ratio=decrease:force_divisible_by=2[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2`,
-              '-c:a', 'copy',
-              '-movflags', '+faststart',
+              ...codecArgs,
               'output.mp4'
             );
           } else if (currentMode === 'white') {
             // Crisp White Padding Mode
             execArgs.push(
               '-vf', `scale=${targetW}:${targetH}:force_original_aspect_ratio=decrease:force_divisible_by=2,pad=${targetW}:${targetH}:(ow-iw)/2:(oh-ih)/2:white`,
-              '-c:a', 'copy',
-              '-movflags', '+faststart',
+              ...codecArgs,
               'output.mp4'
             );
           } else if (currentMode === 'custom') {
@@ -5002,16 +5010,14 @@
             const padColor = currentCustomColor || '#1E293B';
             execArgs.push(
               '-vf', `scale=${targetW}:${targetH}:force_original_aspect_ratio=decrease:force_divisible_by=2,pad=${targetW}:${targetH}:(ow-iw)/2:(oh-ih)/2:${padColor}`,
-              '-c:a', 'copy',
-              '-movflags', '+faststart',
+              ...codecArgs,
               'output.mp4'
             );
           } else {
             // Clean Black Padding Mode (Default)
             execArgs.push(
               '-vf', `scale=${targetW}:${targetH}:force_original_aspect_ratio=decrease:force_divisible_by=2,pad=${targetW}:${targetH}:(ow-iw)/2:(oh-ih)/2:black`,
-              '-c:a', 'copy',
-              '-movflags', '+faststart',
+              ...codecArgs,
               'output.mp4'
             );
           }
@@ -5020,16 +5026,11 @@
           let exitCode = await ffmpeg.exec(execArgs);
 
           if (exitCode !== 0) {
-            console.warn('FFmpeg copy exitCode non-zero, trying fallback with audio transcode...');
-            // In case input video has no audio or audio codec is incompatible with direct copy
-            const fallbackArgs = execArgs.map(arg => arg === 'copy' ? 'aac' : arg);
-            exitCode = await ffmpeg.exec(fallbackArgs);
-            if (exitCode !== 0) {
-              const noAudioArgs = execArgs.filter((arg, i, arr) => arg !== '-c:a' && arr[i - 1] !== '-c:a');
-              const outIdx = noAudioArgs.indexOf('output.mp4');
-              if (outIdx !== -1) noAudioArgs.splice(outIdx, 0, '-an');
-              exitCode = await ffmpeg.exec(noAudioArgs);
-            }
+            console.warn('FFmpeg execution non-zero, trying no-audio fallback if input has no audio stream...');
+            const noAudioArgs = execArgs.filter((arg, i, arr) => arg !== '-c:a' && arr[i - 1] !== '-c:a' && arg !== '-b:a' && arr[i - 1] !== '-b:a');
+            const outIdx = noAudioArgs.indexOf('output.mp4');
+            if (outIdx !== -1) noAudioArgs.splice(outIdx, 0, '-an');
+            exitCode = await ffmpeg.exec(noAudioArgs);
           }
 
           if (isExportCancelled) return;

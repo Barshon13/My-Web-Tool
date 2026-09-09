@@ -4407,8 +4407,20 @@
         vidTimeDisplay.textContent = `00:00 / ${formatTime(dur)}`;
       }
 
+      generateBlurSnapshot();
       updateDimensionBadges();
       renderPreview();
+    });
+
+    vidSource.addEventListener('loadeddata', () => {
+      generateBlurSnapshot();
+      renderPreview();
+    });
+
+    vidSource.addEventListener('seeked', () => {
+      if (!isExporting) {
+        generateBlurSnapshot();
+      }
     });
 
     vidSource.addEventListener('timeupdate', () => {
@@ -4575,12 +4587,30 @@
       ctx.restore();
     }
 
-    // Core Canvas Frame Rendering Function
+    // Snapshot Pre-Renderer: Captures a lightweight proxy snapshot and blurs it ONCE onto an offscreen canvas
+    // Completely eliminates real-time per-frame GPU/CPU blur bottleneck on mobile devices
+    function generateBlurSnapshot() {
+      if (!vidSource || !vidSource.videoWidth || !vidSource.videoHeight) return;
+      try {
+        const snapW = 320;
+        const snapH = Math.max(180, Math.round(snapW * (vidSource.videoHeight / vidSource.videoWidth)));
+        blurCanvas.width = snapW;
+        blurCanvas.height = snapH;
+        // Blur snapshot ONCE onto small offscreen canvas
+        blurCtx.filter = 'blur(12px)';
+        blurCtx.drawImage(vidSource, 0, 0, snapW, snapH);
+        blurCtx.filter = 'none';
+      } catch (e) {
+        console.warn('Blur snapshot note:', e);
+      }
+    }
+
+    // Core Canvas Frame Rendering Function (High Performance, Zero-Overhead)
     function drawFrame(ctx, video, canvasWidth, canvasHeight) {
       if (!video || !video.videoWidth || !video.videoHeight) return;
 
-      // 1. Clear background to pitch black
-      ctx.fillStyle = '#000000';
+      // 1. Sleek Modern Dark Backdrop (#0b0f19)
+      ctx.fillStyle = '#0b0f19';
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
       // 2. If Original Ratio, render video directly to full frame (no letterbox/padding)
@@ -4589,22 +4619,27 @@
         return;
       }
 
-      // 3. Draw Blurred / Solid Background (Cover mode scaling preserving aspect ratio)
+      // 3. Backdrop Fill (Zero-Overhead: Pre-computed snapshot OR crisp solid)
       if (currentMode === 'blur') {
-        // Cover-mode scaling: preserve aspect ratio, 15% oversized to prevent canvas border blur bleed
-        const bgScale = Math.max(canvasWidth / video.videoWidth, canvasHeight / video.videoHeight) * 1.15;
-        const bgW = video.videoWidth * bgScale;
-        const bgH = video.videoHeight * bgScale;
-        const bgX = (canvasWidth - bgW) / 2;
-        const bgY = (canvasHeight - bgH) / 2;
+        if (blurCanvas.width > 0 && blurCanvas.height > 0) {
+          // Zero-cost: draw already-blurred offscreen snapshot canvas without ANY per-frame ctx.filter!
+          const bgScale = Math.max(canvasWidth / blurCanvas.width, canvasHeight / blurCanvas.height) * 1.08;
+          const bgW = blurCanvas.width * bgScale;
+          const bgH = blurCanvas.height * bgScale;
+          const bgX = (canvasWidth - bgW) / 2;
+          const bgY = (canvasHeight - bgH) / 2;
+          ctx.drawImage(blurCanvas, bgX, bgY, bgW, bgH);
 
-        ctx.save();
-        ctx.filter = 'blur(25px)';
-        ctx.drawImage(video, bgX, bgY, bgW, bgH);
-        ctx.restore();
-
-        // Subtle dark contrast scrim so the foreground video is sharp and clearly separated
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.22)';
+          // Subtle dark contrast scrim so the foreground video is sharp and clearly separated
+          ctx.fillStyle = 'rgba(11, 15, 25, 0.35)';
+          ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        } else {
+          // Fallback to crisp solid dark backdrop (#0b0f19)
+          ctx.fillStyle = '#0b0f19';
+          ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        }
+      } else if (currentMode === 'black') {
+        ctx.fillStyle = '#000000';
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
       } else if (currentMode === 'white') {
         ctx.fillStyle = '#FFFFFF';
@@ -4612,7 +4647,7 @@
       } else if (currentMode === 'custom') {
         ctx.fillStyle = currentCustomColor || '#1E293B';
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-      } // 'black' mode is already #000000 from step 1
+      }
 
       // 4. Draw Centered Source Video (Strict Aspect Ratio Preservation)
       const hRatio = canvasWidth / video.videoWidth;
@@ -4837,7 +4872,7 @@
         vidSource.setAttribute('playsinline', '');
         vidSource.setAttribute('webkit-playsinline', '');
 
-        // Capture video stream from canvas
+        // 2. Wall-Clock / Audio-Locked Timing Engine
         const canvasStream = exportCanvas.captureStream(30);
         let audioTracks = [];
         if (vidSource.captureStream) {
@@ -4848,7 +4883,18 @@
         if ((!audioTracks || audioTracks.length === 0) && audioDestNode && hasAudioTrack) {
           try { audioTracks = audioDestNode.stream.getAudioTracks(); } catch (e) {}
         }
-        const combinedStream = new MediaStream([...canvasStream.getTracks(), ...audioTracks]);
+
+        // Capture video tracks from canvas and native audio without resampling jitter
+        let recorderTracks = [...canvasStream.getVideoTracks()];
+        if (audioTracks && audioTracks.length > 0) {
+          recorderTracks.push(...audioTracks);
+        }
+        const recorderStream = new MediaStream(recorderTracks);
+
+        // Force strict 1.0x playback rate & lock pitch
+        vidSource.playbackRate = 1.0;
+        vidSource.defaultPlaybackRate = 1.0;
+        vidSource.preservesPitch = true;
 
         // Codec selection - STRICTLY PRIORITIZE MP4 (H.264 / AVC1 / AAC)
         const mp4Candidates = audioTracks.length > 0 ? [
@@ -4884,25 +4930,26 @@
           }
         }
 
-        const selectedBitrate = 5000000; // 5 Mbps steady rate
+        // 4. Bitrate & Codec Standardization: 3 Mbps hardware-friendly target
+        const selectedBitrate = 3000000;
         let recorderOptions = {
           videoBitsPerSecond: selectedBitrate,
-          audioBitsPerSecond: 192000
+          audioBitsPerSecond: 128000
         };
         if (chosenMime) {
           recorderOptions.mimeType = chosenMime;
         }
 
         try {
-          mediaRecorder = new MediaRecorder(combinedStream, recorderOptions);
+          mediaRecorder = new MediaRecorder(recorderStream, recorderOptions);
         } catch (e) {
           try {
             mediaRecorder = chosenMime
-              ? new MediaRecorder(combinedStream, { mimeType: chosenMime, videoBitsPerSecond: selectedBitrate })
-              : new MediaRecorder(combinedStream, { videoBitsPerSecond: selectedBitrate });
+              ? new MediaRecorder(recorderStream, { mimeType: chosenMime, videoBitsPerSecond: selectedBitrate })
+              : new MediaRecorder(recorderStream, { videoBitsPerSecond: selectedBitrate });
           } catch (e2) {
             try {
-              mediaRecorder = new MediaRecorder(combinedStream, { videoBitsPerSecond: selectedBitrate });
+              mediaRecorder = new MediaRecorder(recorderStream, { videoBitsPerSecond: selectedBitrate });
             } catch (e3) {
               showVideoAlert('Browser does not support in-browser video recording: ' + e3.message, 'error');
               return;
@@ -5038,9 +5085,15 @@
           vidSource.currentTime = 0;
         }
 
-        // Enforce 1.0x rate immediately prior to starting playback
+        // Initialize snapshot blur backdrop once prior to export playback
+        if (currentMode === 'blur') {
+          generateBlurSnapshot();
+        }
+
+        // Enforce 1.0x rate & lock pitch immediately prior to starting playback
         vidSource.playbackRate = 1.0;
         vidSource.defaultPlaybackRate = 1.0;
+        vidSource.preservesPitch = true;
 
         try {
           await vidSource.play();
@@ -5053,13 +5106,17 @@
         // Start recording in 250ms chunks
         mediaRecorder.start(250);
 
-        // Step function using requestAnimationFrame limited to ~30 FPS
-        let lastFrameTime = 0;
-        function step(timestamp) {
-          if (vidSource.paused || vidSource.ended || !isExporting || isExportCancelled) return;
+        // 3. Controlled FPS Render Loop (30 FPS cap)
+        let lastDrawTime = 0;
+        const fpsInterval = 1000 / 30;
 
-          if (!lastFrameTime || (timestamp - lastFrameTime) >= 30) {
-            lastFrameTime = timestamp;
+        function renderLoop(currentTime) {
+          if (!isExporting || isExportCancelled || vidSource.paused || vidSource.ended) return;
+          exportRafId = requestAnimationFrame(renderLoop);
+
+          const elapsed = currentTime - lastDrawTime;
+          if (elapsed > fpsInterval) {
+            lastDrawTime = currentTime - (elapsed % fpsInterval);
             drawFrame(exportCtx, vidSource, exportCanvas.width, exportCanvas.height);
             renderPreview();
 
@@ -5070,11 +5127,9 @@
             if (vidStatusText) vidStatusText.textContent = `Rendering: ${pct}%`;
             if (vidTimeDetails) vidTimeDetails.textContent = `${formatTime(currentT)} / ${formatTime(duration)}`;
           }
-
-          exportRafId = requestAnimationFrame(step);
         }
 
-        exportRafId = requestAnimationFrame(step);
+        exportRafId = requestAnimationFrame(renderLoop);
 
         // Backup timer only triggers if mobile OS pauses or throttles requestAnimationFrame
         let lastRafCheck = Date.now();
@@ -5083,7 +5138,7 @@
             stopExportLoops();
             return;
           }
-          if (Date.now() - lastRafCheck > 65) {
+          if (Date.now() - lastRafCheck > 70) {
             drawFrame(exportCtx, vidSource, exportCanvas.width, exportCanvas.height);
             renderPreview();
           }

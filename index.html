@@ -40,6 +40,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <!-- PDF.js for Client-Side PDF to Image Extraction -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- JSZip CDN for Client-Side Bulk ZIP Archive Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <!-- Schema.org Structured Data: WebApplication & FAQPage -->
   <script type="application/ld+json">
@@ -1152,6 +1154,211 @@
       cursor: pointer;
     }
 
+    /* Batch Processing Queue & Results Styles */
+    .batch-queue-container {
+      background: #F8FAFC;
+      border: 1px solid var(--color-border);
+      border-radius: var(--color-radius-md);
+      padding: 12px;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+    .batch-queue-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 10px;
+    }
+    .batch-item-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 8px 10px;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+    .batch-item-card:hover {
+      border-color: #CBD5E1;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+    }
+    .batch-item-card.is-processing {
+      border-color: #3B82F6;
+      background: #EFF6FF;
+    }
+    .batch-item-card.is-done {
+      border-color: #10B981;
+      background: #F0FDF4;
+    }
+    .batch-item-card.is-error {
+      border-color: #EF4444;
+      background: #FEF2F2;
+    }
+    .batch-item-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #E2E8F0;
+      flex-shrink: 0;
+    }
+    .batch-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .batch-item-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 2px;
+    }
+    .batch-item-meta {
+      font-size: 0.72rem;
+      color: var(--color-text-muted);
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .batch-item-status {
+      font-size: 0.70rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-top: 3px;
+    }
+    .status-badge-pending {
+      background: #F1F5F9;
+      color: #64748B;
+    }
+    .status-badge-processing {
+      background: #DBEAFE;
+      color: #1E40AF;
+      animation: pulse 1.5s infinite;
+    }
+    .status-badge-done {
+      background: #D1FAE5;
+      color: #065F46;
+    }
+    .status-badge-error {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+    .batch-remove-btn {
+      border: none;
+      background: transparent;
+      color: #94A3B8;
+      cursor: pointer;
+      font-size: 1.2rem;
+      line-height: 1;
+      padding: 4px;
+      border-radius: 4px;
+      transition: color 0.15s ease;
+    }
+    .batch-remove-btn:hover {
+      color: #EF4444;
+      background: #FEE2E2;
+    }
+    .batch-output-box {
+      margin-top: 24px;
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--color-radius-lg);
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .batch-success-banner {
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      border-radius: var(--color-radius-md);
+      padding: 12px 16px;
+    }
+    .batch-results-wrapper {
+      margin-top: 16px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--color-radius-md);
+      padding: 14px;
+    }
+    .batch-results-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 340px;
+      overflow-y: auto;
+    }
+    .batch-result-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      transition: border-color 0.15s ease;
+    }
+    .batch-result-row:hover {
+      border-color: #CBD5E1;
+    }
+    .batch-result-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
+    }
+    .batch-result-thumb {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #E2E8F0;
+      flex-shrink: 0;
+    }
+    .batch-result-meta {
+      min-width: 0;
+      flex: 1;
+    }
+    .batch-result-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .batch-result-specs {
+      font-size: 0.72rem;
+      color: var(--color-text-muted);
+    }
+    .batch-result-btn {
+      padding: 6px 12px;
+      background: #EFF6FF;
+      color: #2563EB;
+      font-size: 0.76rem;
+      font-weight: 700;
+      border-radius: 6px;
+      border: 1px solid #BFDBFE;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .batch-result-btn:hover {
+      background: #2563EB;
+      color: #FFFFFF;
+      border-color: #2563EB;
+    }
+
     @media (max-width: 768px) {
       .app-container { padding: 12px 12px 32px 12px; }
       .nav-links { display: none !important; }
@@ -1308,7 +1515,7 @@
 
       <!-- Category Filter Chips -->
       <div class="category-nav-chips">
-        <a class="cat-chip active" href="#all">All Tools (13)</a>
+        <a class="cat-chip active" href="#all">All Tools (14)</a>
         <a class="cat-chip" href="#gov-tools">🏛️ Government &amp; Exam</a>
         <a class="cat-chip" href="#resize-tools">⚡ Resize &amp; Compress</a>
         <a class="cat-chip" href="#pdf-tools">📄 PDF Tools</a>
@@ -1349,6 +1556,21 @@
 
       <!-- Controls Panel Container -->
       <div class="tool-options-panel" id="toolOptionsPanel">
+
+        <!-- Batch Special: Scaling Mode Options -->
+        <div id="batchScaleRow" class="mb-4" style="display:none;">
+          <label class="control-label">Batch Image Scaling Method</label>
+          <div class="preset-chips" id="batchScaleChips">
+            <button type="button" class="chip-btn active" data-scale="100">Original Size (100%)</button>
+            <button type="button" class="chip-btn" data-scale="75">75% Proportional</button>
+            <button type="button" class="chip-btn" data-scale="50">50% Scale (High Savings)</button>
+            <button type="button" class="chip-btn" data-scale="25">25% Scale (Thumbnail)</button>
+            <button type="button" class="chip-btn" data-scale="custom">Custom Dimensions (px)</button>
+          </div>
+          <div class="text-xs text-slate-500 mt-1.5" id="batchScaleHint">
+            Uniformly resizes each image to its original pixel dimensions while compressing and optimizing file size.
+          </div>
+        </div>
 
         <!-- Tool Specific Option Rows (dynamically configured via JS) -->
         <div id="commonDimensionsRow" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -1467,6 +1689,36 @@
           <div class="pdf-preview-grid" id="pdfExtractedPagesGrid"></div>
         </div>
 
+        <!-- Batch Multi-Image Queue Manager -->
+        <div id="batchQueueRow" class="mb-4" style="display:none;">
+          <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-sm text-slate-700">Batch Queue (<span id="batchCount">0</span> images)</span>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200" id="batchTotalSizeBadge">Total: 0 B</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" class="chip-btn" id="batchAddMoreBtn">+ Add More Photos</button>
+              <button type="button" class="chip-btn text-rose-600 hover:text-rose-700" id="batchClearBtn">Clear Batch</button>
+              <input type="file" id="batchExtraInput" accept="image/*" multiple style="display:none;">
+            </div>
+          </div>
+          
+          <div class="batch-queue-container" id="batchQueueContainer">
+            <div class="batch-queue-grid" id="batchQueueGrid"></div>
+          </div>
+
+          <!-- Live Batch Processing Progress Bar -->
+          <div id="batchProgressWrapper" class="batch-progress-wrapper mt-3" style="display:none;">
+            <div class="flex justify-between items-center mb-1 text-xs font-bold text-slate-700">
+              <span id="batchProgressLabel">Processing Batch Images...</span>
+              <span id="batchProgressPercent" class="text-blue-600 font-extrabold">0%</span>
+            </div>
+            <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
+              <div id="batchProgressBar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-150" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+
         <!-- Action Process Button -->
         <button type="button" class="btn btn-primary" id="processBtn">
           Process &amp; Download File
@@ -1500,6 +1752,59 @@
             <button type="button" id="resetBtn" class="px-6 py-3 border border-slate-300 hover:bg-slate-100 rounded-xl font-bold text-slate-700 transition-colors">
               Start Over / New Image
             </button>
+          </div>
+        </div>
+
+        <!-- Batch Output Box (Bulk ZIP Download) -->
+        <div class="batch-output-box" id="batchOutputBox" style="display:none;">
+          <div class="batch-success-banner mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div>
+                <div class="font-bold text-slate-800 text-base">Batch Optimization Complete!</div>
+                <div class="text-xs text-slate-500">All photos were resized, compressed, and encoded 100% locally in your browser.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="metrics-row mb-4">
+            <div class="metric-card">
+              <div class="metric-title">Images Processed</div>
+              <div class="metric-val" id="batchMetricCount">0</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-title">Original Total</div>
+              <div class="metric-val" id="batchMetricOrigSize">0 B</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-title">Optimized Total</div>
+              <div class="metric-val" id="batchMetricNewSize">0 B</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-title">Space Saved</div>
+              <div class="metric-val saved" id="batchMetricSaved">0%</div>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3 mb-5">
+            <button type="button" id="batchDownloadZipBtn" class="btn btn-primary flex-1 py-3 text-base flex items-center justify-center gap-2">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span id="batchZipBtnText">Download All as ZIP (0 B)</span>
+            </button>
+            <button type="button" id="batchResetBtn" class="px-6 py-3 border border-slate-300 hover:bg-slate-100 rounded-xl font-bold text-slate-700 transition-colors">
+              Start New Batch
+            </button>
+          </div>
+
+          <!-- Individual Processed Files Breakdown -->
+          <div class="batch-results-wrapper">
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-bold text-sm text-slate-700">Processed Files Breakdown</span>
+              <span class="text-xs text-slate-500">Click download next to any image</span>
+            </div>
+            <div class="batch-results-list" id="batchResultsList"></div>
           </div>
         </div>
 
@@ -1611,10 +1916,31 @@
             </div>
             <h2 class="category-title">Image Optimization &amp; Upscaling Suite</h2>
           </div>
-          <span class="category-count">3 Tools</span>
+          <span class="category-count">4 Tools</span>
         </div>
 
         <div class="tools-grid">
+          <!-- Tool 7: Batch Image Resizer & Bulk Compressor -->
+          <div class="tool-card-item" data-tool="batch" onclick="openTool('batch')">
+            <div class="tool-card-top">
+              <div class="tool-card-header">
+                <div class="tool-icon-box icon-amber">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="16" height="14" rx="2"/><path d="M6 3h12a2 2 0 0 1 2 2v12"/></svg>
+                </div>
+                <div class="tool-badges">
+                  <span class="tool-badge badge-accent">Batch &amp; Bulk</span>
+                  <span class="tool-badge badge-emerald">ZIP Export</span>
+                </div>
+              </div>
+              <h3 class="tool-card-title">Batch Image Resizer</h3>
+              <p class="tool-card-desc">Resize, compress, scale, or convert dozens of photos at once with unified settings. Download all processed images in a single ZIP file.</p>
+            </div>
+            <div class="tool-card-action">
+              <span class="tool-tag">Multi-File &bull; Bulk ZIP</span>
+              <span class="tool-action-btn">Open Tool &rarr;</span>
+            </div>
+          </div>
+
           <!-- Tool 4: Image Compressor -->
           <div class="tool-card-item" data-tool="compress" onclick="openTool('compress')">
             <div class="tool-card-top">
@@ -1970,6 +2296,7 @@
         <div class="footer-col">
           <h4>Image &amp; Social</h4>
           <ul>
+            <li><a onclick="openTool('batch')">Batch Image Resizer (Bulk ZIP)</a></li>
             <li><a onclick="openSafezoneModal()">Safe-Zone &amp; Ratio Fitter</a></li>
             <li><a onclick="openTool('compress')">Image Compressor</a></li>
             <li><a onclick="openTool('upscale')">8K Image Upscaler</a></li>
@@ -2317,6 +2644,21 @@
         showDimensions: true,
         showFormat: true
       },
+      batch: {
+        title: 'Batch Image Resizer & Bulk Compressor',
+        desc: 'Resize, scale, compress, and convert multiple photos at once with unified settings and download all as a ZIP',
+        iconClass: 'icon-amber',
+        defaultW: null, defaultH: null,
+        aspectLocked: true,
+        format: 'jpg',
+        targetKb: 100,
+        showPassportBg: false,
+        showSigFilter: false,
+        showTargetKb: true,
+        showDimensions: false,
+        showFormat: true,
+        isBatch: true
+      },
       'pdf-create': {
         title: 'Images to PDF Converter',
         desc: 'Combine multiple photos, scans, and documents into an official clean PDF document',
@@ -2484,6 +2826,38 @@
     const pdfExtractedPagesGrid = document.getElementById('pdfExtractedPagesGrid');
     const downloadAllPagesBtn = document.getElementById('downloadAllPagesBtn');
 
+    // Batch Processing Elements & State
+    const batchScaleRow = document.getElementById('batchScaleRow');
+    const batchScaleChips = document.getElementById('batchScaleChips');
+    const batchScaleHint = document.getElementById('batchScaleHint');
+    const batchQueueRow = document.getElementById('batchQueueRow');
+    const batchCount = document.getElementById('batchCount');
+    const batchTotalSizeBadge = document.getElementById('batchTotalSizeBadge');
+    const batchAddMoreBtn = document.getElementById('batchAddMoreBtn');
+    const batchClearBtn = document.getElementById('batchClearBtn');
+    const batchExtraInput = document.getElementById('batchExtraInput');
+    const batchQueueGrid = document.getElementById('batchQueueGrid');
+    const batchProgressWrapper = document.getElementById('batchProgressWrapper');
+    const batchProgressLabel = document.getElementById('batchProgressLabel');
+    const batchProgressPercent = document.getElementById('batchProgressPercent');
+    const batchProgressBar = document.getElementById('batchProgressBar');
+    const batchOutputBox = document.getElementById('batchOutputBox');
+    const batchMetricCount = document.getElementById('batchMetricCount');
+    const batchMetricOrigSize = document.getElementById('batchMetricOrigSize');
+    const batchMetricNewSize = document.getElementById('batchMetricNewSize');
+    const batchMetricSaved = document.getElementById('batchMetricSaved');
+    const batchDownloadZipBtn = document.getElementById('batchDownloadZipBtn');
+    const batchZipBtnText = document.getElementById('batchZipBtnText');
+    const batchResetBtn = document.getElementById('batchResetBtn');
+    const batchResultsList = document.getElementById('batchResultsList');
+
+    let isBatchMode = false;
+    let batchItems = [];
+    let batchScaleMode = '100';
+    let activeBatchZipBlob = null;
+    let activeBatchZipUrl = null;
+    let isProcessingBatch = false;
+
     // Search and Filter Elements
     const toolSearchInput = document.getElementById('toolSearchInput');
     const clearSearchBtn = document.getElementById('clearSearchBtn');
@@ -2597,19 +2971,51 @@
         dropzoneTitle.textContent = 'Drop your PDF document here or click to browse';
         dropzoneDesc.textContent = 'Supports multi-page PDF files &bull; 100% In-Browser Rendering';
         fileInput.accept = 'application/pdf';
+        fileInput.removeAttribute('multiple');
       } else if (config.isPdfCreate) {
         dropzoneTitle.textContent = 'Drop images to assemble into PDF or click to browse';
         dropzoneDesc.textContent = 'Select single or multiple photos &bull; Reorderable pages';
         fileInput.accept = 'image/*';
+        fileInput.setAttribute('multiple', 'true');
+      } else if (config.isBatch) {
+        dropzoneTitle.textContent = 'Drop multiple photos here or click to browse';
+        dropzoneDesc.textContent = 'Batch resize, compress & convert dozens of images with unified settings';
+        fileInput.accept = 'image/*';
+        fileInput.setAttribute('multiple', 'true');
       } else {
         dropzoneTitle.textContent = `Drop your image for ${config.title} or click to browse`;
         dropzoneDesc.textContent = 'Supports JPG, PNG, WebP, SVG &bull; Instant Local Processing';
         fileInput.accept = 'image/*';
+        fileInput.setAttribute('multiple', 'true');
       }
 
-      // Configure Option Visibility
-      commonDimensionsRow.style.display = config.showDimensions ? 'grid' : 'none';
-      aspectLockWrapper.style.display = config.showDimensions ? 'flex' : 'none';
+      // Configure Batch Mode vs Single Tool Mode
+      if (config.isBatch) {
+        isBatchMode = true;
+        batchScaleRow.style.display = 'block';
+        if (batchScaleMode === 'custom') {
+          commonDimensionsRow.style.display = 'grid';
+          aspectLockWrapper.style.display = 'flex';
+        } else {
+          commonDimensionsRow.style.display = 'none';
+          aspectLockWrapper.style.display = 'none';
+        }
+        batchQueueRow.style.display = batchItems.length > 0 ? 'block' : 'none';
+        outputBox.classList.remove('active');
+        if (batchItems.length > 0) {
+          processBtn.textContent = `Process All (${batchItems.length}) Images & Prepare ZIP`;
+        } else {
+          processBtn.textContent = 'Process Batch Images & Prepare ZIP';
+        }
+      } else {
+        isBatchMode = false;
+        batchScaleRow.style.display = 'none';
+        batchQueueRow.style.display = 'none';
+        batchOutputBox.style.display = 'none';
+        commonDimensionsRow.style.display = config.showDimensions ? 'grid' : 'none';
+        aspectLockWrapper.style.display = config.showDimensions ? 'flex' : 'none';
+      }
+
       aspectLock.checked = config.aspectLocked;
 
       passportOptionsRow.style.display = config.showPassportBg ? 'block' : 'none';
@@ -2743,11 +3149,16 @@
         return;
       }
 
-      // If multiple image files dropped in PDF Creator mode
-      if (currentToolKey === 'pdf-create' || files.length > 1) {
-        currentToolKey = 'pdf-create';
+      // If dropped in PDF Creator mode
+      if (currentToolKey === 'pdf-create') {
         openTool('pdf-create');
         handleMultipleImagesForPdf(Array.from(files));
+        return;
+      }
+
+      // Batch Mode Activation: multiple files or currently inside batch tool
+      if (files.length > 1 || currentToolKey === 'batch') {
+        activateBatchMode(Array.from(files));
         return;
       }
 
@@ -2986,10 +3397,630 @@
     processBtn.addEventListener('click', () => {
       if (currentToolKey === 'pdf-create') {
         buildPdfDocument();
+      } else if (isBatchMode || currentToolKey === 'batch') {
+        executeBatchProcessing();
       } else {
         executeProcessing();
       }
     });
+
+    // -------------------------------------------------------------
+    // Batch Image Processing Engine & State Management
+    // -------------------------------------------------------------
+    function activateBatchMode(files) {
+      if (currentToolKey !== 'batch') {
+        openTool('batch');
+      }
+      isBatchMode = true;
+      batchScaleRow.style.display = 'block';
+      batchQueueRow.style.display = 'block';
+      workspaceSection.classList.add('active');
+      addFilesToBatch(files);
+      workspaceSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function updateBatchCounters() {
+      const count = batchItems.length;
+      if (batchCount) batchCount.textContent = count;
+      const totalBytes = batchItems.reduce((acc, it) => acc + (it.size || 0), 0);
+      if (batchTotalSizeBadge) batchTotalSizeBadge.textContent = 'Total: ' + formatBytes(totalBytes);
+
+      if (count > 0) {
+        if (batchQueueRow) batchQueueRow.style.display = 'block';
+        processBtn.textContent = `Process All (${count}) Images & Prepare ZIP`;
+        processBtn.disabled = false;
+      } else {
+        processBtn.textContent = 'Process Batch Images & Prepare ZIP';
+      }
+    }
+
+    function addFilesToBatch(files) {
+      const validImageFiles = files.filter(f => f.type.startsWith('image/') || /\.(png|jpe?g|webp|svg|bmp|gif)$/i.test(f.name));
+      if (!validImageFiles.length) {
+        showAlert('No valid image files found in the selection.', 'error');
+        return;
+      }
+
+      hideAlert();
+      validImageFiles.forEach(file => {
+        const item = {
+          id: 'batch_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now(),
+          file: file,
+          name: file.name,
+          size: file.size,
+          origWidth: 0,
+          origHeight: 0,
+          thumbUrl: '',
+          status: 'pending',
+          statusText: 'Ready',
+          resultBlob: null,
+          resultUrl: '',
+          resultSize: 0,
+          resultWidth: 0,
+          resultHeight: 0,
+          resultName: ''
+        };
+        batchItems.push(item);
+        loadBatchItemMetadata(item);
+      });
+
+      updateBatchCounters();
+      renderBatchQueue();
+    }
+
+    function loadBatchItemMetadata(item) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        item.thumbUrl = e.target.result;
+        const img = new Image();
+        img.onload = () => {
+          item.origWidth = img.naturalWidth || img.width;
+          item.origHeight = img.naturalHeight || img.height;
+          renderBatchQueue();
+        };
+        img.onerror = () => {
+          item.origWidth = 100;
+          item.origHeight = 100;
+          renderBatchQueue();
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(item.file);
+    }
+
+    window.removeBatchItem = function (id) {
+      const idx = batchItems.findIndex(it => it.id === id);
+      if (idx !== -1) {
+        if (batchItems[idx].resultUrl) {
+          URL.revokeObjectURL(batchItems[idx].resultUrl);
+        }
+        batchItems.splice(idx, 1);
+        updateBatchCounters();
+        renderBatchQueue();
+      }
+    };
+
+    function clearBatch() {
+      batchItems.forEach(it => {
+        if (it.resultUrl) URL.revokeObjectURL(it.resultUrl);
+      });
+      batchItems = [];
+      if (activeBatchZipUrl) {
+        URL.revokeObjectURL(activeBatchZipUrl);
+        activeBatchZipUrl = null;
+      }
+      activeBatchZipBlob = null;
+      updateBatchCounters();
+      renderBatchQueue();
+      if (batchOutputBox) batchOutputBox.style.display = 'none';
+      if (batchProgressWrapper) batchProgressWrapper.style.display = 'none';
+      fileInput.value = '';
+      if (batchExtraInput) batchExtraInput.value = '';
+    }
+
+    function renderBatchQueue() {
+      if (!batchQueueGrid) return;
+      if (!batchItems.length) {
+        batchQueueGrid.innerHTML = '<div class="text-center py-6 text-slate-400 text-sm col-span-full">No images in batch queue yet. Drop photos above or click "+ Add More Photos".</div>';
+        return;
+      }
+
+      batchQueueGrid.innerHTML = batchItems.map(item => {
+        let statusBadgeClass = 'status-badge-pending';
+        let statusIcon = '';
+        if (item.status === 'processing') {
+          statusBadgeClass = 'status-badge-processing';
+          statusIcon = '⚙ ';
+        } else if (item.status === 'done') {
+          statusBadgeClass = 'status-badge-done';
+          statusIcon = '✓ ';
+        } else if (item.status === 'error') {
+          statusBadgeClass = 'status-badge-error';
+          statusIcon = '✕ ';
+        }
+
+        const dimsText = (item.origWidth && item.origHeight) ? `${item.origWidth}×${item.origHeight} px` : 'Loading...';
+        const thumbSrc = item.thumbUrl || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="%23cbd5e1"%3E%3Crect width="48" height="48"/%3E%3C/svg%3E';
+
+        return `
+          <div class="batch-item-card is-${item.status}" id="card_${item.id}">
+            <img src="${thumbSrc}" class="batch-item-thumb" alt="${escapeHtml(item.name)}">
+            <div class="batch-item-info">
+              <div class="batch-item-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
+              <div class="batch-item-meta">
+                <span>${formatBytes(item.size)}</span>
+                <span>&bull;</span>
+                <span>${dimsText}</span>
+              </div>
+              <div>
+                <span class="batch-item-status ${statusBadgeClass}">${statusIcon}${escapeHtml(item.statusText)}</span>
+              </div>
+            </div>
+            ${!isProcessingBatch ? `
+            <button type="button" class="batch-remove-btn" onclick="removeBatchItem('${item.id}')" title="Remove image" aria-label="Remove image">&times;</button>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function processSingleBatchItem(item) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = async () => {
+          try {
+            const w = img.naturalWidth || img.width;
+            const h = img.naturalHeight || img.height;
+            const aspect = w / (h || 1);
+
+            let targetW = w;
+            let targetH = h;
+
+            if (batchScaleMode === '100') {
+              targetW = w;
+              targetH = h;
+            } else if (batchScaleMode === '75') {
+              targetW = Math.max(1, Math.round(w * 0.75));
+              targetH = Math.max(1, Math.round(h * 0.75));
+            } else if (batchScaleMode === '50') {
+              targetW = Math.max(1, Math.round(w * 0.50));
+              targetH = Math.max(1, Math.round(h * 0.50));
+            } else if (batchScaleMode === '25') {
+              targetW = Math.max(1, Math.round(w * 0.25));
+              targetH = Math.max(1, Math.round(h * 0.25));
+            } else if (batchScaleMode === 'custom') {
+              const customW = parseInt(widthInput.value, 10);
+              const customH = parseInt(heightInput.value, 10);
+              if (aspectLock.checked) {
+                if (customW > 0) {
+                  targetW = customW;
+                  targetH = Math.max(1, Math.round(customW / aspect));
+                } else if (customH > 0) {
+                  targetH = customH;
+                  targetW = Math.max(1, Math.round(customH * aspect));
+                }
+              } else {
+                if (customW > 0) targetW = customW;
+                if (customH > 0) targetH = customH;
+              }
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = targetW;
+            canvas.height = targetH;
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+
+            if (selectedFormat === 'jpg') {
+              ctx.fillStyle = '#FFFFFF';
+              ctx.fillRect(0, 0, targetW, targetH);
+            }
+
+            ctx.drawImage(img, 0, 0, targetW, targetH);
+
+            let mimeType = 'image/jpeg';
+            let ext = 'jpg';
+            if (selectedFormat === 'png') { mimeType = 'image/png'; ext = 'png'; }
+            else if (selectedFormat === 'webp') { mimeType = 'image/webp'; ext = 'webp'; }
+            else if (selectedFormat === 'svg') { mimeType = 'image/svg+xml'; ext = 'svg'; }
+
+            if (selectedFormat === 'svg') {
+              const pngData = canvas.toDataURL('image/png');
+              const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${targetW}" height="${targetH}" viewBox="0 0 ${targetW} ${targetH}"><image href="${pngData}" width="${targetW}" height="${targetH}"/></svg>`;
+              const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+              const baseName = item.name.replace(/\.[^/.]+$/, '');
+              resolve({ blob, width: targetW, height: targetH, filename: `${baseName}-resized.svg` });
+              return;
+            }
+
+            if (selectedTargetKb && (selectedFormat === 'jpg' || selectedFormat === 'webp')) {
+              const targetBytes = selectedTargetKb * 1024;
+              let minQ = 0.05, maxQ = 0.98, bestBlob = null;
+
+              for (let iter = 0; iter < 7; iter++) {
+                const midQ = (minQ + maxQ) / 2;
+                const b = await new Promise(res => canvas.toBlob(res, mimeType, midQ));
+                if (!b) break;
+                if (b.size <= targetBytes) {
+                  bestBlob = b;
+                  minQ = midQ;
+                } else {
+                  maxQ = midQ;
+                }
+              }
+
+              if (!bestBlob) {
+                bestBlob = await new Promise(res => canvas.toBlob(res, mimeType, 0.05));
+              }
+
+              const baseName = item.name.replace(/\.[^/.]+$/, '');
+              resolve({ blob: bestBlob, width: targetW, height: targetH, filename: `${baseName}-resized.${ext}` });
+            } else {
+              const quality = selectedFormat === 'png' ? undefined : 0.92;
+              canvas.toBlob((blob) => {
+                if (!blob) return reject(new Error('Canvas toBlob failed'));
+                const baseName = item.name.replace(/\.[^/.]+$/, '');
+                resolve({ blob, width: targetW, height: targetH, filename: `${baseName}-resized.${ext}` });
+              }, mimeType, quality);
+            }
+          } catch (err) {
+            reject(err);
+          }
+        };
+        img.onerror = () => reject(new Error('Failed to load image for processing'));
+        img.src = item.thumbUrl || URL.createObjectURL(item.file);
+      });
+    }
+
+    async function executeBatchProcessing() {
+      if (!batchItems.length) {
+        showAlert('Please add at least one image to process in batch.', 'error');
+        return;
+      }
+
+      isProcessingBatch = true;
+      processBtn.disabled = true;
+      processBtn.textContent = 'Processing Batch Images...';
+      hideAlert();
+
+      batchProgressWrapper.style.display = 'block';
+      batchOutputBox.style.display = 'none';
+
+      const total = batchItems.length;
+      let successCount = 0;
+      let totalInputBytes = 0;
+      let totalOutputBytes = 0;
+
+      for (let i = 0; i < total; i++) {
+        const item = batchItems[i];
+        totalInputBytes += item.size;
+
+        const pct = Math.round((i / total) * 100);
+        batchProgressBar.style.width = `${pct}%`;
+        batchProgressPercent.textContent = `${pct}%`;
+        batchProgressLabel.textContent = `Optimizing (${i + 1} of ${total}): ${item.name}...`;
+
+        item.status = 'processing';
+        item.statusText = 'Optimizing...';
+        renderBatchQueue();
+
+        try {
+          const result = await processSingleBatchItem(item);
+          item.status = 'done';
+          item.resultBlob = result.blob;
+          item.resultSize = result.blob.size;
+          item.resultWidth = result.width;
+          item.resultHeight = result.height;
+          item.resultName = result.filename;
+          if (item.resultUrl) URL.revokeObjectURL(item.resultUrl);
+          item.resultUrl = URL.createObjectURL(result.blob);
+
+          const savedPct = Math.round((1 - (item.resultSize / item.size)) * 100);
+          item.statusText = `${formatBytes(item.resultSize)} (${savedPct >= 0 ? '-' + savedPct + '%' : '+' + Math.abs(savedPct) + '%'})`;
+          totalOutputBytes += item.resultSize;
+          successCount++;
+        } catch (err) {
+          console.error(err);
+          item.status = 'error';
+          item.statusText = 'Failed';
+        }
+
+        renderBatchQueue();
+        await new Promise(r => setTimeout(r, 15));
+      }
+
+      batchProgressBar.style.width = '100%';
+      batchProgressPercent.textContent = '100%';
+      batchProgressLabel.textContent = 'Bundling ZIP archive...';
+
+      const successfulItems = batchItems.filter(it => it.resultBlob);
+      if (!successfulItems.length) {
+        showAlert('None of the images could be processed. Please check file formats.', 'error');
+        processBtn.disabled = false;
+        processBtn.textContent = `Retry Batch (${total})`;
+        isProcessingBatch = false;
+        batchProgressWrapper.style.display = 'none';
+        return;
+      }
+
+      const zipBlob = await generateBatchZip(successfulItems);
+      activeBatchZipBlob = zipBlob;
+      if (activeBatchZipUrl) URL.revokeObjectURL(activeBatchZipUrl);
+      activeBatchZipUrl = URL.createObjectURL(zipBlob);
+
+      batchMetricCount.textContent = `${successCount} of ${total}`;
+      batchMetricOrigSize.textContent = formatBytes(totalInputBytes);
+      batchMetricNewSize.textContent = formatBytes(totalOutputBytes);
+      const overallSaved = totalInputBytes > 0 ? Math.round((1 - (totalOutputBytes / totalInputBytes)) * 100) : 0;
+      batchMetricSaved.textContent = overallSaved >= 0 ? `-${overallSaved}% Saved` : `+${Math.abs(overallSaved)}%`;
+
+      batchZipBtnText.textContent = `Download All as ZIP (${formatBytes(zipBlob.size)})`;
+      renderBatchResultsList();
+
+      batchProgressWrapper.style.display = 'none';
+      batchOutputBox.style.display = 'block';
+      batchOutputBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      processBtn.disabled = false;
+      processBtn.textContent = `Re-process All (${total}) Images`;
+      isProcessingBatch = false;
+      showAlert(`Batch processing complete! ${successCount} images optimized and packaged into a ZIP archive.`, 'success');
+    }
+
+    async function generateBatchZip(items) {
+      if (window.JSZip) {
+        try {
+          const zip = new JSZip();
+          const usedNames = new Set();
+
+          for (const it of items) {
+            let fname = it.resultName || `image-${Date.now()}.${selectedFormat}`;
+            if (usedNames.has(fname)) {
+              const dotIdx = fname.lastIndexOf('.');
+              const base = dotIdx !== -1 ? fname.substring(0, dotIdx) : fname;
+              const ext = dotIdx !== -1 ? fname.substring(dotIdx) : '';
+              let c = 1;
+              while (usedNames.has(`${base}_${c}${ext}`)) {
+                c++;
+              }
+              fname = `${base}_${c}${ext}`;
+            }
+            usedNames.add(fname);
+            zip.file(fname, it.resultBlob);
+          }
+
+          return await zip.generateAsync({
+            type: 'blob',
+            compression: 'DEFLATE',
+            compressionOptions: { level: 6 }
+          });
+        } catch (e) {
+          console.warn('JSZip failed, using fallback uncompressed ZIP engine', e);
+        }
+      }
+
+      return await createSimpleUncompressedZip(items);
+    }
+
+    const crcTable = (() => {
+      let c;
+      const table = new Uint32Array(256);
+      for (let n = 0; n < 256; n++) {
+        c = n;
+        for (let k = 0; k < 8; k++) {
+          c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+        }
+        table[n] = c >>> 0;
+      }
+      return table;
+    })();
+
+    function computeCrc32(uint8Array) {
+      let crc = 0 ^ (-1);
+      for (let i = 0; i < uint8Array.length; i++) {
+        crc = (crc >>> 8) ^ crcTable[(crc ^ uint8Array[i]) & 0xFF];
+      }
+      return (crc ^ (-1)) >>> 0;
+    }
+
+    async function createSimpleUncompressedZip(items) {
+      const parts = [];
+      const centralDirHeaders = [];
+      let offset = 0;
+      const encoder = new TextEncoder();
+      const usedNames = new Set();
+
+      for (const it of items) {
+        let fname = it.resultName || `image-${Date.now()}.${selectedFormat}`;
+        if (usedNames.has(fname)) {
+          const dotIdx = fname.lastIndexOf('.');
+          const base = dotIdx !== -1 ? fname.substring(0, dotIdx) : fname;
+          const ext = dotIdx !== -1 ? fname.substring(dotIdx) : '';
+          let c = 1;
+          while (usedNames.has(`${base}_${c}${ext}`)) {
+            c++;
+          }
+          fname = `${base}_${c}${ext}`;
+        }
+        usedNames.add(fname);
+
+        const nameBytes = encoder.encode(fname);
+        const dataBuffer = await it.resultBlob.arrayBuffer();
+        const dataBytes = new Uint8Array(dataBuffer);
+        const crc = computeCrc32(dataBytes);
+        const size = dataBytes.length;
+
+        const localHeader = new Uint8Array(30 + nameBytes.length);
+        const lView = new DataView(localHeader.buffer);
+        lView.setUint32(0, 0x04034b50, true);
+        lView.setUint16(4, 20, true);
+        lView.setUint16(6, 0, true);
+        lView.setUint16(8, 0, true);
+        lView.setUint16(10, 0, true);
+        lView.setUint16(12, 0, true);
+        lView.setUint32(14, crc, true);
+        lView.setUint32(18, size, true);
+        lView.setUint32(22, size, true);
+        lView.setUint16(26, nameBytes.length, true);
+        lView.setUint16(28, 0, true);
+        localHeader.set(nameBytes, 30);
+
+        parts.push(localHeader);
+        parts.push(dataBytes);
+
+        const cdHeader = new Uint8Array(46 + nameBytes.length);
+        const cdView = new DataView(cdHeader.buffer);
+        cdView.setUint32(0, 0x02014b50, true);
+        cdView.setUint16(4, 20, true);
+        cdView.setUint16(6, 20, true);
+        cdView.setUint16(8, 0, true);
+        cdView.setUint16(10, 0, true);
+        cdView.setUint16(12, 0, true);
+        cdView.setUint16(14, 0, true);
+        cdView.setUint32(16, crc, true);
+        cdView.setUint32(20, size, true);
+        cdView.setUint32(24, size, true);
+        cdView.setUint16(28, nameBytes.length, true);
+        cdView.setUint16(30, 0, true);
+        cdView.setUint16(32, 0, true);
+        cdView.setUint16(34, 0, true);
+        cdView.setUint16(36, 0, true);
+        cdView.setUint32(38, 0, true);
+        cdView.setUint32(42, offset, true);
+        cdHeader.set(nameBytes, 46);
+
+        centralDirHeaders.push(cdHeader);
+        offset += localHeader.length + dataBytes.length;
+      }
+
+      const cdOffset = offset;
+      let cdSize = 0;
+      for (const cd of centralDirHeaders) {
+        parts.push(cd);
+        cdSize += cd.length;
+      }
+
+      const eocd = new Uint8Array(22);
+      const eView = new DataView(eocd.buffer);
+      eView.setUint32(0, 0x06054b50, true);
+      eView.setUint16(4, 0, true);
+      eView.setUint16(6, 0, true);
+      eView.setUint16(8, items.length, true);
+      eView.setUint16(10, items.length, true);
+      eView.setUint32(12, cdSize, true);
+      eView.setUint32(16, cdOffset, true);
+      eView.setUint16(20, 0, true);
+      parts.push(eocd);
+
+      return new Blob(parts, { type: 'application/zip' });
+    }
+
+    function renderBatchResultsList() {
+      if (!batchResultsList) return;
+      const completed = batchItems.filter(it => it.resultBlob);
+      if (!completed.length) {
+        batchResultsList.innerHTML = '<div class="text-sm text-slate-400 py-2">No successfully processed items.</div>';
+        return;
+      }
+
+      batchResultsList.innerHTML = completed.map(it => {
+        const saved = it.size > 0 ? Math.round((1 - (it.resultSize / it.size)) * 100) : 0;
+        const savedText = saved >= 0 ? `-${saved}%` : `+${Math.abs(saved)}%`;
+        const dims = `${it.resultWidth}×${it.resultHeight} px`;
+
+        return `
+          <div class="batch-result-row">
+            <div class="batch-result-left">
+              <img src="${it.resultUrl || it.thumbUrl}" class="batch-result-thumb" alt="${escapeHtml(it.resultName)}">
+              <div class="batch-result-meta">
+                <div class="batch-result-title" title="${escapeHtml(it.resultName)}">${escapeHtml(it.resultName)}</div>
+                <div class="batch-result-specs">${dims} &bull; ${formatBytes(it.resultSize)} <span class="text-emerald-600 font-bold font-mono">(${savedText})</span></div>
+              </div>
+            </div>
+            <a href="${it.resultUrl}" download="${escapeHtml(it.resultName)}" class="batch-result-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </a>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Batch UI Event Listeners
+    if (batchScaleChips) {
+      batchScaleChips.querySelectorAll('.chip-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          batchScaleChips.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          batchScaleMode = btn.getAttribute('data-scale');
+
+          if (batchScaleMode === 'custom') {
+            commonDimensionsRow.style.display = 'grid';
+            aspectLockWrapper.style.display = 'flex';
+            batchScaleHint.textContent = 'Enter custom pixel dimensions below. Each photo in the batch will be scaled accordingly.';
+          } else {
+            commonDimensionsRow.style.display = 'none';
+            aspectLockWrapper.style.display = 'none';
+            if (batchScaleMode === '100') {
+              batchScaleHint.textContent = 'Uniformly resizes each image to its original pixel dimensions while compressing and optimizing file size.';
+            } else {
+              batchScaleHint.textContent = `Uniformly scales every image proportionally to ${batchScaleMode}% while preserving original aspect ratios.`;
+            }
+          }
+        });
+      });
+    }
+
+    if (batchAddMoreBtn && batchExtraInput) {
+      batchAddMoreBtn.addEventListener('click', () => batchExtraInput.click());
+      batchExtraInput.addEventListener('change', () => {
+        if (batchExtraInput.files && batchExtraInput.files.length) {
+          addFilesToBatch(Array.from(batchExtraInput.files));
+          batchExtraInput.value = '';
+        }
+      });
+    }
+
+    if (batchClearBtn) {
+      batchClearBtn.addEventListener('click', () => {
+        clearBatch();
+        showAlert('Batch queue cleared.', 'info');
+      });
+    }
+
+    if (batchDownloadZipBtn) {
+      batchDownloadZipBtn.addEventListener('click', () => {
+        if (!activeBatchZipBlob) {
+          showAlert('No ZIP archive available yet. Please run processing first.', 'error');
+          return;
+        }
+        const a = document.createElement('a');
+        a.href = activeBatchZipUrl;
+        a.download = `resizehub-batch-${Date.now()}.zip`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showAlert('Batch ZIP download started!', 'success');
+      });
+    }
+
+    if (batchResetBtn) {
+      batchResetBtn.addEventListener('click', () => {
+        clearBatch();
+        dropzone.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
 
     // Images to PDF Builder
     function handleMultipleImagesForPdf(files) {

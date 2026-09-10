@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ResizeHub - Free Passport Photo Maker, Signature Resizer &amp; Image Compressor</title>
-  <meta name="description" content="Free online image utility suite. Create 2x2 inch passport photos, resize signatures under 20KB for exams and job applications, compress images, upscale to 8K, and convert to PDF instantly. 100% private, client-side processing.">
-  <meta name="keywords" content="resizehub, passport photo maker, signature resizer under 20kb, exam photo resizer 50kb, image compressor, upscale image 8k, image to pdf, pdf to image extractor, instagram post resizer, youtube thumbnail resizer, free image tools, client-side image editor">
+  <title>ResizeHub - Free Online Photo Resizer, Image Compressor &amp; Passport Photo Maker</title>
+  <meta name="description" content="Fast, free online image resizer and compressor. Create 2x2 passport photos, resize signature under 20KB, compress image size in KB, crop photos, convert to PDF, and upscale to 4K/8K. 100% private in-browser tool.">
+  <meta name="keywords" content="photo resizer, image resizer, image compressor, resize image in kb, passport size photo maker, 2x2 photo maker, signature resizer under 20kb, resize image to 50kb, compress jpeg to 100kb, photo to pdf converter, crop image online, image upscaler 4k, webp to jpg, png to jpg, change image dimensions, reduce photo size in mb, free online photo editor without watermark">
   <meta name="author" content="ResizeHub">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://resizehub.vercel.app/">
@@ -15,8 +15,8 @@
   <link rel="apple-touch-icon" href="/icon-300.svg">
 
   <!-- Open Graph / Social Sharing -->
-  <meta property="og:title" content="ResizeHub - Free Passport Photo Maker &amp; Image Tools">
-  <meta property="og:description" content="Crop, compress, upscale, and convert photos online. Dedicated 20KB signature and 2x2 passport presets.">
+  <meta property="og:title" content="ResizeHub - Free Online Photo Resizer, Image Compressor &amp; Passport Photo Maker">
+  <meta property="og:description" content="Fast, free online image resizer and compressor. Create 2x2 passport photos, resize signature under 20KB, compress image size in KB, crop photos, convert to PDF, and upscale to 4K/8K. 100% private in-browser tool.">
   <meta property="og:url" content="https://resizehub.vercel.app/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ResizeHub">
@@ -26,8 +26,8 @@
 
   <!-- Twitter Card Metadata -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ResizeHub - Free Passport Photo Maker &amp; Image Tools">
-  <meta name="twitter:description" content="Crop, compress, upscale, and convert photos online. Dedicated 20KB signature and 2x2 passport presets.">
+  <meta name="twitter:title" content="ResizeHub - Free Online Photo Resizer, Image Compressor &amp; Passport Photo Maker">
+  <meta name="twitter:description" content="Fast, free online image resizer and compressor. Create 2x2 passport photos, resize signature under 20KB, compress image size in KB, crop photos, convert to PDF, and upscale to 4K/8K. 100% private in-browser tool.">
   <meta name="twitter:image" content="https://resizehub.vercel.app/og-banner.svg">
 
   <!-- Google Search Console Verification Meta Tag -->
@@ -54,7 +54,16 @@
         "url": "https://resizehub.vercel.app/",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "All",
-        "description": "High-performance client-side image editing tool for passport photos, exam signatures, compression, and PDF conversion.",
+        "description": "Fast, free online image resizer and compressor. Create 2x2 passport photos, resize signature under 20KB, compress image size in KB, crop photos, convert to PDF, and upscale to 4K/8K. 100% private in-browser tool.",
+        "keywords": "photo resizer, image compressor, passport photo maker, signature resize 20kb, photo to pdf, crop photo, upscale image",
+        "featureList": [
+          "Online Image Resizer by Pixel, CM, MM, Inch",
+          "Target KB Compressor (20KB, 50KB, 100KB, 200KB)",
+          "2x2 Inch & 35x45mm Official Passport Photo Generator",
+          "Online Signature Resizer under 20KB for Exam and Job Forms",
+          "Multi-Image to PDF Converter",
+          "Social Media Post, Thumbnail and Story Resizer"
+        ],
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -1359,8 +1368,65 @@
       border-color: #2563EB;
     }
 
+    /* Popular Searches SEO & Quick Nav Strip */
+    .popular-searches-section {
+      margin: 28px 0 20px 0;
+      padding: 16px 20px;
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--color-radius-lg);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    .popular-searches-container {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .popular-searches-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .popular-search-pills {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    .popular-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: #F8FAFC;
+      color: #334155;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid #E2E8F0;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .popular-pill:hover {
+      background: #EFF6FF;
+      color: #2563EB;
+      border-color: #BFDBFE;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+    }
+
     @media (max-width: 768px) {
       .app-container { padding: 12px 12px 32px 12px; }
+      .popular-searches-section { padding: 12px 14px; margin: 20px 0 16px 0; }
+      .popular-searches-container { gap: 8px; }
+      .popular-pill { font-size: 0.78rem; padding: 5px 11px; }
       .nav-links { display: none !important; }
       .mobile-menu-btn { display: flex; }
       .brand-logo { font-size: 1.2rem; }
@@ -1501,7 +1567,7 @@
     <!-- Modern Hero Section -->
     <section class="hero-section">
       <h1 class="hero-title text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Free Online Image Resizer, Passport Photo &amp; PDF Utility Suite</h1>
-      <p class="hero-subtitle">Fast, lightweight browser-based tools for everyday image tasks. 100% private with zero server uploads.</p>
+      <p class="hero-subtitle">Free all-in-one photo resizer, image compressor in KB, passport photo maker, and image-to-PDF converter. Process your images locally in seconds.</p>
       
       <!-- Live Search Bar -->
       <div class="search-bar-wrapper">
@@ -2264,6 +2330,27 @@
       <div id="container-2e6227c60f416be2673759d9e95ce97f"></div>
     </div>
 
+    <!-- Popular Searches Quick Navigation / Semantic SEO Tag Pills -->
+    <section class="popular-searches-section" aria-label="Popular Searches">
+      <div class="popular-searches-container">
+        <span class="popular-searches-label">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          Popular Searches:
+        </span>
+        <div class="popular-search-pills">
+          <a href="#workspaceSection" class="popular-pill" onclick="openTool('passport'); return false;">Passport Photo 2x2</a>
+          <a href="#workspaceSection" class="popular-pill" onclick="openTool('signature'); return false;">Signature Resizer &lt;20KB</a>
+          <a href="#workspaceSection" class="popular-pill" onclick="openTool('compress', 50); return false;">Compress Image to 50KB</a>
+          <a href="#workspaceSection" class="popular-pill" onclick="openTool('pdf-create'); return false;">JPG to PDF</a>
+          <a href="#workspaceSection" class="popular-pill" onclick="openTool('resize'); return false;">Photo Resizer Online</a>
+          <a href="#workspaceSection" class="popular-pill" onclick="openTool('upscale'); return false;">4K Image Upscaler</a>
+        </div>
+      </div>
+    </section>
+
     <!-- Multi-Column Dark Footer -->
     <footer class="site-footer">
       <div class="footer-grid">
@@ -2953,7 +3040,10 @@
     });
 
     // Open Tool in Workspace
-    window.openTool = function (toolKey) {
+    window.openTool = function (toolKey, overrideTargetKb) {
+      if (toolKey === 'resize') {
+        toolKey = 'upscale';
+      }
       if (toolKey === 'safezone') {
         openSafezoneModal();
         return;
@@ -3038,8 +3128,9 @@
       }
 
       // Set target KB
-      if (config.targetKb) {
-        selectedTargetKb = config.targetKb;
+      const targetKbVal = overrideTargetKb || config.targetKb;
+      if (targetKbVal) {
+        selectedTargetKb = targetKbVal;
         document.querySelectorAll('#targetKbChips .chip-btn').forEach(btn => {
           btn.classList.toggle('active', btn.getAttribute('data-targetkb') === String(selectedTargetKb));
         });

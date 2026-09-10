@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
 Sitemap: https://resizehub.vercel.app/sitemap.xml

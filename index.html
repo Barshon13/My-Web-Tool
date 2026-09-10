@@ -3,31 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ResizeHub - Free Online Image Resizer, Compressor, Crop, Convert &amp; PDF Tools</title>
-  <meta name="description" content="Fast, lightweight browser-based tools for everyday image tasks. Passport photos, signature resizing under 20KB, 8K upscaling, target KB compression, and PDF tools with 100% client-side privacy.">
+  <title>ResizeHub - Free Passport Photo Maker, Signature Resizer &amp; Image Compressor</title>
+  <meta name="description" content="Free online image utility suite. Create 2x2 inch passport photos, resize signatures under 20KB for exams and job applications, compress images, upscale to 8K, and convert to PDF instantly. 100% private, client-side processing.">
   <meta name="keywords" content="resizehub, passport photo maker, signature resizer under 20kb, exam photo resizer 50kb, image compressor, upscale image 8k, image to pdf, pdf to image extractor, instagram post resizer, youtube thumbnail resizer, free image tools, client-side image editor">
   <meta name="author" content="ResizeHub">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://resizehub.vercel.app/" />
+  <link rel="canonical" href="https://resizehub.vercel.app/">
 
   <!-- Favicons and Touch Icons -->
   <link rel="icon" type="image/svg+xml" href="/icon-300.svg">
   <link rel="apple-touch-icon" href="/icon-300.svg">
 
   <!-- Open Graph / Social Sharing -->
+  <meta property="og:title" content="ResizeHub - Free Passport Photo Maker &amp; Image Tools">
+  <meta property="og:description" content="Crop, compress, upscale, and convert photos online. Dedicated 20KB signature and 2x2 passport presets.">
+  <meta property="og:url" content="https://resizehub.vercel.app/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ResizeHub">
-  <meta property="og:title" content="ResizeHub - Free Online Image Resizer, Compressor, Crop, Convert &amp; PDF Tools">
-  <meta property="og:description" content="Fast, lightweight browser-based tools for everyday image tasks. 100% private with zero server uploads.">
   <meta property="og:image" content="https://resizehub.vercel.app/og-banner.svg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:url" content="https://resizehub.vercel.app/">
 
   <!-- Twitter Card Metadata -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ResizeHub - Free Online Image Resizer, Compressor, Crop, Convert &amp; PDF Tools">
-  <meta name="twitter:description" content="Fast, lightweight browser-based tools for everyday image tasks. 100% private with zero server uploads.">
+  <meta name="twitter:title" content="ResizeHub - Free Passport Photo Maker &amp; Image Tools">
+  <meta name="twitter:description" content="Crop, compress, upscale, and convert photos online. Dedicated 20KB signature and 2x2 passport presets.">
   <meta name="twitter:image" content="https://resizehub.vercel.app/og-banner.svg">
 
   <!-- Google Search Console Verification Meta Tag -->
@@ -41,72 +41,49 @@
   <!-- PDF.js for Client-Side PDF to Image Extraction -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
-  <!-- Schema.org JSON-LD Structured Data: WebApplication & FAQPage -->
+  <!-- Schema.org Structured Data: WebApplication & FAQPage -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "WebApplication",
-        "@id": "https://resizehub.vercel.app/#app",
-        "name": "ResizeHub - Free Online Image Resizer, Compressor, Crop, Convert & PDF Tools",
+        "name": "ResizeHub",
         "url": "https://resizehub.vercel.app/",
-        "description": "Fast, lightweight browser-based tools for everyday image tasks. 100% private with zero server uploads.",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "All",
-        "browserRequirements": "Requires modern browser with JavaScript and HTML5 Canvas API support",
+        "description": "High-performance client-side image editing tool for passport photos, exam signatures, compression, and PDF conversion.",
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "USD"
-        },
-        "featureList": [
-          "Passport Photo Maker (2x2 in / 35x45mm with White or Blue background)",
-          "Signature Resizer & Optimizer (Under 20KB limit, crisp B&W ink)",
-          "Exam Photo Resizer (Target 20KB, 50KB, 100KB limits)",
-          "Image Compressor with Target KB reduction",
-          "Image Resizer & 8K Ultra HD Upscaler",
-          "Format Converter (PNG, WebP, JPG, SVG Vector)",
-          "Images to PDF Converter with multi-image reordering",
-          "PDF to Image Extractor",
-          "Social Media Image Resizers (Instagram, YouTube, Facebook, LinkedIn)",
-          "100% private client-side processing with zero server uploads"
-        ]
+        }
       },
       {
         "@type": "FAQPage",
-        "@id": "https://resizehub.vercel.app/#faq",
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Are my images or documents uploaded to any remote server?",
+            "name": "How do I resize a signature under 20KB for online forms?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. ResizeHub runs 100% inside your local web browser using HTML5 Canvas buffers, Web Workers, and local JavaScript memory. Your files never touch external servers or cloud storage."
+              "text": "Select the Signature Resizer tool on ResizeHub, upload your scanned signature, and our automatic compression algorithm will optimize the canvas dimensions (300x80 px) and output file size strictly below 20KB while maintaining clarity."
             }
           },
           {
             "@type": "Question",
-            "name": "How does the Passport Photo Maker work?",
+            "name": "What are the standard dimensions for a 2x2 passport photo?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "It formats your portrait photo to official standard dimensions (such as US 2x2 inch at 600x600 px or Schengen 35x45 mm at 300 DPI) and enables clean white or blue background compositing."
+              "text": "A standard 2x2 inch passport photo corresponds to 600x600 pixels at 300 DPI. ResizeHub automatically creates this ratio with optional white or solid background presets."
             }
           },
           {
             "@type": "Question",
-            "name": "How do I resize my signature under 20KB?",
+            "name": "Are my uploaded photos safe and private?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Select the Signature Resizer tool. It automatically scales to standard 300x80 px dimensions, enhances ink contrast to remove shadow gradients, and compresses strictly under 20KB."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How does 8K image upscaling work in the browser?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "ResizeHub uses multi-step progressive bicubic interpolation with Canvas smoothing enabled, allowing images to scale up to 7680x4320 without pixelation or cloud rendering wait times."
+              "text": "Yes. ResizeHub processes 100% of images locally in your browser using client-side HTML5 Canvas. Your photos never leave your device or upload to any server."
             }
           }
         ]
@@ -879,12 +856,28 @@
       font-weight: 700;
       font-size: 1.05rem;
       cursor: pointer;
+      user-select: none;
+      transition: color 0.2s ease;
+    }
+    .faq-question:hover {
+      color: var(--color-primary);
+    }
+    .faq-toggle-icon {
+      font-size: 1.25rem;
+      font-weight: 400;
+      transition: transform 0.25s ease;
+      color: #94A3B8;
+      display: inline-block;
+    }
+    .faq-item.active .faq-toggle-icon {
+      transform: rotate(45deg);
+      color: var(--color-primary);
     }
     .faq-answer {
-      font-size: 0.92rem;
+      font-size: 0.95rem;
       color: var(--color-text-muted);
       margin-top: 10px;
-      line-height: 1.6;
+      line-height: 1.65;
       display: none;
     }
     .faq-item.active .faq-answer {
@@ -1300,7 +1293,7 @@
 
     <!-- Modern Hero Section -->
     <section class="hero-section">
-      <h1 class="hero-title">Free Online Image <span>Resizer, Compressor, Crop, Convert &amp; PDF</span> Tools</h1>
+      <h1 class="hero-title text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Free Online Image Resizer, Passport Photo &amp; PDF Utility Suite</h1>
       <p class="hero-subtitle">Fast, lightweight browser-based tools for everyday image tasks. 100% private with zero server uploads.</p>
       
       <!-- Live Search Bar -->
@@ -1523,7 +1516,7 @@
             <div class="category-title-icon icon-blue">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 21h18M3 7v1a3 3 0 0 0 6 0V7m0 1a3 3 0 0 0 6 0V7m0 1a3 3 0 0 0 6 0V7M4 4h16l-2-2H6L4 4z"/></svg>
             </div>
-            <h2 class="category-title">Government &amp; Official Photo Tools</h2>
+            <h2 class="category-title">Government &amp; Exam Application Photo Tools</h2>
           </div>
           <span class="category-count">3 Tools</span>
         </div>
@@ -1616,7 +1609,7 @@
             <div class="category-title-icon icon-amber">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="10" y1="14" x2="3" y2="21"/></svg>
             </div>
-            <h2 class="category-title">Image Resize &amp; Compression Tools</h2>
+            <h2 class="category-title">Image Optimization &amp; Upscaling Suite</h2>
           </div>
           <span class="category-count">3 Tools</span>
         </div>
@@ -1694,7 +1687,7 @@
             <div class="category-title-icon icon-rose">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
             </div>
-            <h2 class="category-title">PDF &amp; Document Tools</h2>
+            <h2 class="category-title">Document &amp; PDF Utilities</h2>
           </div>
           <span class="category-count">2 Tools</span>
         </div>
@@ -1910,41 +1903,31 @@
 
       <div class="faq-item">
         <div class="faq-question">
-          <span>Are my photos or documents uploaded to any server?</span>
-          <span>+</span>
+          <span>How do I resize a signature under 20KB for online forms?</span>
+          <span class="faq-toggle-icon">+</span>
         </div>
         <div class="faq-answer">
-          No. All processing, compression, resizing, and PDF conversions happen 100% locally in your web browser. Your sensitive files never leave your computer or phone.
+          Select the Signature Resizer tool on ResizeHub, upload your scanned signature, and our automatic compression algorithm will optimize the canvas dimensions (300x80 px) and output file size strictly below 20KB while maintaining clarity.
         </div>
       </div>
 
       <div class="faq-item">
         <div class="faq-question">
-          <span>How do I format a passport photo with white background?</span>
-          <span>+</span>
+          <span>What are the standard dimensions for a 2x2 passport photo?</span>
+          <span class="faq-toggle-icon">+</span>
         </div>
         <div class="faq-answer">
-          Click the "Passport Photo Maker" card. Upload your portrait photo, choose "Pure White" background color, and our canvas compositing engine will format it to standard 2x2 inch (600x600 px) or 35x45 mm specs.
+          A standard 2x2 inch passport photo corresponds to 600x600 pixels at 300 DPI. ResizeHub automatically creates this ratio with optional white or solid background presets.
         </div>
       </div>
 
       <div class="faq-item">
         <div class="faq-question">
-          <span>Can I compress my signature strictly under 20KB?</span>
-          <span>+</span>
+          <span>Are my uploaded photos safe and private?</span>
+          <span class="faq-toggle-icon">+</span>
         </div>
         <div class="faq-answer">
-          Yes. Open the "Signature Resizer &amp; Optimizer". It applies clean ink thresholding to remove paper shadows and guarantees the output file size stays strictly under the 20KB portal limit.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question">
-          <span>Is there any limit on how many images I can process?</span>
-          <span>+</span>
-        </div>
-        <div class="faq-answer">
-          There are zero limits, watermarks, or fees. You can process as many images and PDFs as you need, completely free.
+          Yes. ResizeHub processes 100% of images locally in your browser using client-side HTML5 Canvas. Your photos never leave your device or upload to any server.
         </div>
       </div>
     </section>

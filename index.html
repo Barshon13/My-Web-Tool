@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ResizeHub - Free Online Photo Resizer, Passport Photo & Image Compressor</title>
+  <title>ResizeHub - Free Passport Photo Maker, Signature Resizer & Image Compressor</title>
   <meta name="application-name" content="ResizeHub">
   <meta name="apple-mobile-web-app-title" content="ResizeHub">
-  <meta name="description" content="Fast, free online image resizer and compressor. Create 2x2 passport photos, resize signature under 20KB, compress image size in KB, crop photos, convert to PDF, and upscale to 4K/8K. 100% private in-browser tool.">
-  <meta name="keywords" content="photo resizer, image resizer, image compressor, resize image in kb, passport size photo maker, 2x2 photo maker, signature resizer under 20kb, resize image to 50kb, compress jpeg to 100kb, photo to pdf converter, crop image online, image upscaler 4k, webp to jpg, png to jpg, change image dimensions, reduce photo size in mb, free online photo editor without watermark">
+  <meta name="description" content="Resize and compress photos online for free with ResizeHub. Create 2x2 passport photos, resize signatures under 20KB for exams/jobs, upscale to 4K/8K, and convert images to PDF. 100% private, client-side.">
+  <meta name="keywords" content="photo resizer, image resizer, image compressor, passport photo maker, 2x2 photo maker, signature resizer 20kb, signature resize under 20kb, exam photo 50kb, convert jpg to pdf, free image compressor, upscale image online, resizehub">
   <meta name="author" content="ResizeHub">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://resizehub.vercel.app/">
@@ -18,8 +18,8 @@
 
   <!-- Open Graph / Social Sharing -->
   <meta property="og:site_name" content="ResizeHub">
-  <meta property="og:title" content="ResizeHub - Free Online Photo Resizer & Compressor">
-  <meta property="og:description" content="Create 2x2 passport photos, resize signature under 20KB, compress images, and convert photos to PDF online for free with ResizeHub.">
+  <meta property="og:title" content="ResizeHub - Free Passport Photo Maker & Image Tools">
+  <meta property="og:description" content="Instant client-side image compression, passport photo generator, and 20KB signature resizing without server uploads.">
   <meta property="og:url" content="https://resizehub.vercel.app/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://resizehub.vercel.app/og-banner.svg">
@@ -28,65 +28,51 @@
 
   <!-- Twitter Card Metadata -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ResizeHub - Free Online Photo Resizer & Compressor">
-  <meta name="twitter:description" content="Create 2x2 passport photos, resize signature under 20KB, compress images, and convert photos to PDF online for free with ResizeHub.">
+  <meta name="twitter:title" content="ResizeHub - Free Passport Photo Maker & Image Tools">
+  <meta name="twitter:description" content="Instant client-side image compression, passport photo generator, and 20KB signature resizing without server uploads.">
   <meta name="twitter:image" content="https://resizehub.vercel.app/og-banner.svg">
 
   <!-- Google Search Console Verification Meta Tag -->
   <meta name="google-site-verification" content="googlea71e5613a66966fe" />
 
-  <!-- Google WebSite Schema for Brand Name Recognition -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "ResizeHub",
-    "alternateName": ["Resize Hub", "ResizeHub Official"],
-    "url": "https://resizehub.vercel.app/"
-  }
+  <!-- Microsoft Clarity Analytics -->
+  <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "yf79znw0zr");
   </script>
 
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <!-- Google Analytics (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H7XL69GFVJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-H7XL69GFVJ');
+  </script>
 
-  <!-- Tailwind CSS CDN for Utility Classes -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- jsPDF CDN for Client-Side PDF Generation -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <!-- PDF.js for Client-Side PDF to Image Extraction -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <!-- JSZip CDN for Client-Side Bulk ZIP Archive Generation -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
-  <!-- Schema.org Structured Data: WebApplication & FAQPage -->
+  <!-- Structured Data: WebSite, WebApplication & FAQPage Schema -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "ResizeHub",
+        "alternateName": ["Resize Hub", "ResizeHub Official"],
+        "url": "https://resizehub.vercel.app/"
+      },
       {
         "@type": "WebApplication",
         "name": "ResizeHub",
         "url": "https://resizehub.vercel.app/",
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "All",
-        "description": "Fast, free online image resizer and compressor. Create 2x2 passport photos, resize signature under 20KB, compress image size in KB, crop photos, convert to PDF, and upscale to 4K/8K. 100% private in-browser tool.",
+        "description": "Comprehensive client-side image editing tool for passport photos, exam signatures, compression, and PDF conversion.",
         "keywords": "photo resizer, image compressor, passport photo maker, signature resize 20kb, photo to pdf, crop photo, upscale image",
-        "featureList": [
-          "Online Image Resizer by Pixel, CM, MM, Inch",
-          "Target KB Compressor (20KB, 50KB, 100KB, 200KB)",
-          "2x2 Inch & 35x45mm Official Passport Photo Generator",
-          "Online Signature Resizer under 20KB for Exam and Job Forms",
-          "Multi-Image to PDF Converter",
-          "Social Media Post, Thumbnail and Story Resizer"
-        ],
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        }
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
       },
       {
         "@type": "FAQPage",
@@ -120,6 +106,21 @@
     ]
   }
   </script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN for Utility Classes -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- jsPDF CDN for Client-Side PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- PDF.js for Client-Side PDF to Image Extraction -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- JSZip CDN for Client-Side Bulk ZIP Archive Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <style>
     :root {
@@ -1438,13 +1439,556 @@
       transition: all 0.2s ease;
       cursor: pointer;
     }
-    .popular-pill:hover {
+    /* Hero Quick Presets & Ingest Drop Area */
+    .hero-presets-wrapper {
+      margin: 18px auto 0 auto;
+      max-width: 760px;
+    }
+    .hero-presets-title {
+      font-size: 0.80rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-muted);
+      margin-bottom: 8px;
+    }
+    .hero-presets-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+    .hero-preset-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #1E293B;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hero-preset-pill:hover {
+      background: #EFF6FF;
+      border-color: #3B82F6;
+      color: #1D4ED8;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    }
+
+    /* Hero Ingest Drop Area */
+    .hero-dropzone-box {
+      margin: 20px auto 0 auto;
+      max-width: 680px;
+      border: 2px dashed #93C5FD;
+      border-radius: var(--color-radius-md);
+      padding: 20px 16px;
+      background: rgba(239, 246, 255, 0.6);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      text-align: left;
+    }
+    .hero-dropzone-box:hover, .hero-dropzone-box.dragover {
+      background: #EFF6FF;
+      border-color: #2563EB;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12), 0 8px 24px rgba(37, 99, 235, 0.12);
+      transform: translateY(-1px);
+    }
+    .hero-dropzone-box.dragover .hero-drop-icon {
+      transform: scale(1.15) rotate(-6deg);
+    }
+    .hero-drop-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #FFFFFF;
+      color: #2563EB;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+    .hero-drop-input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .hero-drop-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .hero-drop-headline {
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: #0F172A;
+      margin-bottom: 2px;
+    }
+    .hero-drop-sub {
+      font-size: 0.78rem;
+      color: #64748B;
+    }
+
+    /* Engagement Bar: Quick Share & Bookmark Reminder */
+    .engagement-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px auto 0 auto;
+      max-width: 720px;
+    }
+    .engagement-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      color: #475569;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+    .engagement-btn:hover {
+      background: #FFFFFF;
+      color: #1E293B;
+      border-color: #94A3B8;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .engagement-btn.primary {
+      color: #2563EB;
+      background: #EFF6FF;
+      border-color: #BFDBFE;
+    }
+    .engagement-btn.primary:hover {
+      background: #DBEAFE;
+      color: #1D4ED8;
+    }
+
+    /* Toast Notification */
+    .toast-notice {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transform: translateY(60px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .toast-notice.show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Enhanced Drag & Drop Feedback Polish */
+    .dropzone {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .dropzone.dragover {
+      background: #EFF6FF !important;
+      border-color: #2563EB !important;
+      box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.15), 0 10px 30px rgba(37, 99, 235, 0.1) !important;
+      transform: scale(1.01);
+    }
+    .dropzone.dragover .dropzone-icon {
+      transform: scale(1.2) rotate(-5deg);
+      background: #2563EB;
+      color: #FFFFFF;
+      transition: all 0.2s ease;
+    }
+
+    /* Specifications Guide Container & Responsive Table */
+    .spec-guide-section {
+      margin: 44px 0;
+      background: #FFFFFF;
+      border-radius: var(--color-radius-lg);
+      border: 1px solid var(--color-border);
+      padding: 32px 26px;
+      box-shadow: var(--shadow-sm);
+    }
+    .spec-guide-header {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+    .spec-guide-header h2 {
+      font-size: 1.80rem;
+      font-weight: 800;
+      color: #0F172A;
+      letter-spacing: -0.025em;
+    }
+    .spec-guide-header p {
+      font-size: 0.95rem;
+      color: var(--color-text-muted);
+      max-width: 760px;
+      margin: 6px auto 0 auto;
+      line-height: 1.55;
+    }
+    .specs-table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--color-radius-md);
+      margin-bottom: 28px;
+    }
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+    .specs-table th {
+      background: #F8FAFC;
+      color: #334155;
+      font-weight: 700;
+      padding: 14px 16px;
+      border-bottom: 1px solid #E2E8F0;
+      white-space: nowrap;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .specs-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #F1F5F9;
+      color: #1E293B;
+      vertical-align: middle;
+    }
+    .specs-table tr:last-child td {
+      border-bottom: none;
+    }
+    .specs-table tr:hover td {
+      background: #F8FAFC;
+    }
+    .spec-portal-name {
+      font-weight: 700;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .spec-pill-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .badge-kb-strict { background: #FEF3C7; color: #92400E; }
+    .badge-px-std { background: #DBEAFE; color: #1E40AF; }
+    .badge-dpi-high { background: #E0E7FF; color: #3730A3; }
+    .badge-bg-clean { background: #F3F4F6; color: #374151; }
+
+    /* 3-Step Home Preparation Guide */
+    .home-prep-box {
+      background: linear-gradient(135deg, #F8FAFC, #EFF6FF);
+      border: 1px solid #BFDBFE;
+      border-radius: var(--color-radius-md);
+      padding: 24px;
+    }
+    .home-prep-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: #0F172A;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .home-prep-desc {
+      font-size: 0.88rem;
+      color: #475569;
+      margin-bottom: 20px;
+    }
+    .prep-steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+    .prep-step-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--color-radius-sm);
+      padding: 18px;
+      position: relative;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .prep-step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #2563EB;
+      color: #FFFFFF;
+      font-weight: 800;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .prep-step-card h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 6px;
+    }
+    .prep-step-card p {
+      font-size: 0.85rem;
+      color: #475569;
+      line-height: 1.5;
+    }
+
+    /* Step-by-Step How-To Instructional Cards */
+    .howto-section {
+      margin: 44px 0;
+    }
+    .howto-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .howto-header h2 {
+      font-size: 1.80rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+    }
+    .howto-header p {
+      font-size: 0.95rem;
+      color: var(--color-text-muted);
+      margin-top: 6px;
+    }
+    .howto-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .howto-item {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--color-radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+    .howto-item:hover {
+      border-color: #CBD5E1;
+    }
+    .howto-item.active {
+      border-color: #93C5FD;
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
+    }
+    .howto-item-toggle {
+      width: 100%;
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+    }
+    .howto-item-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .howto-chevron {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #F1F5F9;
+      color: #64748B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: transform 0.25s ease, background 0.2s ease;
+      flex-shrink: 0;
+    }
+    .howto-item.active .howto-chevron {
+      transform: rotate(180deg);
       background: #EFF6FF;
       color: #2563EB;
-      border-color: #BFDBFE;
-      transform: translateY(-1px);
-      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
     }
+    .howto-body {
+      padding: 0 22px 22px 22px;
+      display: none;
+      font-size: 0.90rem;
+      color: #334155;
+      line-height: 1.65;
+      border-top: 1px solid #F1F5F9;
+      padding-top: 16px;
+    }
+    .howto-item.active .howto-body {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+    .howto-steps-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 12px 0 16px 0;
+    }
+    .howto-step-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .howto-step-badge {
+      background: #EFF6FF;
+      color: #1D4ED8;
+      font-weight: 800;
+      font-size: 0.72rem;
+      padding: 2px 7px;
+      border-radius: 6px;
+      border: 1px solid #BFDBFE;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .howto-action-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #2563EB;
+      text-decoration: none;
+      background: #EFF6FF;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .howto-action-link:hover {
+      background: #2563EB;
+      color: #FFFFFF;
+    }
+
+    /* 100% Client-Side Privacy & Security Section */
+    .privacy-security-section {
+      margin: 44px 0;
+      background: #0F172A;
+      color: #F8FAFC;
+      border-radius: var(--color-radius-lg);
+      padding: 36px 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    .privacy-security-section::before {
+      content: "";
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .privacy-sec-header {
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto 28px auto;
+    }
+    .privacy-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(37, 99, 235, 0.2);
+      border: 1px solid rgba(96, 165, 250, 0.35);
+      color: #93C5FD;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+    .privacy-sec-header h2 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+    }
+    .privacy-sec-header p {
+      font-size: 0.95rem;
+      color: #94A3B8;
+      line-height: 1.6;
+    }
+    .privacy-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .privacy-feature-card {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--color-radius-md);
+      padding: 20px;
+      backdrop-filter: blur(8px);
+    }
+    .privacy-feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(37, 99, 235, 0.2);
+      color: #60A5FA;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+    .privacy-feature-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 8px;
+    }
+    .privacy-feature-card p {
+      font-size: 0.86rem;
+      color: #94A3B8;
+      line-height: 1.55;
+    }
+
 
     @media (max-width: 768px) {
       .app-container { padding: 12px 12px 32px 12px; }
@@ -1618,9 +2162,61 @@
     <section class="hero-section">
       <h1 class="hero-title text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Free Online Image Resizer, Passport Photo &amp; PDF Utility Suite</h1>
       <p class="hero-subtitle">Free all-in-one photo resizer, image compressor in KB, passport photo maker, and image-to-PDF converter. Process your images locally in seconds.</p>
-      
+
+      <!-- Quick Preset Pills (Click-to-Attract Direct Actions) -->
+      <div class="hero-presets-wrapper" aria-label="Popular Quick Presets">
+        <div class="hero-presets-title">⚡ Popular One-Touch Presets:</div>
+        <div class="hero-presets-grid">
+          <button type="button" class="hero-preset-pill" onclick="openTool('signature');" title="Resize and compress signature strictly under 20KB">
+            <span>🎯 20KB Signature</span>
+          </button>
+          <button type="button" class="hero-preset-pill" onclick="openTool('passport');" title="Generate standard 2x2 inch (600x600 px) passport photo">
+            <span>🛂 2x2 Passport Photo</span>
+          </button>
+          <button type="button" class="hero-preset-pill" onclick="openTool('pdf-create');" title="Merge multiple photos into a single PDF document">
+            <span>📄 Images to PDF</span>
+          </button>
+          <button type="button" class="hero-preset-pill" onclick="openTool('compress', 50);" title="Compress photo strictly below 50KB">
+            <span>⚡ Compress to 50KB</span>
+          </button>
+          <button type="button" class="hero-preset-pill" onclick="openTool('upscale', null, 3840, 2160);" title="Upscale image to ultra-sharp 4K (3840x2160 px)">
+            <span>🖼️ 4K Upscaler</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Hero Instant Ingest Drop Area (Zero Server Uploads) -->
+      <div class="hero-dropzone-box" id="heroDropzone">
+        <input type="file" id="heroFileInput" class="hero-drop-input" accept="image/*,application/pdf" multiple aria-label="Drop or choose photos">
+        <div class="hero-drop-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <div class="hero-drop-text">
+          <div class="hero-drop-headline">Drop any image here or click to browse</div>
+          <div class="hero-drop-sub">Fast local processing &bull; JPG, PNG, WebP, SVG &bull; Zero server uploads</div>
+        </div>
+      </div>
+
+      <!-- Social Sharing & Bookmark Engagement Bar -->
+      <div class="engagement-bar">
+        <button type="button" class="engagement-btn primary" id="shareSiteBtn" onclick="shareResizeHub();" title="Share ResizeHub with friends or colleagues">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          <span>Share Tool</span>
+        </button>
+        <button type="button" class="engagement-btn" onclick="triggerBookmarkTip();" title="Bookmark ResizeHub for quick access">
+          <span>⭐ Bookmark (Ctrl+D)</span>
+        </button>
+        <a class="engagement-btn" href="#specs-guide" title="View official government and exam upload specifications">
+          <span>📋 Official Specs Table</span>
+        </a>
+      </div>
+
       <!-- Live Search Bar -->
-      <div class="search-bar-wrapper">
+      <div class="search-bar-wrapper" style="margin-top: 22px;">
         <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
           <circle cx="11" cy="11" r="8"/>
           <line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -1638,6 +2234,12 @@
         <a class="cat-chip" href="#social-tools">📱 Social Media</a>
       </div>
     </section>
+
+    <!-- Global Toast Notice Notification -->
+    <div id="toastNotice" class="toast-notice">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      <span id="toastNoticeText">Link copied to clipboard!</span>
+    </div>
 
     <!-- DYNAMIC INTERACTIVE WORKSPACE (Revealed when a tool is opened or image dropped) -->
     <section class="workspace-section" id="workspaceSection">
@@ -1714,6 +2316,19 @@
           </div>
           <div class="text-xs text-slate-500 mt-1.5" id="batchScaleHint">
             Uniformly resizes each image to its original pixel dimensions while compressing and optimizing file size.
+          </div>
+        </div>
+
+        <!-- Social Media Dimensions Quick Preset Selector -->
+        <div id="socialPresetRow" class="mb-4" style="display:none;">
+          <label class="control-label">Social Media Preset Sizes</label>
+          <div class="preset-chips" id="socialPresetChips">
+            <button type="button" class="chip-btn" data-sw="1280" data-sh="720">YouTube Thumbnail (1280x720)</button>
+            <button type="button" class="chip-btn" data-sw="1080" data-sh="1080">Instagram Post (1080x1080)</button>
+            <button type="button" class="chip-btn" data-sw="1080" data-sh="1920">Story &amp; Reel (1080x1920)</button>
+            <button type="button" class="chip-btn" data-sw="1080" data-sh="1350">Instagram Portrait (1080x1350)</button>
+            <button type="button" class="chip-btn" data-sw="820" data-sh="312">Facebook Cover (820x312)</button>
+            <button type="button" class="chip-btn" data-sw="1584" data-sh="396">LinkedIn Banner (1584x396)</button>
           </div>
         </div>
 
@@ -2109,20 +2724,245 @@
         </div>
       </section>
 
-      <!-- Mid Banner Ad Slot (300x250) -->
-      <div class="ad-slot-wrapper ad-slot-mid ad-slot-300">
+      <!-- Government & Exam Tools Responsive Banner (min-height: 90px) -->
+      <div class="ad-slot-wrapper ad-slot-728 ad-desktop-only my-4" style="min-height: 90px;">
         <div class="ad-label">Advertisement</div>
         <script>
           atOptions = {
-            'key' : 'b95c375ee0991ba1c4bc7ed9b6ac3216',
+            'key' : '13fc5279ffcd9e4727e7aad5bc00cc01',
             'format' : 'iframe',
-            'height' : 250,
-            'width' : 300,
+            'height' : 90,
+            'width' : 728,
             'params' : {}
           };
         </script>
-        <script src="https://www.highrevenueformat.com/b95c375ee0991ba1c4bc7ed9b6ac3216/invoke.js"></script>
+        <script src="https://www.highrevenueformat.com/13fc5279ffcd9e4727e7aad5bc00cc01/invoke.js"></script>
       </div>
+      <div class="ad-slot-wrapper ad-slot-320 ad-mobile-only my-4" style="min-height: 50px;">
+        <div class="ad-label">Advertisement</div>
+        <script>
+          atOptions = {
+            'key' : '8df83a15b40df2925ea0e417b91bd40f',
+            'format' : 'iframe',
+            'height' : 50,
+            'width' : 320,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highrevenueformat.com/8df83a15b40df2925ea0e417b91bd40f/invoke.js"></script>
+      </div>
+
+      <!-- INFORMATIVE GUIDE: OFFICIAL PHOTO & SIGNATURE SPECIFICATIONS (SEO + COMPLIANCE) -->
+      <section class="spec-guide-section" id="specs-guide" aria-label="Official Photo and Signature Upload Specifications">
+        <div class="spec-guide-header">
+          <div style="display:inline-flex; align-items:center; gap:6px; background:#EFF6FF; border:1px solid #BFDBFE; color:#1D4ED8; padding:3px 12px; border-radius:9999px; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom:10px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Authoritative Guidelines
+          </div>
+          <h2>Official Photo &amp; Signature Upload Specifications</h2>
+          <p>
+            Government job portals, competitive exams (UPSC, SSC, IBPS, NEET, JEE), and international visa authorities mandate exact pixel dimensions, DPI, and strict byte-size ceilings. Compare your target requirements below and export compliant media in one click.
+          </p>
+        </div>
+
+        <!-- Responsive Comparison Table -->
+        <div class="specs-table-responsive">
+          <table class="specs-table">
+            <thead>
+              <tr>
+                <th>Portal / Application Type</th>
+                <th>Required Dimensions</th>
+                <th>Strict Size Limit</th>
+                <th>DPI / Aspect Ratio</th>
+                <th>Background &amp; Composition Rules</th>
+                <th>Quick Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="spec-portal-name">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <strong>US / International Visa (DS-160, DV Lottery)</strong>
+                  </div>
+                  <span style="font-size:0.75rem; color:#64748B;">US State Dept / Global Visas</span>
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-px-std">2&times;2 in (600&times;600 px)</span>
+                  <div style="font-size:0.72rem; color:#64748B; margin-top:2px;">Up to 1200&times;1200 px</div>
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-kb-strict">&lt; 240 KB</span>
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-dpi-high">300 DPI</span> (1:1 Square)
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-bg-clean">Plain White / Off-White</span>
+                  <div style="font-size:0.74rem; color:#64748B; margin-top:3px;">No glasses, neutral facial expression, head between 50-69% of height</div>
+                </td>
+                <td>
+                  <button type="button" class="howto-action-link" onclick="openTool('passport');">
+                    <span>Open 2x2 Maker &rarr;</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="spec-portal-name">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                    <strong>Government / Job Signatures (SSC, UPSC, IBPS, Railways)</strong>
+                  </div>
+                  <span style="font-size:0.75rem; color:#64748B;">Central &amp; State Recruitment Portals</span>
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-px-std">300&times;80 px or 140&times;60 px</span>
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-kb-strict">10 KB &ndash; 20 KB</span>
+                  <div style="font-size:0.72rem; color:#B45309; font-weight:700; margin-top:2px;">Strict &lt; 20KB limit</div>
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-dpi-high">200 DPI</span> (3.75:1 / 7:3)
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-bg-clean">Pure White Paper</span>
+                  <div style="font-size:0.74rem; color:#64748B; margin-top:3px;">Dark black or dark blue ink, high contrast, zero shadows or grain</div>
+                </td>
+                <td>
+                  <button type="button" class="howto-action-link" onclick="openTool('signature');">
+                    <span>Resize Signature &rarr;</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="spec-portal-name">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <strong>Online Application Photos (NEET, JEE, GATE, SSC CGL)</strong>
+                  </div>
+                  <span style="font-size:0.75rem; color:#64748B;">National Testing Agency &amp; Boards</span>
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-px-std">35&times;45 mm (413&times;531 px)</span>
+                  <div style="font-size:0.72rem; color:#64748B; margin-top:2px;">Also 3.5&times;4.5 cm</div>
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-kb-strict">20 KB &ndash; 50 KB</span>
+                  <div style="font-size:0.72rem; color:#B45309; font-weight:700; margin-top:2px;">Strictly 20KB-50KB</div>
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-dpi-high">300 DPI</span> (7:9 Portrait)
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-bg-clean">White or Light Background</span>
+                  <div style="font-size:0.74rem; color:#64748B; margin-top:3px;">80% face coverage, ears visible, name and date stamp where specified</div>
+                </td>
+                <td>
+                  <button type="button" class="howto-action-link" onclick="openTool('exam');">
+                    <span>Fit Exam Photo &rarr;</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="spec-portal-name">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+                    <strong>Schengen Visa &amp; European Consulates</strong>
+                  </div>
+                  <span style="font-size:0.75rem; color:#64748B;">France, Germany, Italy, Spain, etc.</span>
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-px-std">35&times;45 mm (413&times;531 px)</span>
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-kb-strict">&lt; 200 KB</span>
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-dpi-high">300 DPI</span> (3.5:4.5)
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-bg-clean">Light Grey or Pure White</span>
+                  <div style="font-size:0.74rem; color:#64748B; margin-top:3px;">Face height between 32mm and 36mm (70-80%), taken within last 6 months</div>
+                </td>
+                <td>
+                  <button type="button" class="howto-action-link" onclick="openTool('passport');">
+                    <span>Format Photo &rarr;</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="spec-portal-name">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    <strong>UK Passport (HMPO Digital Application)</strong>
+                  </div>
+                  <span style="font-size:0.75rem; color:#64748B;">HM Passport Office Online</span>
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-px-std">600&times;750 px minimum</span>
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-kb-strict">50 KB &ndash; 10 MB</span>
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-dpi-high">300 DPI</span> (4:5 Portrait)
+                </td>
+                <td>
+                  <span class="spec-pill-badge badge-bg-clean">Plain Light-Coloured</span>
+                  <div style="font-size:0.74rem; color:#64748B; margin-top:3px;">No red-eye, sharp focus, no digital beauty filters or retouching</div>
+                </td>
+                <td>
+                  <button type="button" class="howto-action-link" onclick="openTool('passport');">
+                    <span>Prepare UK Photo &rarr;</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 3-Step Numbered Guide: Taking Compliant Photos at Home -->
+        <div class="home-prep-box">
+          <div class="home-prep-title">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>3-Step Numbered Guide: How to Take and Prepare Compliant Photos at Home</span>
+          </div>
+          <p class="home-prep-desc">
+            You do not need an expensive photography studio to capture compliant application photos. Follow these three simple, professional steps using your smartphone camera and ResizeHub:
+          </p>
+
+          <div class="prep-steps-grid">
+            <div class="prep-step-card">
+              <div class="prep-step-num">1</div>
+              <h4>Lighting &amp; Background Setup</h4>
+              <p>
+                Stand approximately 1 to 2 feet in front of a flat, plain white or light-coloured wall. Position yourself facing a bright window or diffuse light source to ensure even illumination across both sides of your face without casting harsh drop-shadows on the wall behind you.
+              </p>
+            </div>
+
+            <div class="prep-step-card">
+              <div class="prep-step-num">2</div>
+              <h4>Camera Framing &amp; Posture</h4>
+              <p>
+                Hold the smartphone camera directly at eye level, roughly 4 to 5 feet away (or ask a friend to hold it). Keep shoulders relaxed and square, look straight into the camera lens with a neutral facial expression, keep both eyes wide open, and ensure hair does not obscure your forehead or ears.
+              </p>
+            </div>
+
+            <div class="prep-step-card">
+              <div class="prep-step-num">3</div>
+              <h4>Exact Cropping &amp; Compression on ResizeHub</h4>
+              <p>
+                Drop your photo into ResizeHub's <strong>Passport Photo Maker</strong> or <strong>Exam Photo Resizer</strong>. Our client-side engine automatically centers your portrait, adjusts aspect ratios (2x2 inch or 35x45 mm), and performs precise binary compression to fit strictly under 20KB or 50KB with zero quality distortion.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <!-- CATEGORY B: IMAGE RESIZE & COMPRESSION TOOLS -->
       <section class="category-section" id="resize-tools" data-cat="resize">
@@ -2223,32 +3063,19 @@
         </div>
       </section>
 
-      <!-- Category B/C Banner Ad Slot (468x60 Desktop / 320x50 Mobile) -->
-      <div class="ad-slot-wrapper ad-slot-468 ad-desktop-only my-4">
+      <!-- Image Optimization Suite Medium Rectangle Banner (min-height: 250px) -->
+      <div class="ad-slot-wrapper ad-slot-mid ad-slot-300 my-4" style="min-height: 250px;">
         <div class="ad-label">Advertisement</div>
         <script>
           atOptions = {
-            'key' : 'bac489b9ccace3c70afc7047950cf834',
+            'key' : 'b95c375ee0991ba1c4bc7ed9b6ac3216',
             'format' : 'iframe',
-            'height' : 60,
-            'width' : 468,
+            'height' : 250,
+            'width' : 300,
             'params' : {}
           };
         </script>
-        <script src="https://www.highrevenueformat.com/bac489b9ccace3c70afc7047950cf834/invoke.js"></script>
-      </div>
-      <div class="ad-slot-wrapper ad-slot-320 ad-mobile-only my-4">
-        <div class="ad-label">Advertisement</div>
-        <script>
-          atOptions = {
-            'key' : '8df83a15b40df2925ea0e417b91bd40f',
-            'format' : 'iframe',
-            'height' : 50,
-            'width' : 320,
-            'params' : {}
-          };
-        </script>
-        <script src="https://www.highrevenueformat.com/8df83a15b40df2925ea0e417b91bd40f/invoke.js"></script>
+        <script src="https://www.highrevenueformat.com/b95c375ee0991ba1c4bc7ed9b6ac3216/invoke.js"></script>
       </div>
 
       <!-- CATEGORY C: PDF TOOLS -->
@@ -2308,19 +3135,32 @@
         </div>
       </section>
 
-      <!-- Category C/D Mid Banner Ad Slot (300x250) -->
-      <div class="ad-slot-wrapper ad-slot-mid ad-slot-300 my-4">
+      <!-- Document & PDF Utilities Responsive Banner (min-height: 90px) -->
+      <div class="ad-slot-wrapper ad-slot-468 ad-desktop-only my-4" style="min-height: 90px;">
         <div class="ad-label">Advertisement</div>
         <script>
           atOptions = {
-            'key' : 'b95c375ee0991ba1c4bc7ed9b6ac3216',
+            'key' : 'bac489b9ccace3c70afc7047950cf834',
             'format' : 'iframe',
-            'height' : 250,
-            'width' : 300,
+            'height' : 60,
+            'width' : 468,
             'params' : {}
           };
         </script>
-        <script src="https://www.highrevenueformat.com/b95c375ee0991ba1c4bc7ed9b6ac3216/invoke.js"></script>
+        <script src="https://www.highrevenueformat.com/bac489b9ccace3c70afc7047950cf834/invoke.js"></script>
+      </div>
+      <div class="ad-slot-wrapper ad-slot-320 ad-mobile-only my-4" style="min-height: 50px;">
+        <div class="ad-label">Advertisement</div>
+        <script>
+          atOptions = {
+            'key' : '8df83a15b40df2925ea0e417b91bd40f',
+            'format' : 'iframe',
+            'height' : 50,
+            'width' : 320,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highrevenueformat.com/8df83a15b40df2925ea0e417b91bd40f/invoke.js"></script>
       </div>
 
       <!-- CATEGORY D: SOCIAL MEDIA IMAGE RESIZERS -->
@@ -2332,7 +3172,7 @@
             </div>
             <h2 class="category-title">Social Media Image Tools</h2>
           </div>
-          <span class="category-count">5 Tools</span>
+          <span class="category-count">6 Tools</span>
         </div>
 
         <div class="tools-grid">
@@ -2378,6 +3218,27 @@
             </div>
             <div class="tool-card-action">
               <span class="tool-tag">Instagram Standard</span>
+              <span class="tool-action-btn">Open Tool &rarr;</span>
+            </div>
+          </div>
+
+          <!-- Tool 9b: Instagram Story & Reel Resizer -->
+          <div class="tool-card-item" data-tool="story" onclick="openTool('story')">
+            <div class="tool-card-top">
+              <div class="tool-card-header">
+                <div class="tool-icon-box icon-rose">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                </div>
+                <div class="tool-badges">
+                  <span class="tool-badge badge-accent">Stories &amp; Reels</span>
+                  <span class="tool-badge">1080x1920 (9:16)</span>
+                </div>
+              </div>
+              <h3 class="tool-card-title">Instagram Story &amp; Reel Resizer</h3>
+              <p class="tool-card-desc">Format vertical graphics and photos to exact 1080x1920 (9:16) for Instagram Stories, Reels, TikTok and YouTube Shorts.</p>
+            </div>
+            <div class="tool-card-action">
+              <span class="tool-tag">Story &bull; 9:16 Vertical</span>
               <span class="tool-action-btn">Open Tool &rarr;</span>
             </div>
           </div>
@@ -2447,8 +3308,8 @@
         </div>
       </section>
 
-      <!-- Bottom Tools Directory Leaderboard Ad (728x90 Desktop / 320x50 Mobile) -->
-      <div class="ad-slot-wrapper ad-slot-728 ad-desktop-only my-4">
+      <!-- Social Media Resizers Leaderboard Ad (min-height: 90px) -->
+      <div class="ad-slot-wrapper ad-slot-728 ad-desktop-only my-4" style="min-height: 90px;">
         <div class="ad-label">Advertisement</div>
         <script>
           atOptions = {
@@ -2461,7 +3322,7 @@
         </script>
         <script src="https://www.highrevenueformat.com/13fc5279ffcd9e4727e7aad5bc00cc01/invoke.js"></script>
       </div>
-      <div class="ad-slot-wrapper ad-slot-320 ad-mobile-only my-4">
+      <div class="ad-slot-wrapper ad-slot-320 ad-mobile-only my-4" style="min-height: 50px;">
         <div class="ad-label">Advertisement</div>
         <script>
           atOptions = {
@@ -2474,6 +3335,174 @@
         </script>
         <script src="https://www.highrevenueformat.com/8df83a15b40df2925ea0e417b91bd40f/invoke.js"></script>
       </div>
+
+      <!-- COMPREHENSIVE HOW-TO GUIDES (SEO & ADSENSE DEPTH) -->
+      <section class="howto-section" id="how-to-guides" aria-label="Step-by-Step Image Processing Tutorials">
+        <div class="howto-header">
+          <div style="display:inline-flex; align-items:center; gap:6px; background:#EFF6FF; border:1px solid #BFDBFE; color:#1D4ED8; padding:3px 12px; border-radius:9999px; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom:10px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            Tutorials &amp; Deep-Dives
+          </div>
+          <h2>Step-by-Step Image Processing Guides</h2>
+          <p>Master precise client-side file preparation. Learn how our browser-native algorithms compress to exact kilobyte boundaries, merge documents, and scale high-resolution graphics.</p>
+        </div>
+
+        <div class="howto-accordion">
+          <!-- Guide 1: Exact File Size Compression -->
+          <div class="howto-item active" id="howto-compress">
+            <button type="button" class="howto-item-toggle" onclick="toggleHowTo(this)" aria-expanded="true">
+              <span class="howto-item-title">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="10" y1="14" x2="3" y2="21"/></svg>
+                How to Compress Images to an Exact File Size (20KB, 50KB, 100KB)
+              </span>
+              <span class="howto-chevron">&darr;</span>
+            </button>
+            <div class="howto-body">
+              <p>
+                Unlike generic online photo compressors that simply apply an arbitrary quality percentage (often leaving your file either too blurry or still slightly over the strict upload cap), ResizeHub utilizes a <strong>binary-search iterative encoder</strong> inside the HTML5 Canvas pipeline.
+              </p>
+              <ul class="howto-steps-list">
+                <li class="howto-step-row">
+                  <span class="howto-step-badge">Step 1</span>
+                  <div><strong>Select the Tool or Preset:</strong> Choose <a href="javascript:void(0)" onclick="openTool('compress', 50)" class="text-blue-600 font-bold hover:underline">Image Compressor (Exact KB)</a> or click one of our one-touch preset chips (20KB, 50KB, 100KB).</div>
+                </li>
+                <li class="howto-step-row">
+                  <span class="howto-step-badge">Step 2</span>
+                  <div><strong>Upload Your Source Image:</strong> Drag and drop any JPG, PNG, or WebP photo into the workspace dropzone. Your file size is calculated immediately in local memory.</div>
+                </li>
+                <li class="howto-step-row">
+                  <span class="howto-step-badge">Step 3</span>
+                  <div><strong>Set Your Strict KB Target:</strong> Type your exact ceiling (e.g. <code>20</code> or <code>50</code>) or toggle the compression preset. The binary search engine executes multiple micro-renders to determine the highest possible visual fidelity that stays under your ceiling.</div>
+                </li>
+                <li class="howto-step-row">
+                  <span class="howto-step-badge">Step 4</span>
+                  <div><strong>Inspect &amp; Download:</strong> Check the live before-and-after byte counter, verify resolution, and click <strong>Download Compressed Image</strong>. Zero network data was used.</div>
+                </li>
+              </ul>
+              <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                <span style="font-size:0.80rem; color:#64748B;">💡 <strong>Pro Tip:</strong> For signatures, use PNG with threshold contrast to strip paper background and drop file size under 15KB.</span>
+                <button type="button" class="howto-action-link" onclick="openTool('compress', 50)">Open Compressor Tool &rarr;</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Guide 2: Converting Photos to PDF -->
+          <div class="howto-item" id="howto-pdf">
+            <button type="button" class="howto-item-toggle" onclick="toggleHowTo(this)" aria-expanded="false">
+              <span class="howto-item-title">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                How to Convert Multiple Photos into a Single PDF Document
+              </span>
+              <span class="howto-chevron">&darr;</span>
+            </button>
+            <div class="howto-body">
+              <p>
+                When submitting job applications, insurance claims, or academic paperwork, portals frequently require multiple certificate scans, passport pages, or receipts compiled into a single clean PDF document. ResizeHub's client-side PDF synthesizer bundles your photos without watermarks or page limits.
+              </p>
+              <ul class="howto-steps-list">
+                <li class="howto-step-row">
+                  <span class="howto-step-badge">Step 1</span>
+                  <div><strong>Launch the PDF Creator:</strong> Click on <a href="javascript:void(0)" onclick="openTool('pdf-create')" class="text-blue-600 font-bold hover:underline">Images to PDF Converter</a> in the tool suite.</div>
+                </li>
+                <li class="howto-step-row">
+                  <span class="howto-step-badge">Step 2</span>
+                  <div><strong>Import Multiple Files:</strong> Multi-select or drag multiple image files simultaneously. Thumbnail previews appear instantly showing your document page sequence.</div>
+                </li>
+                <li class="howto-step-row">
+                  <span class="howto-step-badge">Step 3</span>
+                  <div><strong>Configure Layout &amp; Margins:</strong> Select your preferred page standard (Standard A4, US Letter, or Fit to Image Aspect Ratio) and orientation (Portrait or Landscape).</div>
+                </li>
+                <li class="howto-step-row">
+                  <span class="howto-step-badge">Step 4</span>
+                  <div><strong>Compile &amp; Export:</strong> Hit <strong>Generate &amp; Download PDF</strong>. Your browser compiles the PDF stream locally with zero delay and triggers immediate download.</div>
+                </li>
+              </ul>
+              <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                <span style="font-size:0.80rem; color:#64748B;">💡 <strong>Pro Tip:</strong> Compress photos to 100KB first before generating your PDF to keep total document size under 1MB for email attachments.</span>
+                <button type="button" class="howto-action-link" onclick="openTool('pdf-create')">Create PDF Now &rarr;</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Guide 3: Scaling Images to 4K/8K Resolution -->
+          <div class="howto-item" id="howto-upscale">
+            <button type="button" class="howto-item-toggle" onclick="toggleHowTo(this)" aria-expanded="false">
+              <span class="howto-item-title">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                How to Scale Images to 4K/8K Resolution Without Losing Sharpness
+              </span>
+              <span class="howto-chevron">&darr;</span>
+            </button>
+            <div class="howto-body">
+              <p>
+                Standard nearest-neighbor image scaling creates noticeable pixelation, jagged diagonal edges, and blurry halos. ResizeHub's high-resolution engine performs <strong>multi-stage bicubic interpolation</strong> combined with adaptive edge anti-aliasing directly on your device's GPU/Canvas context.
+              </p>
+              <ul class="howto-steps-list">
+                <li class="howto-step-row">
+                  <span class="howto-step-badge">Step 1</span>
+                  <div><strong>Open 8K/4K Upscaler:</strong> Select the <a href="javascript:void(0)" onclick="openTool('upscale')" class="text-blue-600 font-bold hover:underline">8K / 4K Image Upscaler</a> from the Resize &amp; Compress category.</div>
+                </li>
+                <li class="howto-step-row">
+                  <span class="howto-step-badge">Step 2</span>
+                  <div><strong>Select Target Resolution:</strong> Choose 2K Quad HD (2560x1440), Ultra HD 4K (3840x2160), or Full 8K Cinema (7680x4320).</div>
+                </li>
+                <li class="howto-step-row">
+                  <span class="howto-step-badge">Step 3</span>
+                  <div><strong>Enable Image Smoothing:</strong> Ensure the high-quality interpolation flag is checked to activate sub-pixel smoothing filters that mitigate compression block artifacts.</div>
+                </li>
+                <li class="howto-step-row">
+                  <span class="howto-step-badge">Step 4</span>
+                  <div><strong>Export at Maximum Bitrate:</strong> Save as high-quality PNG or 98% quality WebP to preserve every nuance for large poster prints, wallpapers, and digital billboards.</div>
+                </li>
+              </ul>
+              <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                <span style="font-size:0.80rem; color:#64748B;">💡 <strong>Pro Tip:</strong> For vector logos and icons, use our Image to SVG Tracer tool to convert bitmaps into mathematically infinite resolution.</span>
+                <button type="button" class="howto-action-link" onclick="openTool('upscale')">Open 4K/8K Upscaler &rarr;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- IN-DEPTH TECHNICAL SECURITY & PRIVACY BADGE -->
+      <section class="privacy-security-section" id="privacy-security" aria-label="100% Client-Side Privacy Architecture">
+        <div class="privacy-sec-header">
+          <div class="privacy-badge-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Zero-Upload Architecture
+          </div>
+          <h2>100% Client-Side Privacy: Why No Photos Ever Leave Your Device</h2>
+          <p>
+            Unlike traditional online file converters that upload your confidential documents, government ID cards, passport scans, and signatures to third-party cloud servers and remote databases, ResizeHub executes 100% of mathematical pixel manipulations directly within your device's browser memory.
+          </p>
+        </div>
+
+        <div class="privacy-features-grid">
+          <div class="privacy-feature-card">
+            <div class="privacy-feature-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <h3>Local Browser Memory Only</h3>
+            <p>Your photos are decoded directly into native HTML5 <code>CanvasRenderingContext2D</code> and Typed Arrays (<code>Uint8ClampedArray</code>). When you close the browser tab, all allocated buffers are immediately garbage-collected and permanently destroyed.</p>
+          </div>
+
+          <div class="privacy-feature-card">
+            <div class="privacy-feature-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3>Zero Server Transmissions</h3>
+            <p>Open your browser's Developer Tools Network tab during any resize, compression, crop, or PDF merge operation: you will observe zero outgoing POST payloads containing your image data. No telemetry logs, no image copies, and zero CDN caching.</p>
+          </div>
+
+          <div class="privacy-feature-card">
+            <div class="privacy-feature-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <h3>Full GDPR &amp; HIPAA Compliance</h3>
+            <p>Because no Personally Identifiable Information (PII) or biometric facial imagery is ever transferred across the internet or stored on a remote server, ResizeHub naturally complies with the world's strictest data protection and privacy standards.</p>
+          </div>
+        </div>
+      </section>
 
     </div>
 
@@ -3040,6 +4069,20 @@
         showDimensions: true,
         showFormat: true
       },
+      story: {
+        title: 'Instagram Story & Reel Resizer',
+        desc: 'Format vertical graphics and photos to exact 1080x1920 (9:16) for Instagram Stories, Reels, TikTok and Shorts',
+        iconClass: 'icon-rose',
+        defaultW: 1080, defaultH: 1920,
+        aspectLocked: false,
+        format: 'jpg',
+        targetKb: null,
+        showPassportBg: false,
+        showSigFilter: false,
+        showTargetKb: false,
+        showDimensions: true,
+        showFormat: true
+      },
       youtube: {
         title: 'YouTube Thumbnail Resizer',
         desc: 'Format video thumbnails to exact 1280x720 HD 16:9 ratio and guarantee file size under 2MB',
@@ -3132,6 +4175,7 @@
     const aspectLock = document.getElementById('aspectLock');
     const aspectLockWrapper = document.getElementById('aspectLockWrapper');
 
+    const socialPresetRow = document.getElementById('socialPresetRow');
     const commonDimensionsRow = document.getElementById('commonDimensionsRow');
     const passportOptionsRow = document.getElementById('passportOptionsRow');
     const signatureOptionsRow = document.getElementById('signatureOptionsRow');
@@ -3201,6 +4245,14 @@
     const catChips = document.querySelectorAll('.cat-chip');
 
     // Utilities
+    function getCleanDownloadName(originalFilename, ext) {
+      if (!originalFilename) return `image-resizehub.${ext}`;
+      const dotIdx = originalFilename.lastIndexOf('.');
+      const namePart = dotIdx !== -1 ? originalFilename.substring(0, dotIdx) : originalFilename;
+      const cleanBase = namePart.replace(/[^a-zA-Z0-9-_]/g, '_').substring(0, 40) || 'image';
+      return `${cleanBase}-resizehub.${ext}`;
+    }
+
     function formatBytes(bytes) {
       if (!bytes || bytes <= 0) return '0 B';
       const k = 1024;
@@ -3358,6 +4410,18 @@
 
       aspectLock.checked = config.aspectLocked;
 
+      const isSocialTool = ['instagram', 'story', 'youtube', 'facebook', 'linkedin'].includes(toolKey);
+      if (socialPresetRow) {
+        socialPresetRow.style.display = isSocialTool ? 'block' : 'none';
+        if (isSocialTool) {
+          document.querySelectorAll('#socialPresetChips .chip-btn').forEach(btn => {
+            const sw = parseInt(btn.getAttribute('data-sw'), 10);
+            const sh = parseInt(btn.getAttribute('data-sh'), 10);
+            btn.classList.toggle('active', sw === config.defaultW && sh === config.defaultH);
+          });
+        }
+      }
+
       passportOptionsRow.style.display = config.showPassportBg ? 'block' : 'none';
       signatureOptionsRow.style.display = config.showSigFilter ? 'block' : 'none';
       targetKbRow.style.display = config.showTargetKb ? 'block' : 'none';
@@ -3406,6 +4470,22 @@
         if (dir) dir.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     }
+
+    // Social Media Preset Chips
+    document.querySelectorAll('#socialPresetChips .chip-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#socialPresetChips .chip-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const sw = parseInt(btn.getAttribute('data-sw'), 10);
+        const sh = parseInt(btn.getAttribute('data-sh'), 10);
+        if (sw && sh) {
+          widthInput.value = sw;
+          heightInput.value = sh;
+          aspectLock.checked = false;
+          if (currentImage) executeProcessing();
+        }
+      });
+    });
 
     // Passport Background Chips
     document.querySelectorAll('#passportBgChips .chip-btn').forEach(btn => {
@@ -3571,6 +4651,37 @@
       }
     });
 
+    // Wire up Hero Instant Dropzone and File Input
+    const heroDropzone = document.getElementById('heroDropzone');
+    const heroFileInput = document.getElementById('heroFileInput');
+    if (heroDropzone && heroFileInput) {
+      ['dragenter', 'dragover'].forEach(evt => {
+        heroDropzone.addEventListener(evt, (e) => {
+          e.preventDefault(); e.stopPropagation();
+          heroDropzone.classList.add('dragover');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(evt => {
+        heroDropzone.addEventListener(evt, (e) => {
+          e.preventDefault(); e.stopPropagation();
+          heroDropzone.classList.remove('dragover');
+        });
+      });
+
+      heroDropzone.addEventListener('drop', (e) => {
+        if (e.dataTransfer && e.dataTransfer.files.length) {
+          handleSelectedFiles(e.dataTransfer.files);
+        }
+      });
+
+      heroFileInput.addEventListener('change', () => {
+        if (heroFileInput.files && heroFileInput.files.length) {
+          handleSelectedFiles(heroFileInput.files);
+        }
+      });
+    }
+
     // Core Canvas Processing Engine
     function executeProcessing() {
       if (!currentImage) return;
@@ -3589,18 +4700,19 @@
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
 
-      // 1. Background Fill (Passport or JPG format)
+      // 1. Background Fill (Passport or JPG format or Social)
+      const isSocial = ['instagram', 'story', 'youtube', 'facebook', 'linkedin'].includes(currentToolKey);
       if (currentToolKey === 'passport' && selectedBg !== 'transparent') {
         ctx.fillStyle = selectedBg;
         ctx.fillRect(0, 0, targetW, targetH);
-      } else if (selectedFormat === 'jpg') {
+      } else if (selectedFormat === 'jpg' || isSocial) {
         ctx.fillStyle = '#FFFFFF';
         ctx.fillRect(0, 0, targetW, targetH);
       }
 
-      // 2. Draw Image (Cover fit for passport / standard scale for others)
-      if (currentToolKey === 'passport') {
-        // Crop/Fit image center into passport square or portrait
+      // 2. Draw Image (Cover fit for passport & social presets to guarantee zero stretching/aliasing)
+      if (currentToolKey === 'passport' || isSocial) {
+        // Crop/Fit image center into target canvas
         const imgRatio = origWidth / origHeight;
         const targetRatio = targetW / targetH;
         let renderW, renderH, offsetX, offsetY;
@@ -3724,8 +4836,7 @@
         }
       }
 
-      const baseName = currentFile ? currentFile.name.replace(/\.[^/.]+$/, '') : 'resizehub-output';
-      const filename = `${baseName}-${currentToolKey}.${ext}`;
+      const filename = getCleanDownloadName(currentFile ? currentFile.name : 'image.jpg', ext);
 
       downloadBtn.href = activeBlobUrl;
       downloadBtn.download = filename;
@@ -3963,12 +5074,25 @@
             ctx.imageSmoothingEnabled = true;
             ctx.imageSmoothingQuality = 'high';
 
-            if (selectedFormat === 'jpg') {
+            const isSocialBatch = ['instagram', 'story', 'youtube', 'facebook', 'linkedin'].includes(currentToolKey);
+            if (selectedFormat === 'jpg' || isSocialBatch) {
               ctx.fillStyle = '#FFFFFF';
               ctx.fillRect(0, 0, targetW, targetH);
             }
 
-            ctx.drawImage(img, 0, 0, targetW, targetH);
+            if (currentToolKey === 'passport' || isSocialBatch) {
+              const imgRatio = w / (h || 1);
+              const targetRatio = targetW / targetH;
+              let rW, rH, oX, oY;
+              if (imgRatio > targetRatio) {
+                rH = targetH; rW = targetH * imgRatio; oX = (targetW - rW) / 2; oY = 0;
+              } else {
+                rW = targetW; rH = targetW / imgRatio; oX = 0; oY = (targetH - rH) / 2;
+              }
+              ctx.drawImage(img, oX, oY, rW, rH);
+            } else {
+              ctx.drawImage(img, 0, 0, targetW, targetH);
+            }
 
             let mimeType = 'image/jpeg';
             let ext = 'jpg';
@@ -3980,8 +5104,7 @@
               const pngData = canvas.toDataURL('image/png');
               const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${targetW}" height="${targetH}" viewBox="0 0 ${targetW} ${targetH}"><image href="${pngData}" width="${targetW}" height="${targetH}"/></svg>`;
               const blob = new Blob([svgContent], { type: 'image/svg+xml' });
-              const baseName = item.name.replace(/\.[^/.]+$/, '');
-              resolve({ blob, width: targetW, height: targetH, filename: `${baseName}-resized.svg` });
+              resolve({ blob, width: targetW, height: targetH, filename: getCleanDownloadName(item.name, 'svg') });
               return;
             }
 
@@ -4005,14 +5128,12 @@
                 bestBlob = await new Promise(res => canvas.toBlob(res, mimeType, 0.05));
               }
 
-              const baseName = item.name.replace(/\.[^/.]+$/, '');
-              resolve({ blob: bestBlob, width: targetW, height: targetH, filename: `${baseName}-resized.${ext}` });
+              resolve({ blob: bestBlob, width: targetW, height: targetH, filename: getCleanDownloadName(item.name, ext) });
             } else {
               const quality = selectedFormat === 'png' ? undefined : 0.92;
               canvas.toBlob((blob) => {
                 if (!blob) return reject(new Error('Canvas toBlob failed'));
-                const baseName = item.name.replace(/\.[^/.]+$/, '');
-                resolve({ blob, width: targetW, height: targetH, filename: `${baseName}-resized.${ext}` });
+                resolve({ blob, width: targetW, height: targetH, filename: getCleanDownloadName(item.name, ext) });
               }, mimeType, quality);
             }
           } catch (err) {
@@ -4523,7 +5644,7 @@
             thumbCard.innerHTML = `
               <span class="pdf-thumb-num">Page ${pageNum}</span>
               <img class="pdf-thumb-img" src="${pageDataUrl}" alt="Page ${pageNum}">
-              <a href="${pageDataUrl}" download="page-${pageNum}.png" style="display:block; font-size:0.75rem; font-weight:700; color:#2563EB; margin-top:4px;">Download PNG</a>
+              <a href="${pageDataUrl}" download="${getCleanDownloadName('page-' + pageNum, 'png')}" style="display:block; font-size:0.75rem; font-weight:700; color:#2563EB; margin-top:4px;">Download PNG</a>
             `;
             pdfExtractedPagesGrid.appendChild(thumbCard);
           }
@@ -5043,8 +6164,8 @@
           const url = URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = url;
-          const baseName = szOriginalFileName ? szOriginalFileName.replace(/\.[^/.]+$/, '') : 'resizehub';
-          a.download = `${baseName}-${szCurrentPreset.key}-safezone.${ext}`;
+          const baseName = szOriginalFileName ? `${szOriginalFileName.replace(/\.[^/.]+$/, '')}-${szCurrentPreset.key}` : 'safezone';
+          a.download = getCleanDownloadName(baseName, ext);
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
@@ -5097,6 +6218,54 @@
   function closeModal(id) {
     const modal = document.getElementById(id);
     if (modal) modal.classList.remove('active');
+  }
+
+  // Toast Notification
+  function showToast(msg) {
+    const toast = document.getElementById('toastNotice');
+    const toastText = document.getElementById('toastNoticeText');
+    if (!toast) return;
+    if (toastText) toastText.textContent = msg || 'Done!';
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3500);
+  }
+
+  // Social Share & Copy Link
+  function shareResizeHub() {
+    const shareData = {
+      title: 'ResizeHub - Free Online Photo Resizer, Passport Photo & PDF Suite',
+      text: 'Resize, crop, and compress photos to exact KB (under 20KB, 50KB) and convert to PDF 100% in your browser with zero server uploads!',
+      url: window.location.href.split('#')[0]
+    };
+    if (navigator.share) {
+      navigator.share(shareData).catch(() => {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(shareData.url).then(() => {
+        showToast('Link copied to clipboard! Share it with friends or colleagues.');
+      }).catch(() => {
+        showToast('Bookmark ResizeHub to save for later!');
+      });
+    } else {
+      showToast('Bookmark ResizeHub to save for later!');
+    }
+  }
+
+  // Bookmark Tip
+  function triggerBookmarkTip() {
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const shortcut = isMac ? '⌘ + D' : 'Ctrl + D';
+    showToast(`Press ${shortcut} on your keyboard to bookmark ResizeHub!`);
+  }
+
+  // How-To Accordion Toggle
+  function toggleHowTo(btn) {
+    const item = btn.closest('.howto-item');
+    if (!item) return;
+    const isActive = item.classList.contains('active');
+    item.classList.toggle('active', !isActive);
+    btn.setAttribute('aria-expanded', !isActive ? 'true' : 'false');
   }
 
   document.querySelectorAll('.modal-backdrop').forEach(backdrop => {

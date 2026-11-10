@@ -107,10 +107,10 @@
   }
   </script>
 
-  <!-- Google Fonts: Inter -->
+  <!-- Google Fonts: Plus Jakarta Sans (display) + Inter (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN for Utility Classes -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -125,23 +125,24 @@
   <style>
     :root {
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      --color-bg: #F8FAFC;
+      --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --color-bg: #F7F8FA;
       --color-card: #FFFFFF;
-      --color-border: #E2E8F0;
-      --color-border-hover: #CBD5E1;
-      --color-text-main: #0F172A;
-      --color-text-muted: #64748B;
-      --color-primary: #2563EB;
-      --color-primary-hover: #1D4ED8;
-      --color-primary-light: #EFF6FF;
-      --color-success: #10B981;
+      --color-border: #E5E7EB;
+      --color-border-hover: #C9CDD6;
+      --color-text-main: #0B1526;
+      --color-text-muted: #5B6472;
+      --color-primary: #1D4ED8;
+      --color-primary-hover: #1E40AF;
+      --color-primary-light: #EAF0FE;
+      --color-success: #0E9F6E;
       --color-radius-sm: 8px;
-      --color-radius-md: 14px;
+      --color-radius-md: 16px;
       --color-radius-lg: 20px;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -2px rgba(15, 23, 42, 0.04);
-      --shadow-lg: 0 10px 30px -4px rgba(15, 23, 42, 0.12);
-      --shadow-hover: 0 14px 34px -4px rgba(37, 99, 235, 0.14);
+      --shadow-sm: 0 1px 2px rgba(11, 21, 38, 0.05);
+      --shadow-md: 0 6px 24px -8px rgba(11, 21, 38, 0.10), 0 2px 8px -2px rgba(11, 21, 38, 0.05);
+      --shadow-lg: 0 16px 40px -12px rgba(11, 21, 38, 0.16);
+      --shadow-hover: 0 16px 32px -12px rgba(29, 78, 216, 0.18);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -160,6 +161,11 @@
       font-family: inherit;
     }
 
+    /* Premium display type for headings & brand */
+    h1, h2, h3, .brand-logo, .category-title, .workspace-tool-title, .tool-card-title, .footer-brand-title, .dropzone-title, .hero-drop-headline, .home-prep-title, .howto-item-title, .feature-card h3, .privacy-feature-card h3, .prep-step-card h4 {
+      font-family: var(--font-display);
+    }
+
     .app-container {
       width: 100%;
       max-width: 1140px;
@@ -172,7 +178,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 0 16px 0;
+      padding: 14px 0 18px 0;
       border-bottom: 1px solid var(--color-border);
       margin-bottom: 16px;
       gap: 12px;
@@ -184,12 +190,12 @@
       text-decoration: none;
       color: var(--color-text-main);
       font-weight: 800;
-      font-size: 1.3rem;
+      font-size: 1.35rem;
       letter-spacing: -0.03em;
       flex-shrink: 0;
     }
     .brand-badge {
-      background: linear-gradient(135deg, #2563EB, #4F46E5);
+      background: var(--color-primary);
       color: #FFFFFF;
       font-size: 0.65rem;
       font-weight: 700;
@@ -226,7 +232,7 @@
     .mobile-menu-btn:hover {
       background: var(--color-primary-light);
       color: var(--color-primary);
-      border-color: #93C5FD;
+      border-color: #A8BDF0;
     }
     .mobile-menu-drawer {
       display: none;
@@ -287,7 +293,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      background: #F1F5F9;
+      background: #F3F4F6;
       border: 1px dashed #CBD5E1;
       border-radius: var(--color-radius-sm);
       overflow-x: auto;
@@ -324,27 +330,46 @@
     /* Hero Section */
     .hero-section {
       text-align: center;
-      margin: 20px auto 32px auto;
-      max-width: 820px;
+      margin: 28px auto 40px auto;
+      max-width: 840px;
     }
-    .hero-title {
-      font-size: 2.35rem;
-      font-weight: 900;
-      letter-spacing: -0.035em;
-      line-height: 1.22;
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      background: var(--color-primary-light);
+      border: 1px solid #C7D6F7;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      margin-bottom: 18px;
+    }
+    .hero-eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--color-success);
+      box-shadow: 0 0 0 3px rgba(14, 159, 110, 0.18);
+    }
+    h1.hero-title {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
       color: var(--color-text-main);
-      margin-bottom: 12px;
-    }
-    .hero-title span {
-      background: linear-gradient(135deg, #2563EB, #7C3AED);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      margin-bottom: 14px;
     }
     .hero-subtitle {
-      font-size: 1.08rem;
+      font-size: 1.12rem;
       color: var(--color-text-muted);
-      line-height: 1.55;
-      margin-bottom: 24px;
+      line-height: 1.6;
+      max-width: 640px;
+      margin: 0 auto 24px auto;
     }
 
     /* Live Search Bar */
@@ -367,7 +392,7 @@
     }
     .search-input:focus {
       border-color: var(--color-primary);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+      box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.15);
     }
     .search-icon {
       position: absolute;
@@ -422,15 +447,15 @@
 
     /* Category Section Headers */
     .category-section {
-      margin-bottom: 40px;
+      margin-bottom: 44px;
     }
     .category-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 18px;
-      padding-bottom: 8px;
-      border-bottom: 2px solid #E2E8F0;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--color-border);
     }
     .category-title-group {
       display: flex;
@@ -448,7 +473,7 @@
       justify-content: center;
     }
     .category-title {
-      font-size: 1.35rem;
+      font-size: 1.4rem;
       font-weight: 800;
       color: var(--color-text-main);
       letter-spacing: -0.02em;
@@ -456,8 +481,8 @@
     .category-count {
       font-size: 0.78rem;
       font-weight: 700;
-      background: #E2E8F0;
-      color: #475569;
+      background: #EEF0F3;
+      color: #4B5563;
       padding: 2px 8px;
       border-radius: 99px;
     }
@@ -487,7 +512,7 @@
     .tool-card-item:hover {
       transform: translateY(-4px);
       box-shadow: var(--shadow-hover);
-      border-color: #93C5FD;
+      border-color: #B9C8F5;
     }
     .tool-card-top {
       margin-bottom: 14px;
@@ -502,17 +527,17 @@
     .tool-icon-box {
       width: 44px;
       height: 44px;
-      border-radius: 12px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
-    .icon-blue { background: #EFF6FF; color: #2563EB; }
-    .icon-green { background: #ECFDF5; color: #059669; }
-    .icon-purple { background: #FAF5FF; color: #7C3AED; }
-    .icon-amber { background: #FFFBEB; color: #D97706; }
-    .icon-rose { background: #FFF1F2; color: #E11D48; }
+    .icon-blue { background: #EAF0FE; color: #1D4ED8; }
+    .icon-green { background: #E9F7F0; color: #047857; }
+    .icon-purple { background: #F2EDFE; color: #6D28D9; }
+    .icon-amber { background: #FDF3E3; color: #B45309; }
+    .icon-rose { background: #FDECEF; color: #BE123C; }
 
     .tool-badges {
       display: flex;
@@ -525,19 +550,20 @@
       font-weight: 700;
       padding: 3px 8px;
       border-radius: 6px;
-      background: #F1F5F9;
+      background: #F3F4F6;
       color: #475569;
     }
     .tool-badge.badge-accent {
-      background: #EFF6FF;
-      color: #1D4ED8;
+      background: #EAF0FE;
+      color: #1E40AF;
     }
     .tool-card-title {
-      font-size: 1.15rem;
+      font-size: 1.18rem;
       font-weight: 800;
       color: var(--color-text-main);
       margin-bottom: 6px;
       line-height: 1.3;
+      letter-spacing: -0.02em;
     }
     .tool-card-desc {
       font-size: 0.88rem;
@@ -549,7 +575,7 @@
       align-items: center;
       justify-content: space-between;
       padding-top: 14px;
-      border-top: 1px solid #F1F5F9;
+      border-top: 1px solid #F3F4F6;
       margin-top: 14px;
     }
     .tool-tag {
@@ -574,7 +600,7 @@
     /* Dynamic Interactive Workspace */
     .workspace-section {
       background: var(--color-card);
-      border: 2px solid #BFDBFE;
+      border: 1px solid #C9D6F7;
       border-radius: var(--color-radius-lg);
       padding: 24px;
       box-shadow: var(--shadow-md);
@@ -610,6 +636,7 @@
     .workspace-tool-title {
       font-size: 1.3rem;
       font-weight: 800;
+      letter-spacing: -0.02em;
       color: var(--color-text-main);
       word-break: break-word;
     }
@@ -618,7 +645,7 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      background: #F1F5F9;
+      background: #F3F4F6;
       border: 1px solid #CBD5E1;
       padding: 8px 14px;
       border-radius: var(--color-radius-sm);
@@ -631,24 +658,24 @@
       transition: all 0.15s ease;
     }
     .workspace-back-btn:hover {
-      background: #E2E8F0;
+      background: #E5E7EB;
       color: var(--color-primary);
-      border-color: #93C5FD;
+      border-color: #A8BDF0;
     }
 
     /* Dropzone inside Workspace */
     .dropzone {
-      border: 2px dashed #93C5FD;
+      border: 2px dashed #A8BDF0;
       border-radius: var(--color-radius-md);
       padding: 32px 20px;
       text-align: center;
-      background: #F8FAFC;
+      background: #FBFCFE;
       cursor: pointer;
       transition: all 0.2s ease;
       position: relative;
     }
     .dropzone:hover, .dropzone.dragover {
-      background: #EFF6FF;
+      background: #EAF0FE;
       border-color: var(--color-primary);
     }
     .dropzone-input {
@@ -663,7 +690,7 @@
       width: 48px;
       height: 48px;
       border-radius: 12px;
-      background: #EFF6FF;
+      background: #EAF0FE;
       color: var(--color-primary);
       display: flex;
       align-items: center;
@@ -708,6 +735,7 @@
     }
     .control-input:focus {
       border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
     }
 
     /* Preset Chips */
@@ -718,7 +746,7 @@
       margin-top: 6px;
     }
     .chip-btn {
-      background: #F1F5F9;
+      background: #F3F4F6;
       border: 1px solid #CBD5E1;
       padding: 6px 12px;
       border-radius: 8px;
@@ -751,13 +779,14 @@
       text-decoration: none;
     }
     .btn-primary {
-      background: linear-gradient(135deg, #2563EB, #1D4ED8);
+      background: var(--color-primary);
       color: #FFFFFF;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      box-shadow: 0 6px 16px -4px rgba(29, 78, 216, 0.35);
+      letter-spacing: -0.01em;
     }
     .btn-primary:hover {
-      background: #1D4ED8;
-      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+      background: var(--color-primary-hover);
+      box-shadow: 0 8px 20px -4px rgba(29, 78, 216, 0.4);
     }
 
     /* Output & Metrics */
@@ -775,7 +804,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #0F172A;
+      background: #0B1526;
       border-radius: var(--color-radius-md);
       overflow: hidden;
       margin-bottom: 16px;
@@ -793,7 +822,7 @@
       margin-bottom: 16px;
     }
     .metric-card {
-      background: #F8FAFC;
+      background: #F7F8FA;
       border: 1px solid var(--color-border);
       border-radius: var(--color-radius-sm);
       padding: 10px;
@@ -812,14 +841,14 @@
       margin: 14px 0;
       display: none;
     }
-    .alert-box.info { background: #EFF6FF; border: 1px solid #BFDBFE; color: #1E40AF; }
+    .alert-box.info { background: #EAF0FE; border: 1px solid #C7D6F7; color: #1E40AF; }
     .alert-box.success { background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; }
     .alert-box.error { background: #FEF2F2; border: 1px solid #FECACA; color: #991B1B; }
 
     /* Why Choose Us Section */
     .features-section {
       margin: 48px 0;
-      padding: 36px 24px;
+      padding: 40px 28px;
       background: #FFFFFF;
       border-radius: var(--color-radius-lg);
       border: 1px solid var(--color-border);
@@ -841,9 +870,15 @@
     }
     .feature-card {
       padding: 20px;
-      background: #F8FAFC;
+      background: #FAFAFB;
       border-radius: var(--color-radius-md);
-      border: 1px solid #E2E8F0;
+      border: 1px solid #E5E7EB;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-2px);
+      border-color: #D8DDE6;
+      box-shadow: var(--shadow-sm);
     }
     .feature-icon-box {
       width: 44px;
@@ -870,7 +905,7 @@
     /* FAQ Section */
     .faq-section {
       margin: 40px 0;
-      padding: 32px 24px;
+      padding: 36px 28px;
       background: #FFFFFF;
       border-radius: var(--color-radius-lg);
       border: 1px solid var(--color-border);
@@ -922,7 +957,7 @@
 
     /* Multi-column Footer */
     .site-footer {
-      background: #0F172A;
+      background: #0B1526;
       color: #94A3B8;
       border-radius: var(--color-radius-lg);
       padding: 44px 32px 24px 32px;
@@ -972,14 +1007,14 @@
       border-top: 1px solid #1E293B;
       text-align: center;
       font-size: 0.82rem;
-      color: #64748B;
+      color: #5B6472;
     }
 
     /* Modal Backdrop */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.75);
+      background: rgba(11, 21, 38, 0.75);
       backdrop-filter: blur(4px);
       display: none;
       align-items: center;
@@ -997,6 +1032,7 @@
       position: relative;
       max-height: 85vh;
       overflow-y: auto;
+      box-shadow: var(--shadow-lg);
     }
     .modal-close-btn {
       position: absolute;
@@ -1006,7 +1042,7 @@
       border: none;
       font-size: 1.5rem;
       cursor: pointer;
-      color: #64748B;
+      color: #5B6472;
     }
 
     /* Safe-Zone Workspace Modal Styles */
@@ -1019,7 +1055,7 @@
       position: relative;
       max-height: 90vh;
       overflow-y: auto;
-      box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.35);
+      box-shadow: 0 25px 50px -12px rgba(11, 21, 38, 0.35);
     }
     .safezone-grid {
       display: grid;
@@ -1090,7 +1126,7 @@
       border-radius: 3px;
     }
     .safezone-legend-danger { background: rgba(239, 68, 68, 0.7); }
-    .safezone-legend-safe { background: rgba(16, 185, 129, 0.7); }
+    .safezone-legend-safe { background: rgba(14, 159, 110, 0.7); }
     .safezone-legend-side { background: rgba(245, 158, 11, 0.7); }
     
     .sz-ratio-chips, .sz-mode-chips {
@@ -1104,9 +1140,9 @@
       border-radius: 9999px;
       font-size: 0.84rem;
       font-weight: 700;
-      background: #F1F5F9;
+      background: #F3F4F6;
       color: #334155;
-      border: 1px solid #E2E8F0;
+      border: 1px solid #E5E7EB;
       cursor: pointer;
       transition: all 0.15s ease;
       display: inline-flex;
@@ -1114,22 +1150,22 @@
       gap: 6px;
     }
     .sz-chip:hover {
-      background: #E2E8F0;
-      color: #0F172A;
+      background: #E5E7EB;
+      color: #0B1526;
     }
     .sz-chip.active {
-      background: #2563EB;
+      background: #1D4ED8;
       color: #FFFFFF;
-      border-color: #2563EB;
-      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+      border-color: #1D4ED8;
+      box-shadow: 0 4px 10px rgba(29, 78, 216, 0.25);
     }
     .sz-toggle-switch {
       display: flex;
       align-items: center;
       gap: 10px;
       padding: 10px 14px;
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
+      background: #F7F8FA;
+      border: 1px solid #E5E7EB;
       border-radius: 10px;
       cursor: pointer;
       user-select: none;
@@ -1139,7 +1175,7 @@
       width: 18px;
       height: 18px;
       cursor: pointer;
-      accent-color: #2563EB;
+      accent-color: #1D4ED8;
     }
 
     /* PDF Multi-image preview grid */
@@ -1151,7 +1187,7 @@
     }
     .pdf-thumb-card {
       position: relative;
-      background: #F1F5F9;
+      background: #F3F4F6;
       border: 1px solid #CBD5E1;
       border-radius: 8px;
       padding: 4px;
@@ -1167,7 +1203,7 @@
       position: absolute;
       top: 6px;
       left: 6px;
-      background: rgba(15, 23, 42, 0.8);
+      background: rgba(11, 21, 38, 0.8);
       color: #FFF;
       font-size: 0.65rem;
       font-weight: 700;
@@ -1190,7 +1226,7 @@
 
     /* Batch Processing Queue & Results Styles */
     .batch-queue-container {
-      background: #F8FAFC;
+      background: #F7F8FA;
       border: 1px solid var(--color-border);
       border-radius: var(--color-radius-md);
       padding: 12px;
@@ -1207,7 +1243,7 @@
       align-items: center;
       gap: 10px;
       background: #FFFFFF;
-      border: 1px solid #E2E8F0;
+      border: 1px solid #E5E7EB;
       border-radius: 8px;
       padding: 8px 10px;
       position: relative;
@@ -1218,11 +1254,11 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
     }
     .batch-item-card.is-processing {
-      border-color: #3B82F6;
-      background: #EFF6FF;
+      border-color: #1D4ED8;
+      background: #EAF0FE;
     }
     .batch-item-card.is-done {
-      border-color: #10B981;
+      border-color: #0E9F6E;
       background: #F0FDF4;
     }
     .batch-item-card.is-error {
@@ -1234,7 +1270,7 @@
       height: 48px;
       border-radius: 6px;
       object-fit: cover;
-      background: #E2E8F0;
+      background: #E5E7EB;
       flex-shrink: 0;
     }
     .batch-item-info {
@@ -1268,8 +1304,8 @@
       margin-top: 3px;
     }
     .status-badge-pending {
-      background: #F1F5F9;
-      color: #64748B;
+      background: #F3F4F6;
+      color: #5B6472;
     }
     .status-badge-processing {
       background: #DBEAFE;
@@ -1315,8 +1351,8 @@
     }
     .batch-results-wrapper {
       margin-top: 16px;
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
+      background: #F7F8FA;
+      border: 1px solid #E5E7EB;
       border-radius: var(--color-radius-md);
       padding: 14px;
     }
@@ -1333,7 +1369,7 @@
       justify-content: space-between;
       gap: 12px;
       background: #FFFFFF;
-      border: 1px solid #E2E8F0;
+      border: 1px solid #E5E7EB;
       border-radius: 8px;
       padding: 8px 12px;
       transition: border-color 0.15s ease;
@@ -1353,7 +1389,7 @@
       height: 40px;
       border-radius: 6px;
       object-fit: cover;
-      background: #E2E8F0;
+      background: #E5E7EB;
       flex-shrink: 0;
     }
     .batch-result-meta {
@@ -1374,12 +1410,12 @@
     }
     .batch-result-btn {
       padding: 6px 12px;
-      background: #EFF6FF;
-      color: #2563EB;
+      background: #EAF0FE;
+      color: #1D4ED8;
       font-size: 0.76rem;
       font-weight: 700;
       border-radius: 6px;
-      border: 1px solid #BFDBFE;
+      border: 1px solid #C7D6F7;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
@@ -1388,9 +1424,9 @@
       white-space: nowrap;
     }
     .batch-result-btn:hover {
-      background: #2563EB;
+      background: #1D4ED8;
       color: #FFFFFF;
-      border-color: #2563EB;
+      border-color: #1D4ED8;
     }
 
     /* Popular Searches SEO & Quick Nav Strip */
@@ -1430,12 +1466,12 @@
       align-items: center;
       padding: 6px 14px;
       border-radius: 9999px;
-      background: #F8FAFC;
+      background: #F7F8FA;
       color: #334155;
       font-size: 0.82rem;
       font-weight: 600;
       text-decoration: none;
-      border: 1px solid #E2E8F0;
+      border: 1px solid #E5E7EB;
       transition: all 0.2s ease;
       cursor: pointer;
     }
@@ -1474,21 +1510,22 @@
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .hero-preset-pill:hover {
-      background: #EFF6FF;
-      border-color: #3B82F6;
-      color: #1D4ED8;
+      background: #EAF0FE;
+      border-color: #1D4ED8;
+      color: #1E40AF;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.15);
     }
 
     /* Hero Ingest Drop Area */
     .hero-dropzone-box {
       margin: 20px auto 0 auto;
       max-width: 680px;
-      border: 2px dashed #93C5FD;
+      border: 2px dashed #A8BDF0;
       border-radius: var(--color-radius-md);
       padding: 20px 16px;
-      background: rgba(239, 246, 255, 0.6);
+      background: #FFFFFF;
+      box-shadow: var(--shadow-sm);
       cursor: pointer;
       position: relative;
       transition: all 0.25s ease;
@@ -1499,9 +1536,9 @@
       text-align: left;
     }
     .hero-dropzone-box:hover, .hero-dropzone-box.dragover {
-      background: #EFF6FF;
-      border-color: #2563EB;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12), 0 8px 24px rgba(37, 99, 235, 0.12);
+      background: #EAF0FE;
+      border-color: #1D4ED8;
+      box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.12), 0 8px 24px rgba(29, 78, 216, 0.12);
       transform: translateY(-1px);
     }
     .hero-dropzone-box.dragover .hero-drop-icon {
@@ -1512,8 +1549,8 @@
       height: 44px;
       border-radius: 12px;
       background: #FFFFFF;
-      color: #2563EB;
-      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+      color: #1D4ED8;
+      box-shadow: 0 2px 8px rgba(29, 78, 216, 0.15);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1535,12 +1572,12 @@
     .hero-drop-headline {
       font-size: 0.96rem;
       font-weight: 800;
-      color: #0F172A;
+      color: #0B1526;
       margin-bottom: 2px;
     }
     .hero-drop-sub {
       font-size: 0.78rem;
-      color: #64748B;
+      color: #5B6472;
     }
 
     /* Engagement Bar: Quick Share & Bookmark Reminder */
@@ -1562,8 +1599,8 @@
       font-size: 0.80rem;
       font-weight: 600;
       color: #475569;
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
+      background: #F7F8FA;
+      border: 1px solid #E5E7EB;
       cursor: pointer;
       transition: all 0.15s ease;
       user-select: none;
@@ -1575,13 +1612,13 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
     .engagement-btn.primary {
-      color: #2563EB;
-      background: #EFF6FF;
-      border-color: #BFDBFE;
+      color: #1D4ED8;
+      background: #EAF0FE;
+      border-color: #C7D6F7;
     }
     .engagement-btn.primary:hover {
       background: #DBEAFE;
-      color: #1D4ED8;
+      color: #1E40AF;
     }
 
     /* Toast Notification */
@@ -1590,7 +1627,7 @@
       bottom: 24px;
       right: 24px;
       max-width: calc(100vw - 48px);
-      background: #0F172A;
+      background: #0B1526;
       color: #FFFFFF;
       padding: 12px 20px;
       border-radius: 10px;
@@ -1619,14 +1656,14 @@
       right: 24px;
       max-width: 440px;
       width: calc(100% - 32px);
-      background: rgba(15, 23, 42, 0.96);
+      background: rgba(11, 21, 38, 0.96);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       color: #FFFFFF;
       padding: 14px 16px 14px 14px;
       border-radius: 12px;
-      border: 1px solid rgba(16, 185, 129, 0.35);
-      box-shadow: 0 16px 36px -4px rgba(15, 23, 42, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(14, 159, 110, 0.35);
+      box-shadow: 0 16px 36px -4px rgba(11, 21, 38, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08);
       z-index: 10001;
       display: flex;
       align-items: flex-start;
@@ -1646,8 +1683,8 @@
       width: 36px;
       height: 36px;
       border-radius: 10px;
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      background: rgba(14, 159, 110, 0.15);
+      border: 1px solid rgba(14, 159, 110, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1665,21 +1702,21 @@
       gap: 8px;
       font-size: 0.90rem;
       font-weight: 700;
-      color: #F8FAFC;
+      color: #F7F8FA;
       line-height: 1.3;
       margin-bottom: 3px;
     }
     .privacy-toast-tag {
       display: inline-flex;
       align-items: center;
-      background: rgba(16, 185, 129, 0.2);
+      background: rgba(14, 159, 110, 0.2);
       color: #34D399;
       font-size: 0.68rem;
       font-weight: 700;
       letter-spacing: 0.03em;
       padding: 1px 7px;
       border-radius: 9999px;
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      border: 1px solid rgba(14, 159, 110, 0.3);
       text-transform: uppercase;
     }
     .privacy-toast-desc {
@@ -1688,12 +1725,12 @@
       line-height: 1.4;
     }
     .privacy-toast-desc strong {
-      color: #E2E8F0;
+      color: #E5E7EB;
     }
     .privacy-toast-close {
       background: transparent;
       border: none;
-      color: #64748B;
+      color: #5B6472;
       font-size: 1.25rem;
       line-height: 1;
       padding: 2px 6px;
@@ -1704,7 +1741,7 @@
       flex-shrink: 0;
     }
     .privacy-toast-close:hover {
-      color: #F8FAFC;
+      color: #F7F8FA;
       background: rgba(255, 255, 255, 0.1);
     }
     .privacy-toast-progress {
@@ -1712,7 +1749,7 @@
       bottom: 0;
       left: 0;
       height: 3px;
-      background: linear-gradient(90deg, #10B981, #34D399);
+      background: linear-gradient(90deg, #0E9F6E, #34D399);
       width: 100%;
       transform-origin: left;
     }
@@ -1739,14 +1776,14 @@
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .dropzone.dragover {
-      background: #EFF6FF !important;
-      border-color: #2563EB !important;
-      box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.15), 0 10px 30px rgba(37, 99, 235, 0.1) !important;
+      background: #EAF0FE !important;
+      border-color: #1D4ED8 !important;
+      box-shadow: 0 0 0 5px rgba(29, 78, 216, 0.15), 0 10px 30px rgba(29, 78, 216, 0.1) !important;
       transform: scale(1.01);
     }
     .dropzone.dragover .dropzone-icon {
       transform: scale(1.2) rotate(-5deg);
-      background: #2563EB;
+      background: #1D4ED8;
       color: #FFFFFF;
       transition: all 0.2s ease;
     }
@@ -1757,7 +1794,7 @@
       background: #FFFFFF;
       border-radius: var(--color-radius-lg);
       border: 1px solid var(--color-border);
-      padding: 32px 26px;
+      padding: 36px 28px;
       box-shadow: var(--shadow-sm);
     }
     .spec-guide-header {
@@ -1767,7 +1804,7 @@
     .spec-guide-header h2 {
       font-size: 1.80rem;
       font-weight: 800;
-      color: #0F172A;
+      color: #0B1526;
       letter-spacing: -0.025em;
     }
     .spec-guide-header p {
@@ -1781,7 +1818,7 @@
       width: 100%;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
-      border: 1px solid #E2E8F0;
+      border: 1px solid #E5E7EB;
       border-radius: var(--color-radius-md);
       margin-bottom: 28px;
     }
@@ -1792,11 +1829,11 @@
       font-size: 0.88rem;
     }
     .specs-table th {
-      background: #F8FAFC;
+      background: #F8F9FB;
       color: #334155;
       font-weight: 700;
       padding: 14px 16px;
-      border-bottom: 1px solid #E2E8F0;
+      border-bottom: 1px solid #E5E7EB;
       white-space: nowrap;
       font-size: 0.82rem;
       text-transform: uppercase;
@@ -1804,7 +1841,7 @@
     }
     .specs-table td {
       padding: 14px 16px;
-      border-bottom: 1px solid #F1F5F9;
+      border-bottom: 1px solid #F3F4F6;
       color: #1E293B;
       vertical-align: middle;
     }
@@ -1812,11 +1849,11 @@
       border-bottom: none;
     }
     .specs-table tr:hover td {
-      background: #F8FAFC;
+      background: #F7F8FA;
     }
     .spec-portal-name {
       font-weight: 700;
-      color: #0F172A;
+      color: #0B1526;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -1836,15 +1873,15 @@
 
     /* 3-Step Home Preparation Guide */
     .home-prep-box {
-      background: linear-gradient(135deg, #F8FAFC, #EFF6FF);
-      border: 1px solid #BFDBFE;
+      background: linear-gradient(135deg, #F7F8FA, #EAF0FE);
+      border: 1px solid #C7D6F7;
       border-radius: var(--color-radius-md);
       padding: 24px;
     }
     .home-prep-title {
       font-size: 1.18rem;
       font-weight: 800;
-      color: #0F172A;
+      color: #0B1526;
       margin-bottom: 6px;
       display: flex;
       align-items: center;
@@ -1862,7 +1899,7 @@
     }
     .prep-step-card {
       background: #FFFFFF;
-      border: 1px solid #E2E8F0;
+      border: 1px solid #E5E7EB;
       border-radius: var(--color-radius-sm);
       padding: 18px;
       position: relative;
@@ -1872,7 +1909,7 @@
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: #2563EB;
+      background: #1D4ED8;
       color: #FFFFFF;
       font-weight: 800;
       font-size: 0.82rem;
@@ -1884,7 +1921,7 @@
     .prep-step-card h4 {
       font-size: 0.98rem;
       font-weight: 700;
-      color: #0F172A;
+      color: #0B1526;
       margin-bottom: 6px;
     }
     .prep-step-card p {
@@ -1925,11 +1962,11 @@
       transition: all 0.2s ease;
     }
     .howto-item:hover {
-      border-color: #CBD5E1;
+      border-color: #D8DDE6;
     }
     .howto-item.active {
-      border-color: #93C5FD;
-      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
+      border-color: #A8BDF0;
+      box-shadow: 0 4px 16px rgba(29, 78, 216, 0.08);
     }
     .howto-item-toggle {
       width: 100%;
@@ -1946,7 +1983,7 @@
     .howto-item-title {
       font-size: 1.08rem;
       font-weight: 700;
-      color: #0F172A;
+      color: #0B1526;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -1955,8 +1992,8 @@
       width: 22px;
       height: 22px;
       border-radius: 50%;
-      background: #F1F5F9;
-      color: #64748B;
+      background: #F3F4F6;
+      color: #5B6472;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1967,8 +2004,8 @@
     }
     .howto-item.active .howto-chevron {
       transform: rotate(180deg);
-      background: #EFF6FF;
-      color: #2563EB;
+      background: #EAF0FE;
+      color: #1D4ED8;
     }
     .howto-body {
       padding: 0 22px 22px 22px;
@@ -1976,7 +2013,7 @@
       font-size: 0.90rem;
       color: #334155;
       line-height: 1.65;
-      border-top: 1px solid #F1F5F9;
+      border-top: 1px solid #F3F4F6;
       padding-top: 16px;
     }
     .howto-item.active .howto-body {
@@ -1996,13 +2033,13 @@
       align-items: flex-start;
     }
     .howto-step-badge {
-      background: #EFF6FF;
-      color: #1D4ED8;
+      background: #EAF0FE;
+      color: #1E40AF;
       font-weight: 800;
       font-size: 0.72rem;
       padding: 2px 7px;
       border-radius: 6px;
-      border: 1px solid #BFDBFE;
+      border: 1px solid #C7D6F7;
       flex-shrink: 0;
       margin-top: 2px;
     }
@@ -2012,24 +2049,24 @@
       gap: 6px;
       font-size: 0.85rem;
       font-weight: 700;
-      color: #2563EB;
+      color: #1D4ED8;
       text-decoration: none;
-      background: #EFF6FF;
+      background: #EAF0FE;
       padding: 6px 12px;
       border-radius: 6px;
       transition: all 0.15s ease;
       cursor: pointer;
     }
     .howto-action-link:hover {
-      background: #2563EB;
+      background: #1D4ED8;
       color: #FFFFFF;
     }
 
     /* 100% Client-Side Privacy & Security Section */
     .privacy-security-section {
       margin: 44px 0;
-      background: #0F172A;
-      color: #F8FAFC;
+      background: #0B1526;
+      color: #F7F8FA;
       border-radius: var(--color-radius-lg);
       padding: 36px 30px;
       position: relative;
@@ -2042,7 +2079,7 @@
       right: -100px;
       width: 300px;
       height: 300px;
-      background: radial-gradient(circle, rgba(37, 99, 235, 0.25) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(29, 78, 216, 0.25) 0%, transparent 70%);
       pointer-events: none;
     }
     .privacy-sec-header {
@@ -2054,9 +2091,9 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(37, 99, 235, 0.2);
+      background: rgba(29, 78, 216, 0.2);
       border: 1px solid rgba(96, 165, 250, 0.35);
-      color: #93C5FD;
+      color: #A8BDF0;
       padding: 4px 12px;
       border-radius: 9999px;
       font-size: 0.76rem;
@@ -2083,8 +2120,8 @@
       gap: 20px;
     }
     .privacy-feature-card {
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.09);
       border-radius: var(--color-radius-md);
       padding: 20px;
       backdrop-filter: blur(8px);
@@ -2093,7 +2130,7 @@
       width: 40px;
       height: 40px;
       border-radius: 10px;
-      background: rgba(37, 99, 235, 0.2);
+      background: rgba(29, 78, 216, 0.2);
       color: #60A5FA;
       display: flex;
       align-items: center;
@@ -2141,7 +2178,7 @@
       }
       .footer-grid { grid-template-columns: 1fr; gap: 24px; }
       .tools-grid { grid-template-columns: 1fr; }
-      .hero-title { font-size: 1.65rem; }
+      h1.hero-title { font-size: 1.65rem; }
       .hero-section { margin: 12px auto 20px auto; }
       .tool-card-item { padding: 18px; }
       .ad-desktop-only { display: none !important; }
@@ -2161,10 +2198,10 @@
       .specs-table-responsive { overflow: visible; border: none; border-radius: 0; margin-bottom: 20px; }
       .specs-table thead { display: none; }
       .specs-table, .specs-table tbody, .specs-table tr, .specs-table td { display: block; width: 100%; }
-      .specs-table tr { border: 1px solid #E2E8F0; border-radius: 14px; margin-bottom: 12px; padding: 6px 0; background: #FFFFFF; }
+      .specs-table tr { border: 1px solid #E5E7EB; border-radius: 14px; margin-bottom: 12px; padding: 6px 0; background: #FFFFFF; }
       .specs-table tr:hover td { background: transparent; }
       .specs-table td { border-bottom: none; padding: 6px 16px; }
-      .specs-table td::before { display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; margin-bottom: 2px; }
+      .specs-table td::before { display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #5B6472; margin-bottom: 2px; }
       .specs-table td:nth-child(2)::before { content: "Required Dimensions"; }
       .specs-table td:nth-child(3)::before { content: "Strict Size Limit"; }
       .specs-table td:nth-child(4)::before { content: "DPI / Aspect Ratio"; }
@@ -2178,7 +2215,7 @@
     @media (max-width: 480px) {
       .brand-logo { font-size: 1.12rem; gap: 6px; }
       .brand-badge { font-size: 0.58rem; padding: 2px 6px; }
-      .hero-title { font-size: 1.45rem; }
+      h1.hero-title { font-size: 1.45rem; }
       .ad-slot-top { min-height: 50px; }
       .metrics-row { gap: 8px; }
       .metric-card { padding: 8px 4px; }
@@ -2200,7 +2237,7 @@
     <!-- Top Navigation Header -->
     <header class="site-nav">
       <a href="./" class="brand-logo" aria-label="ResizeHub Home">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-primary,#2563EB);">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-primary,#1D4ED8);">
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
           <circle cx="8.5" cy="8.5" r="1.5"/>
           <polyline points="21 15 16 10 5 21"/>
@@ -2248,6 +2285,7 @@
 
     <!-- Modern Hero Section -->
     <section class="hero-section">
+      <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span>100% free &middot; 100% private &middot; No uploads</div>
       <h1 class="hero-title text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Free Online Image Resizer, Passport Photo &amp; PDF Utility Suite</h1>
       <p class="hero-subtitle">Free all-in-one photo resizer, image compressor in KB, passport photo maker, and image-to-PDF converter. Process your images locally in seconds.</p>
 
@@ -2325,7 +2363,7 @@
 
     <!-- Global Toast Notice Notification -->
     <div id="toastNotice" class="toast-notice">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E9F6E" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
       <span id="toastNoticeText">Link copied to clipboard!</span>
     </div>
 
@@ -2578,7 +2616,7 @@
         <div class="output-box" id="outputBox">
           <div class="preview-frame">
             <img id="outputPreview" class="preview-img" alt="Result Preview">
-            <div id="outputPdfNote" style="display:none; color:#E2E8F0; font-size:0.92rem; font-weight:600; text-align:center; padding:20px 12px;">&#128196; PDF document ready &mdash; previews are not shown for PDF files. Use the Download button below.</div>
+            <div id="outputPdfNote" style="display:none; color:#E5E7EB; font-size:0.92rem; font-weight:600; text-align:center; padding:20px 12px;">&#128196; PDF document ready &mdash; previews are not shown for PDF files. Use the Download button below.</div>
           </div>
           <div class="metrics-row">
             <div class="metric-card">
@@ -2757,7 +2795,7 @@
       <!-- INFORMATIVE GUIDE: OFFICIAL PHOTO & SIGNATURE SPECIFICATIONS (SEO + COMPLIANCE) -->
       <section class="spec-guide-section" id="specs-guide" aria-label="Official Photo and Signature Upload Specifications">
         <div class="spec-guide-header">
-          <div style="display:inline-flex; align-items:center; gap:6px; background:#EFF6FF; border:1px solid #BFDBFE; color:#1D4ED8; padding:3px 12px; border-radius:9999px; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom:10px;">
+          <div style="display:inline-flex; align-items:center; gap:6px; background:#EAF0FE; border:1px solid #C7D6F7; color:#1E40AF; padding:3px 12px; border-radius:9999px; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom:10px;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Authoritative Guidelines
           </div>
@@ -2784,14 +2822,14 @@
               <tr>
                 <td>
                   <div class="spec-portal-name">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                     <strong>US / International Visa (DS-160, DV Lottery)</strong>
                   </div>
-                  <span style="font-size:0.75rem; color:#64748B;">US State Dept / Global Visas</span>
+                  <span style="font-size:0.75rem; color:#5B6472;">US State Dept / Global Visas</span>
                 </td>
                 <td>
                   <span class="spec-pill-badge badge-px-std">2&times;2 in (600&times;600 px)</span>
-                  <div style="font-size:0.72rem; color:#64748B; margin-top:2px;">Up to 1200&times;1200 px</div>
+                  <div style="font-size:0.72rem; color:#5B6472; margin-top:2px;">Up to 1200&times;1200 px</div>
                 </td>
                 <td>
                   <span class="spec-pill-badge badge-kb-strict">&lt; 240 KB</span>
@@ -2801,7 +2839,7 @@
                 </td>
                 <td>
                   <span class="spec-pill-badge badge-bg-clean">Plain White / Off-White</span>
-                  <div style="font-size:0.74rem; color:#64748B; margin-top:3px;">No glasses, neutral facial expression, head between 50-69% of height</div>
+                  <div style="font-size:0.74rem; color:#5B6472; margin-top:3px;">No glasses, neutral facial expression, head between 50-69% of height</div>
                 </td>
                 <td>
                   <button type="button" class="howto-action-link" onclick="openTool('passport');">
@@ -2816,7 +2854,7 @@
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
                     <strong>Government / Job Signatures (SSC, UPSC, IBPS, Railways)</strong>
                   </div>
-                  <span style="font-size:0.75rem; color:#64748B;">Central &amp; State Recruitment Portals</span>
+                  <span style="font-size:0.75rem; color:#5B6472;">Central &amp; State Recruitment Portals</span>
                 </td>
                 <td>
                   <span class="spec-pill-badge badge-px-std">300&times;80 px or 140&times;60 px</span>
@@ -2830,7 +2868,7 @@
                 </td>
                 <td>
                   <span class="spec-pill-badge badge-bg-clean">Pure White Paper</span>
-                  <div style="font-size:0.74rem; color:#64748B; margin-top:3px;">Dark black or dark blue ink, high contrast, zero shadows or grain</div>
+                  <div style="font-size:0.74rem; color:#5B6472; margin-top:3px;">Dark black or dark blue ink, high contrast, zero shadows or grain</div>
                 </td>
                 <td>
                   <button type="button" class="howto-action-link" onclick="openTool('signature');">
@@ -2842,14 +2880,14 @@
               <tr>
                 <td>
                   <div class="spec-portal-name">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6D28D9" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                     <strong>Online Application Photos (NEET, JEE, GATE, SSC CGL)</strong>
                   </div>
-                  <span style="font-size:0.75rem; color:#64748B;">National Testing Agency &amp; Boards</span>
+                  <span style="font-size:0.75rem; color:#5B6472;">National Testing Agency &amp; Boards</span>
                 </td>
                 <td>
                   <span class="spec-pill-badge badge-px-std">35&times;45 mm (413&times;531 px)</span>
-                  <div style="font-size:0.72rem; color:#64748B; margin-top:2px;">Also 3.5&times;4.5 cm</div>
+                  <div style="font-size:0.72rem; color:#5B6472; margin-top:2px;">Also 3.5&times;4.5 cm</div>
                 </td>
                 <td>
                   <span class="spec-pill-badge badge-kb-strict">20 KB &ndash; 50 KB</span>
@@ -2860,7 +2898,7 @@
                 </td>
                 <td>
                   <span class="spec-pill-badge badge-bg-clean">White or Light Background</span>
-                  <div style="font-size:0.74rem; color:#64748B; margin-top:3px;">80% face coverage, ears visible, name and date stamp where specified</div>
+                  <div style="font-size:0.74rem; color:#5B6472; margin-top:3px;">80% face coverage, ears visible, name and date stamp where specified</div>
                 </td>
                 <td>
                   <button type="button" class="howto-action-link" onclick="openTool('exam');">
@@ -2875,7 +2913,7 @@
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
                     <strong>Schengen Visa &amp; European Consulates</strong>
                   </div>
-                  <span style="font-size:0.75rem; color:#64748B;">France, Germany, Italy, Spain, etc.</span>
+                  <span style="font-size:0.75rem; color:#5B6472;">France, Germany, Italy, Spain, etc.</span>
                 </td>
                 <td>
                   <span class="spec-pill-badge badge-px-std">35&times;45 mm (413&times;531 px)</span>
@@ -2888,7 +2926,7 @@
                 </td>
                 <td>
                   <span class="spec-pill-badge badge-bg-clean">Light Grey or Pure White</span>
-                  <div style="font-size:0.74rem; color:#64748B; margin-top:3px;">Face height between 32mm and 36mm (70-80%), taken within last 6 months</div>
+                  <div style="font-size:0.74rem; color:#5B6472; margin-top:3px;">Face height between 32mm and 36mm (70-80%), taken within last 6 months</div>
                 </td>
                 <td>
                   <button type="button" class="howto-action-link" onclick="openTool('passport');">
@@ -2900,10 +2938,10 @@
               <tr>
                 <td>
                   <div class="spec-portal-name">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                     <strong>UK Passport (HMPO Digital Application)</strong>
                   </div>
-                  <span style="font-size:0.75rem; color:#64748B;">HM Passport Office Online</span>
+                  <span style="font-size:0.75rem; color:#5B6472;">HM Passport Office Online</span>
                 </td>
                 <td>
                   <span class="spec-pill-badge badge-px-std">600&times;750 px minimum</span>
@@ -2916,7 +2954,7 @@
                 </td>
                 <td>
                   <span class="spec-pill-badge badge-bg-clean">Plain Light-Coloured</span>
-                  <div style="font-size:0.74rem; color:#64748B; margin-top:3px;">No red-eye, sharp focus, no digital beauty filters or retouching</div>
+                  <div style="font-size:0.74rem; color:#5B6472; margin-top:3px;">No red-eye, sharp focus, no digital beauty filters or retouching</div>
                 </td>
                 <td>
                   <button type="button" class="howto-action-link" onclick="openTool('passport');">
@@ -2931,7 +2969,7 @@
         <!-- 3-Step Numbered Guide: Taking Compliant Photos at Home -->
         <div class="home-prep-box">
           <div class="home-prep-title">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
             <span>3-Step Numbered Guide: How to Take and Prepare Compliant Photos at Home</span>
           </div>
           <p class="home-prep-desc">
@@ -3281,7 +3319,7 @@
       <!-- COMPREHENSIVE HOW-TO GUIDES (SEO & ADSENSE DEPTH) -->
       <section class="howto-section" id="how-to-guides" aria-label="Step-by-Step Image Processing Tutorials">
         <div class="howto-header">
-          <div style="display:inline-flex; align-items:center; gap:6px; background:#EFF6FF; border:1px solid #BFDBFE; color:#1D4ED8; padding:3px 12px; border-radius:9999px; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom:10px;">
+          <div style="display:inline-flex; align-items:center; gap:6px; background:#EAF0FE; border:1px solid #C7D6F7; color:#1E40AF; padding:3px 12px; border-radius:9999px; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom:10px;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
             Tutorials &amp; Deep-Dives
           </div>
@@ -3294,7 +3332,7 @@
           <div class="howto-item active" id="howto-compress">
             <button type="button" class="howto-item-toggle" onclick="toggleHowTo(this)" aria-expanded="true">
               <span class="howto-item-title">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="10" y1="14" x2="3" y2="21"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="10" y1="14" x2="3" y2="21"/></svg>
                 How to Compress Images to an Exact File Size (20KB, 50KB, 100KB)
               </span>
               <span class="howto-chevron">&darr;</span>
@@ -3322,7 +3360,7 @@
                 </li>
               </ul>
               <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                <span style="font-size:0.80rem; color:#64748B;">💡 <strong>Pro Tip:</strong> For signatures, use PNG with threshold contrast to strip paper background and drop file size under 15KB.</span>
+                <span style="font-size:0.80rem; color:#5B6472;">💡 <strong>Pro Tip:</strong> For signatures, use PNG with threshold contrast to strip paper background and drop file size under 15KB.</span>
                 <button type="button" class="howto-action-link" onclick="openTool('compress', 50)">Open Compressor Tool &rarr;</button>
               </div>
             </div>
@@ -3360,7 +3398,7 @@
                 </li>
               </ul>
               <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                <span style="font-size:0.80rem; color:#64748B;">💡 <strong>Pro Tip:</strong> Compress photos to 100KB first before generating your PDF to keep total document size under 1MB for email attachments.</span>
+                <span style="font-size:0.80rem; color:#5B6472;">💡 <strong>Pro Tip:</strong> Compress photos to 100KB first before generating your PDF to keep total document size under 1MB for email attachments.</span>
                 <button type="button" class="howto-action-link" onclick="openTool('pdf-create')">Create PDF Now &rarr;</button>
               </div>
             </div>
@@ -3370,7 +3408,7 @@
           <div class="howto-item" id="howto-upscale">
             <button type="button" class="howto-item-toggle" onclick="toggleHowTo(this)" aria-expanded="false">
               <span class="howto-item-title">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6D28D9" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
                 How to Scale Images to 4K/8K Resolution Without Losing Sharpness
               </span>
               <span class="howto-chevron">&darr;</span>
@@ -3398,7 +3436,7 @@
                 </li>
               </ul>
               <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                <span style="font-size:0.80rem; color:#64748B;">💡 <strong>Pro Tip:</strong> For vector logos and icons, use our Image to SVG Tracer tool to convert bitmaps into mathematically infinite resolution.</span>
+                <span style="font-size:0.80rem; color:#5B6472;">💡 <strong>Pro Tip:</strong> For vector logos and icons, use our Image to SVG Tracer tool to convert bitmaps into mathematically infinite resolution.</span>
                 <button type="button" class="howto-action-link" onclick="openTool('upscale')">Open 4K/8K Upscaler &rarr;</button>
               </div>
             </div>
@@ -3615,7 +3653,7 @@
           </svg>
         </div>
         <div>
-          <h3 style="font-size:1.35rem; font-weight:800; color:#0F172A; margin:0;">Cross-Platform Safe-Zone &amp; Ratio Fitter</h3>
+          <h3 style="font-size:1.35rem; font-weight:800; color:#0B1526; margin:0;">Cross-Platform Safe-Zone &amp; Ratio Fitter</h3>
           <p style="font-size:0.84rem; color:var(--color-text-muted); margin:2px 0 0;">Intelligent smart-fit, Gaussian blur background padding &amp; live platform safe-zone preview</p>
         </div>
       </div>
@@ -3694,8 +3732,8 @@
             <label class="sz-toggle-switch" for="szSafeZoneToggle">
               <input type="checkbox" id="szSafeZoneToggle" checked>
               <div>
-                <div style="font-size:0.88rem; font-weight:700; color:#0F172A;">Interactive Platform Safe-Zone Overlay</div>
-                <div style="font-size:0.75rem; color:#64748B;">Highlights UI buttons, headers &amp; captions. Preview only (never baked into export).</div>
+                <div style="font-size:0.88rem; font-weight:700; color:#0B1526;">Interactive Platform Safe-Zone Overlay</div>
+                <div style="font-size:0.75rem; color:#5B6472;">Highlights UI buttons, headers &amp; captions. Preview only (never baked into export).</div>
               </div>
             </label>
           </div>
@@ -3704,9 +3742,9 @@
           <div style="margin-bottom:14px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
               <label class="control-label" for="szScaleSlider" style="margin:0; font-weight:700;">Foreground Asset Fit / Scale</label>
-              <span id="szScaleVal" style="font-size:0.82rem; font-weight:700; color:#2563EB;">100% (Fit)</span>
+              <span id="szScaleVal" style="font-size:0.82rem; font-weight:700; color:#1D4ED8;">100% (Fit)</span>
             </div>
-            <input type="range" id="szScaleSlider" min="50" max="100" value="100" step="1" style="width:100%; accent-color:#2563EB; cursor:pointer;">
+            <input type="range" id="szScaleSlider" min="50" max="100" value="100" step="1" style="width:100%; accent-color:#1D4ED8; cursor:pointer;">
           </div>
 
           <!-- 5. Export Format Selector -->
@@ -3739,15 +3777,15 @@
               <canvas id="szPreviewCanvas" class="safezone-preview-canvas"></canvas>
             </div>
             <div id="szEmptyNotice" style="color:#94A3B8; font-size:0.88rem; text-align:center; padding:30px 10px;">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="margin:0 auto 10px; display:block; color:#64748B;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="margin:0 auto 10px; display:block; color:#5B6472;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
               Upload or drop an image above to see live real-time composition &amp; safe zones
             </div>
           </div>
 
           <!-- Live Resolution & Safe Zone Legend -->
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; font-size:0.8rem;">
-            <span id="szResBadge" style="font-weight:700; color:#0F172A; background:#F1F5F9; padding:4px 8px; border-radius:6px;">1080 &times; 1920 px (9:16)</span>
-            <span id="szOriginalBadge" style="color:#64748B;">Original: -</span>
+            <span id="szResBadge" style="font-weight:700; color:#0B1526; background:#F3F4F6; padding:4px 8px; border-radius:6px;">1080 &times; 1920 px (9:16)</span>
+            <span id="szOriginalBadge" style="color:#5B6472;">Original: -</span>
           </div>
 
           <div class="safezone-legend" id="szLegend">
@@ -3774,17 +3812,17 @@
   <div class="modal-backdrop" id="privacyModal">
     <div class="modal-dialog">
       <button type="button" class="modal-close-btn" onclick="closeModal('privacyModal')">&times;</button>
-      <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:12px; color:#0F172A;">Privacy Policy</h3>
+      <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:12px; color:#0B1526;">Privacy Policy</h3>
       <div style="font-size:0.92rem; color:#475569; line-height:1.6; max-height:65vh; overflow-y:auto; padding-right:6px;">
         <p style="margin-bottom:12px;"><strong>Effective Date:</strong> January 1, 2026</p>
         <p style="margin-bottom:12px;">At <strong>ResizeHub</strong> (https://resizehub.tech/), user privacy and data sovereignty are fundamental architectural principles. ResizeHub operates on an uncompromising <strong>100% Client-Side Processing</strong> architecture.</p>
-        <h4 style="font-weight:700; color:#0F172A; margin:14px 0 6px;">1. Zero Server Uploads &amp; Local Execution</h4>
+        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">1. Zero Server Uploads &amp; Local Execution</h4>
         <p style="margin-bottom:12px;">All image resizing, cropping, compression, conversion, and PDF operations are executed entirely within your local web browser using the HTML5 Canvas API, Typed Arrays, and Web Workers. <strong>No photos, signatures, exam cards, or documents are ever uploaded, transmitted, or stored on any external server or cloud database.</strong> Your media remains strictly on your personal device at all times.</p>
-        <h4 style="font-weight:700; color:#0F172A; margin:14px 0 6px;">2. Third-Party Advertising &amp; Cookies</h4>
+        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">2. Third-Party Advertising &amp; Cookies</h4>
         <p style="margin-bottom:12px;">ResizeHub may in future be supported by third-party advertising networks, including Google AdSense (only after approval). These advertising providers may use cookies, web beacons, or non-personally identifiable identifiers to serve contextual advertisements and measure ad performance. These third-party vendors have their own independent privacy policies, and no user images or personal documents are ever accessible to or shared with advertising networks.</p>
-        <h4 style="font-weight:700; color:#0F172A; margin:14px 0 6px;">3. Web Analytics</h4>
+        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">3. Web Analytics</h4>
         <p style="margin-bottom:12px;">We use lightweight web telemetry to track aggregate, non-personally identifiable metrics including page views, referrer URLs, and tool usage frequencies to optimize site performance.</p>
-        <h4 style="font-weight:700; color:#0F172A; margin:14px 0 6px;">4. User Consent &amp; Rights</h4>
+        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">4. User Consent &amp; Rights</h4>
         <p style="margin-bottom:12px;">By using ResizeHub, you acknowledge and consent to client-side local memory processing and applicable third-party advertising cookies. You may disable cookies through your browser settings at any time without impacting image processing capabilities.</p>
       </div>
     </div>
@@ -3792,16 +3830,16 @@
   <div class="modal-backdrop" id="termsModal">
     <div class="modal-dialog">
       <button type="button" class="modal-close-btn" onclick="closeModal('termsModal')">&times;</button>
-      <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:12px; color:#0F172A;">Terms of Service</h3>
+      <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:12px; color:#0B1526;">Terms of Service</h3>
       <div style="font-size:0.92rem; color:#475569; line-height:1.6; max-height:65vh; overflow-y:auto; padding-right:6px;">
         <p style="margin-bottom:12px;"><strong>Last Updated:</strong> January 1, 2026</p>
-        <h4 style="font-weight:700; color:#0F172A; margin:14px 0 6px;">1. Acceptance of Terms</h4>
+        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">1. Acceptance of Terms</h4>
         <p style="margin-bottom:12px;">By accessing and using <strong>ResizeHub</strong> (https://resizehub.tech/), you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you should discontinue use of the site immediately.</p>
-        <h4 style="font-weight:700; color:#0F172A; margin:14px 0 6px;">2. Intellectual Property &amp; Media Ownership</h4>
+        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">2. Intellectual Property &amp; Media Ownership</h4>
         <p style="margin-bottom:12px;">You retain 100% intellectual property ownership, copyright, and full commercial rights to all media, photos, signatures, and documents processed using ResizeHub. ResizeHub claims zero rights, licenses, or ownership over your content.</p>
-        <h4 style="font-weight:700; color:#0F172A; margin:14px 0 6px;">3. Fair Use &amp; Prohibited Conduct</h4>
+        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">3. Fair Use &amp; Prohibited Conduct</h4>
         <p style="margin-bottom:12px;">You agree to use ResizeHub solely for lawful purposes. You may not attempt to reverse engineer malicious scripts or flood the client application with automated denial-of-service traffic.</p>
-        <h4 style="font-weight:700; color:#0F172A; margin:14px 0 6px;">4. 'As-Is' Service Disclaimer &amp; Limitation of Liability</h4>
+        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">4. 'As-Is' Service Disclaimer &amp; Limitation of Liability</h4>
         <p style="margin-bottom:12px;">ResizeHub is provided on an <strong>'AS IS'</strong> and <strong>'AS AVAILABLE'</strong> basis without warranties of any kind, whether express, statutory, or implied. While we strive for absolute accuracy in dimension calculations and compression algorithms, ResizeHub and its creators shall not be liable for any submission rejections, exam portal failures, or data loss resulting from the use of this utility suite.</p>
       </div>
     </div>
@@ -3809,10 +3847,10 @@
   <div class="modal-backdrop" id="aboutModal">
     <div class="modal-dialog">
       <button type="button" class="modal-close-btn" onclick="closeModal('aboutModal')">&times;</button>
-      <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:12px; color:#0F172A;">About ResizeHub</h3>
+      <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:12px; color:#0B1526;">About ResizeHub</h3>
       <div style="font-size:0.92rem; color:#475569; line-height:1.6; max-height:65vh; overflow-y:auto; padding-right:6px;">
         <p style="margin-bottom:12px;"><strong>ResizeHub</strong> was built by web engineers committed to delivering ultra-fast, accessible, and privacy-respecting media tools without subscription paywalls, intrusive registrations, or cloud data risks.</p>
-        <h4 style="font-weight:700; color:#0F172A; margin:14px 0 6px;">Our Mission</h4>
+        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">Our Mission</h4>
         <p style="margin-bottom:12px;">Every day, millions of applicants, students, designers, and job seekers struggle with rigid government exam photo portals (such as 20KB-50KB limits, exact 2x2 inch dimensions, and clean ink signatures). Most existing tools require uploading sensitive personal documents to unknown remote servers or paywalling basic exports.</p>
         <p style="margin-bottom:12px;">ResizeHub solves this through <strong>zero-upload client-side engineering</strong>. By taking full advantage of modern HTML5 Canvas APIs, typed binary arrays, Web Workers, and jsPDF, all operations happen directly on your device with lightning speed, zero bandwidth waste, and absolute confidentiality.</p>
       </div>
@@ -3821,12 +3859,12 @@
   <div class="modal-backdrop" id="contactModal">
     <div class="modal-dialog">
       <button type="button" class="modal-close-btn" onclick="closeModal('contactModal')">&times;</button>
-      <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:12px; color:#0F172A;">Contact &amp; Support</h3>
+      <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:12px; color:#0B1526;">Contact &amp; Support</h3>
       <div style="font-size:0.92rem; color:#475569; line-height:1.6;">
         <p style="margin-bottom:12px;">Have questions, feedback, or a feature request for a specific government portal or exam specification? We would love to hear from you!</p>
-        <p style="margin-bottom:10px;"><strong>Project Repository:</strong> <a href="https://github.com/Barshon13/My-Web-Tool" target="_blank" rel="noopener" style="color:#2563EB; font-weight:600;">github.com/Barshon13/My-Web-Tool</a></p>
-        <p style="margin-bottom:10px;"><strong>Official Support:</strong> <a href="mailto:mailp6962@gmail.com" style="color:#2563EB; font-weight:600;">mailp6962@gmail.com</a></p>
-        <p style="color:#64748B; font-size:0.85rem; margin-top:14px;">Open-source bug reports and community pull requests are welcome on GitHub.</p>
+        <p style="margin-bottom:10px;"><strong>Project Repository:</strong> <a href="https://github.com/Barshon13/My-Web-Tool" target="_blank" rel="noopener" style="color:#1D4ED8; font-weight:600;">github.com/Barshon13/My-Web-Tool</a></p>
+        <p style="margin-bottom:10px;"><strong>Official Support:</strong> <a href="mailto:mailp6962@gmail.com" style="color:#1D4ED8; font-weight:600;">mailp6962@gmail.com</a></p>
+        <p style="color:#5B6472; font-size:0.85rem; margin-top:14px;">Open-source bug reports and community pull requests are welcome on GitHub.</p>
       </div>
     </div>
   </div>
@@ -5624,7 +5662,7 @@
             thumbCard.innerHTML = `
               <span class="pdf-thumb-num">Page ${pageNum}</span>
               <img class="pdf-thumb-img" src="${pageDataUrl}" alt="Page ${pageNum}">
-              <a href="${pageDataUrl}" download="${getCleanDownloadName('page-' + pageNum, 'png')}" style="display:block; font-size:0.75rem; font-weight:700; color:#2563EB; margin-top:4px;">Download PNG</a>
+              <a href="${pageDataUrl}" download="${getCleanDownloadName('page-' + pageNum, 'png')}" style="display:block; font-size:0.75rem; font-weight:700; color:#1D4ED8; margin-top:4px;">Download PNG</a>
             `;
             pdfExtractedPagesGrid.appendChild(thumbCard);
           }
@@ -6021,7 +6059,7 @@
         ctx.lineTo(w, topH);
         ctx.stroke();
         ctx.restore();
-        drawBadge('⚠️ Shorts & Reels Top Header / Camera (15%)', w / 2, topH / 2, 'rgba(15, 23, 42, 0.88)', '#FCA5A5', 15);
+        drawBadge('⚠️ Shorts & Reels Top Header / Camera (15%)', w / 2, topH / 2, 'rgba(11, 21, 38, 0.88)', '#FCA5A5', 15);
 
         // Bottom 25% captions, channel handle & audio title
         const botH = h * 0.25;
@@ -6037,7 +6075,7 @@
         ctx.lineTo(w, botY);
         ctx.stroke();
         ctx.restore();
-        drawBadge('⚠️ Captions, Channel Name & Music (25%)', w / 2, botY + botH / 2, 'rgba(15, 23, 42, 0.88)', '#FCA5A5', 15);
+        drawBadge('⚠️ Captions, Channel Name & Music (25%)', w / 2, botY + botH / 2, 'rgba(11, 21, 38, 0.88)', '#FCA5A5', 15);
 
         // Right side 18% engagement action buttons buffer
         const sideW = w * 0.18;
@@ -6053,8 +6091,8 @@
         ctx.lineTo(sideX, botY);
         ctx.stroke();
         ctx.restore();
-        drawBadge('⚠️ Like/Share', sideX + sideW / 2, topH + (botY - topH) / 2 - 14, 'rgba(15, 23, 42, 0.88)', '#FDE68A', 13);
-        drawBadge('Buttons', sideX + sideW / 2, topH + (botY - topH) / 2 + 14, 'rgba(15, 23, 42, 0.88)', '#FDE68A', 13);
+        drawBadge('⚠️ Like/Share', sideX + sideW / 2, topH + (botY - topH) / 2 - 14, 'rgba(11, 21, 38, 0.88)', '#FDE68A', 13);
+        drawBadge('Buttons', sideX + sideW / 2, topH + (botY - topH) / 2 + 14, 'rgba(11, 21, 38, 0.88)', '#FDE68A', 13);
 
         // Central Safe Zone (Text, Graphics & Faces)
         const safePad = 16;
@@ -6063,12 +6101,12 @@
         const safeW = sideX - safePad * 2;
         const safeH = (botY - topH) - safePad * 2;
         ctx.save();
-        ctx.strokeStyle = '#10B981';
+        ctx.strokeStyle = '#0E9F6E';
         ctx.lineWidth = 4;
         ctx.setLineDash([10, 6]);
         ctx.strokeRect(safeX, safeY, safeW, safeH);
         ctx.restore();
-        drawBadge('✅ SAFE VISIBLE ZONE (Text & Faces)', safeX + safeW / 2, safeY + 28, 'rgba(15, 23, 42, 0.9)', '#34D399', 14);
+        drawBadge('✅ SAFE VISIBLE ZONE (Text & Faces)', safeX + safeW / 2, safeY + 28, 'rgba(11, 21, 38, 0.9)', '#34D399', 14);
 
       } else if (presetKey === '4-5') {
         // 4:5 Instagram Portrait (Crops to 1080x1080 square in Profile Grid)
@@ -6083,17 +6121,17 @@
         ctx.strokeRect(0, 0, w, cropY);
         ctx.strokeRect(0, h - cropY, w, cropY);
         ctx.restore();
-        drawBadge('⚠️ Profile Grid Crop Warning (Top 135px)', w / 2, cropY / 2, 'rgba(15, 23, 42, 0.88)', '#FDE68A', 14);
-        drawBadge('⚠️ Profile Grid Crop Warning (Bottom 135px)', w / 2, h - cropY / 2, 'rgba(15, 23, 42, 0.88)', '#FDE68A', 14);
+        drawBadge('⚠️ Profile Grid Crop Warning (Top 135px)', w / 2, cropY / 2, 'rgba(11, 21, 38, 0.88)', '#FDE68A', 14);
+        drawBadge('⚠️ Profile Grid Crop Warning (Bottom 135px)', w / 2, h - cropY / 2, 'rgba(11, 21, 38, 0.88)', '#FDE68A', 14);
 
         // Center 1:1 Profile Safe Area
         ctx.save();
-        ctx.strokeStyle = '#10B981';
+        ctx.strokeStyle = '#0E9F6E';
         ctx.lineWidth = 4;
         ctx.setLineDash([10, 6]);
         ctx.strokeRect(16, cropY + 16, w - 32, w - 32);
         ctx.restore();
-        drawBadge('✅ 1:1 PROFILE GRID & FEED SAFE', w / 2, cropY + 40, 'rgba(15, 23, 42, 0.9)', '#34D399', 14);
+        drawBadge('✅ 1:1 PROFILE GRID & FEED SAFE', w / 2, cropY + 40, 'rgba(11, 21, 38, 0.9)', '#34D399', 14);
 
       } else if (presetKey === '1-1') {
         // 1:1 Square Feed
@@ -6104,12 +6142,12 @@
         ctx.fillRect(0, h - margin, w, margin);
         ctx.fillRect(0, margin, margin, h - margin * 2);
         ctx.fillRect(w - margin, margin, margin, h - margin * 2);
-        ctx.strokeStyle = '#10B981';
+        ctx.strokeStyle = '#0E9F6E';
         ctx.lineWidth = 4;
         ctx.setLineDash([10, 6]);
         ctx.strokeRect(margin, margin, w - margin * 2, h - margin * 2);
         ctx.restore();
-        drawBadge('✅ FEED & STORY RESHARE SAFE ZONE', w / 2, margin + 28, 'rgba(15, 23, 42, 0.9)', '#34D399', 14);
+        drawBadge('✅ FEED & STORY RESHARE SAFE ZONE', w / 2, margin + 28, 'rgba(11, 21, 38, 0.9)', '#34D399', 14);
 
       } else if (presetKey === '16-9') {
         // 16:9 YouTube Landscape / Thumbnail
@@ -6139,16 +6177,16 @@
         ctx.lineWidth = 3;
         ctx.strokeRect(badgeX, badgeY, badgeW, badgeH);
         ctx.restore();
-        drawBadge('⚠️ YouTube Time Badge (00:00)', badgeX + badgeW / 2, badgeY + badgeH / 2, 'rgba(15, 23, 42, 0.9)', '#FCA5A5', 13);
+        drawBadge('⚠️ YouTube Time Badge (00:00)', badgeX + badgeW / 2, badgeY + badgeH / 2, 'rgba(11, 21, 38, 0.9)', '#FCA5A5', 13);
 
         // Safe Area
         ctx.save();
-        ctx.strokeStyle = '#10B981';
+        ctx.strokeStyle = '#0E9F6E';
         ctx.lineWidth = 4;
         ctx.setLineDash([10, 6]);
         ctx.strokeRect(24, 24, w - 48, scrubY - 48);
         ctx.restore();
-        drawBadge('✅ SAFE THUMBNAIL TITLE & VISUALS', w / 2, 54, 'rgba(15, 23, 42, 0.9)', '#34D399', 15);
+        drawBadge('✅ SAFE THUMBNAIL TITLE & VISUALS', w / 2, 54, 'rgba(11, 21, 38, 0.9)', '#34D399', 15);
       }
     }
 

@@ -465,7 +465,7 @@
     /* Tool Cards Grid */
     .tools-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
       gap: 20px;
     }
 
@@ -836,7 +836,7 @@
     }
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
       gap: 24px;
     }
     .feature-card {
@@ -1199,7 +1199,7 @@
     }
     .batch-queue-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
       gap: 10px;
     }
     .batch-item-card {
@@ -1589,6 +1589,7 @@
       position: fixed;
       bottom: 24px;
       right: 24px;
+      max-width: calc(100vw - 48px);
       background: #0F172A;
       color: #FFFFFF;
       padding: 12px 20px;
@@ -1856,7 +1857,7 @@
     }
     .prep-steps-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
       gap: 18px;
     }
     .prep-step-card {
@@ -2078,7 +2079,7 @@
     }
     .privacy-features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
       gap: 20px;
     }
     .privacy-feature-card {
@@ -2147,6 +2148,13 @@
       .ad-mobile-only { display: flex !important; }
       .ad-slot-top, .ad-slot-728, .ad-slot-468 { max-width: 100%; }
       .workspace-section { padding: 16px 12px; }
+      .features-section, .spec-guide-section, .faq-section { padding: 24px 16px; }
+      .privacy-security-section { padding: 28px 18px; }
+      .site-footer { padding: 32px 18px 20px 18px; }
+      .safezone-modal-dialog { padding: 18px 14px; }
+      .control-input, .control-input select { font-size: 1rem; }
+      .category-header { flex-wrap: wrap; gap: 8px; }
+      .toast-notice { left: 16px; right: 16px; max-width: none; }
       .workspace-top-bar { flex-direction: column; align-items: stretch; gap: 12px; }
       .workspace-back-btn { width: 100%; text-align: center; }
     }
@@ -2155,27 +2163,18 @@
       .brand-badge { font-size: 0.58rem; padding: 2px 6px; }
       .hero-title { font-size: 1.45rem; }
       .ad-slot-top { min-height: 50px; }
+      .metrics-row { gap: 8px; }
+      .metric-card { padding: 8px 4px; }
+      .metric-title { font-size: 0.68rem; }
+      .metric-val { font-size: 0.92rem; }
+      .batch-output-box .metrics-row { grid-template-columns: repeat(2, 1fr); }
+      .category-title { font-size: 1.15rem; }
+      .spec-guide-header h2, .features-header h2, .faq-section h2, .howto-header h2 { font-size: 1.45rem; }
+      .modal-dialog { padding: 20px 16px; }
+      .hero-dropzone-box { gap: 10px; padding: 16px 12px; }
     }
   </style>
 
-  <!-- Microsoft Clarity Tracking Code -->
-  <script type="text/javascript">
-      (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "yf79znw0zr");
-  </script>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H7XL69GFVJ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-H7XL69GFVJ');
-  </script>
 </head>
 <body>
 
@@ -2562,6 +2561,7 @@
         <div class="output-box" id="outputBox">
           <div class="preview-frame">
             <img id="outputPreview" class="preview-img" alt="Result Preview">
+            <div id="outputPdfNote" style="display:none; color:#E2E8F0; font-size:0.92rem; font-weight:600; text-align:center; padding:20px 12px;">&#128196; PDF document ready &mdash; previews are not shown for PDF files. Use the Download button below.</div>
           </div>
           <div class="metrics-row">
             <div class="metric-card">
@@ -4350,8 +4350,10 @@
       if (typeof closeMobileMenu === 'function') closeMobileMenu();
       workspaceSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-      // If image is already loaded, auto-process
-      if (currentImage && !config.isPdfExtract && !config.isPdfCreate) {
+      // If image is already loaded, auto-process (not in Batch mode: the
+      // old code ran the single-image engine there and showed the single
+      // result box inside the batch workspace)
+      if (currentImage && !config.isPdfExtract && !config.isPdfCreate && !config.isBatch) {
         if (!config.defaultW) widthInput.value = origWidth;
         if (!config.defaultH) heightInput.value = origHeight;
         executeProcessing();
@@ -4667,7 +4669,11 @@
             const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
             displayResult(blob, 'svg');
           })
-          .catch(err => showAlert('SVG Tracing failed: ' + err.message, 'error'));
+          .catch(err => {
+            processBtn.disabled = false;
+            processBtn.textContent = 'Process & Download File';
+            showAlert('SVG Tracing failed: ' + err.message, 'error');
+          });
         return;
       }
 
@@ -4686,16 +4692,22 @@
             const mid = (low + high) / 2;
             const b = await new Promise(r => canvas.toBlob(r, mimeType, mid));
             if (!b) break;
-            bestBlob = b;
-            if (b.size > targetLimitBytes) {
-              high = mid;
-            } else {
+            // Keep ONLY blobs that meet the target: the old code kept the
+            // last blob even when it was over the limit (e.g. a "20KB"
+            // signature coming out at 24KB and being rejected by portals).
+            if (b.size <= targetLimitBytes) {
+              bestBlob = b;
               low = mid;
               if (targetLimitBytes - b.size < targetLimitBytes * 0.08) break;
+            } else {
+              high = mid;
             }
           }
 
-          displayResult(bestBlob || await new Promise(r => canvas.toBlob(r, mimeType, 0.98)), ext);
+          // No quality reached the target: use the smallest (lowest-quality)
+          // render so the result is as close as possible; displayResult
+          // warns the user instead of silently claiming success.
+          displayResult(bestBlob || await new Promise(r => canvas.toBlob(r, mimeType, 0.05)), ext);
         })();
       } else {
         canvas.toBlob((blob) => {
@@ -4716,7 +4728,17 @@
 
       if (activeBlobUrl) URL.revokeObjectURL(activeBlobUrl);
       activeBlobUrl = URL.createObjectURL(blob);
-      outputPreview.src = activeBlobUrl;
+      // PDF results cannot preview in an <img> (showed a broken-image icon):
+      // hide the image and show the PDF note instead.
+      const outputPdfNote = document.getElementById('outputPdfNote');
+      if (ext === 'pdf') {
+        outputPreview.style.display = 'none';
+        if (outputPdfNote) outputPdfNote.style.display = 'block';
+      } else {
+        outputPreview.style.display = '';
+        if (outputPdfNote) outputPdfNote.style.display = 'none';
+        outputPreview.src = activeBlobUrl;
+      }
 
       metricNewSize.textContent = formatBytes(blob.size);
       if (currentFile && currentFile.size > 0) {
@@ -4738,7 +4760,15 @@
       downloadBtn.textContent = `Download ${ext.toUpperCase()} (${formatBytes(blob.size)})`;
 
       outputBox.classList.add('active');
-      showAlert(`Processing complete! Generated ${formatBytes(blob.size)} asset ready for download.`, 'success');
+      // Honest size reporting: PNG/SVG skip the KB search, so the result can
+      // exceed the chosen target. Warn instead of claiming success.
+      const resultCfg = TOOL_CONFIGS[currentToolKey];
+      const resultLimit = (resultCfg && resultCfg.showTargetKb && selectedTargetKb) ? selectedTargetKb * 1024 : null;
+      if (resultLimit && blob.size > resultLimit) {
+        showAlert(`Done, but the result is ${formatBytes(blob.size)} — above your ${selectedTargetKb} KB target. Try JPG or WebP format, or smaller dimensions.`, 'error');
+      } else {
+        showAlert(`Processing complete! Generated ${formatBytes(blob.size)} asset ready for download.`, 'success');
+      }
     }
 
     processBtn.addEventListener('click', () => {
@@ -5385,21 +5415,26 @@
 
     // Images to PDF Builder
     function handleMultipleImagesForPdf(files) {
-      let loaded = 0;
+      // Count every file as settled (including skipped non-images and
+      // images that fail to load). The old code only counted successful
+      // loads, so one bad file stalled the counter forever and the
+      // thumbnails / Generate-PDF button never appeared.
+      let settled = 0;
+      const total = files.length;
+      const done = () => { settled++; if (settled >= total) renderPdfThumbnails(); };
       files.forEach(file => {
-        if (!file.type.startsWith('image/')) return;
+        if (!file.type.startsWith('image/')) { done(); return; }
         const reader = new FileReader();
         reader.onload = (e) => {
           const img = new Image();
           img.onload = () => {
             pdfImagesList.push({ file, img, url: e.target.result, name: file.name });
-            loaded++;
-            if (loaded === files.length) {
-              renderPdfThumbnails();
-            }
+            done();
           };
+          img.onerror = done;
           img.src = e.target.result;
         };
+        reader.onerror = done;
         reader.readAsDataURL(file);
       });
     }
@@ -5447,9 +5482,15 @@
         return;
       }
 
+      if (!window.jspdf) {
+        showAlert('PDF library failed to load (check your connection and reload the page).', 'error');
+        return;
+      }
+
       processBtn.disabled = true;
       processBtn.textContent = 'Building PDF Document...';
 
+      try {
       const { jsPDF } = window.jspdf;
       const pageSize = pdfPageSize.value;
       const orient = pdfOrientation.value;
@@ -5471,10 +5512,23 @@
           pageW = 297; pageH = 210;
         }
 
+        // 'fit' page size was previously ignored and silently fell back to A4.
+        // Fit: page sized to the image aspect (max side 297mm).
+        let pdfFormat = pageSize === 'letter' ? 'letter' : 'a4';
+        if (pageSize === 'fit') {
+          let fitW = 210, fitH = 210 / aspect;
+          if (fitH > 297) { fitH = 297; fitW = 297 * aspect; }
+          if (fitW > 297) { fitW = 297; fitH = 297 / aspect; }
+          pageW = fitW; pageH = fitH;
+          // Keep 'portrait': jsPDF swaps custom-format [w,h] for landscape,
+          // which would mismatch the usable-area math below.
+          pOrient = 'portrait';
+          pdfFormat = [fitW, fitH];
+        }
         if (idx === 0) {
-          doc = new jsPDF({ orientation: pOrient, unit: 'mm', format: pageSize === 'letter' ? 'letter' : 'a4' });
+          doc = new jsPDF({ orientation: pOrient, unit: 'mm', format: pdfFormat });
         } else {
-          doc.addPage(pageSize === 'letter' ? 'letter' : 'a4', pOrient);
+          doc.addPage(pdfFormat, pOrient);
         }
 
         const usableW = pageW - (margin * 2);
@@ -5501,12 +5555,22 @@
       });
 
       const pdfBlob = doc.output('blob');
+      } catch (err) {
+        processBtn.disabled = false;
+        processBtn.textContent = 'Process & Download File';
+        showAlert('Failed to build PDF: ' + err.message, 'error');
+        return;
+      }
       processBtn.disabled = false;
       displayResult(pdfBlob, 'pdf');
     }
 
     // PDF Page Extractor via PDF.js
     function handlePdfExtraction(file) {
+      if (typeof pdfjsLib === 'undefined') {
+        showAlert('PDF library failed to load (check your connection and reload the page).', 'error');
+        return;
+      }
       showAlert('Reading PDF pages locally with PDF.js...', 'info');
       currentToolKey = 'pdf-extract';
       openTool('pdf-extract');
@@ -5554,6 +5618,52 @@
         });
       };
       fileReader.readAsArrayBuffer(file);
+    }
+
+    // PDF Extractor: Download All Pages (was a dead button — no listener)
+    if (downloadAllPagesBtn) {
+      downloadAllPagesBtn.addEventListener('click', async () => {
+        if (!extractedPdfPages.length) {
+          showAlert('No extracted pages yet. Upload a PDF first.', 'error');
+          return;
+        }
+        downloadAllPagesBtn.disabled = true;
+        const origText = downloadAllPagesBtn.textContent;
+        downloadAllPagesBtn.textContent = 'Preparing download...';
+        try {
+          if (window.JSZip) {
+            const zip = new JSZip();
+            extractedPdfPages.forEach(pg => {
+              const base64 = (pg.dataUrl || '').split(',')[1] || '';
+              zip.file(getCleanDownloadName('page-' + pg.pageNum, 'png'), base64, { base64: true });
+            });
+            const zipBlob = await zip.generateAsync({ type: 'blob' });
+            const url = URL.createObjectURL(zipBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `resizehub-pdf-pages-${Date.now()}.zip`;
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 5000);
+            showAlert(`All ${extractedPdfPages.length} pages downloaded as a ZIP file.`, 'success');
+          } else {
+            // Fallback without JSZip: trigger one download per page.
+            extractedPdfPages.forEach((pg, i) => {
+              setTimeout(() => {
+                const a = document.createElement('a');
+                a.href = pg.dataUrl;
+                a.download = getCleanDownloadName('page-' + pg.pageNum, 'png');
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+              }, i * 400);
+            });
+            showAlert(`Downloading all ${extractedPdfPages.length} pages (one file each).`, 'success');
+          }
+        } catch (err) {
+          showAlert('Download failed: ' + err.message, 'error');
+        } finally {
+          downloadAllPagesBtn.disabled = false;
+          downloadAllPagesBtn.textContent = origText;
+        }
+      });
     }
 
     // Reset Workspace Button

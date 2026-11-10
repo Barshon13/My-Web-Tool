@@ -903,6 +903,18 @@
     }
 
     /* FAQ Section */
+
+    /* Guides section */
+    .guides-section { margin: 40px 0; padding: 36px 28px; background: #FFFFFF; border-radius: var(--color-radius-lg); border: 1px solid var(--color-border); }
+    .guides-section h2 { font-family: var(--font-display, 'Plus Jakarta Sans', Inter, sans-serif); font-size: 1.6rem; letter-spacing: -0.02em; margin: 0 0 6px 0; color: #0B1526; }
+    .guides-header p { color: var(--color-text-muted); max-width: 640px; margin: 0 0 24px 0; }
+    .guides-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 14px; }
+    .guide-card { display: block; border: 1px solid var(--color-border); border-radius: 14px; padding: 18px; text-decoration: none; color: inherit; background: #F7F8FA; transition: border-color .15s ease, box-shadow .15s ease; }
+    .guide-card:hover { border-color: #B9C8F5; box-shadow: 0 8px 24px -8px rgba(29, 78, 216, .18); background: #FFFFFF; }
+    .guide-card h3 { font-family: var(--font-display, 'Plus Jakarta Sans', Inter, sans-serif); font-size: 1.02rem; line-height: 1.35; margin: 0 0 6px 0; color: #0B1526; }
+    .guide-card p { font-size: .9rem; color: var(--color-text-muted); margin: 0 0 10px 0; }
+    .guide-link { font-size: .88rem; font-weight: 700; color: var(--color-primary); }
+
     .faq-section {
       margin: 40px 0;
       padding: 36px 28px;
@@ -2185,7 +2197,7 @@
       .ad-mobile-only { display: flex !important; }
       .ad-slot-top, .ad-slot-728, .ad-slot-468 { max-width: 100%; }
       .workspace-section { padding: 16px 12px; }
-      .features-section, .spec-guide-section, .faq-section { padding: 24px 16px; }
+      .features-section, .spec-guide-section, .faq-section, .guides-section { padding: 24px 16px; }
       .privacy-security-section { padding: 28px 18px; }
       .site-footer { padding: 32px 18px 20px 18px; }
       .safezone-modal-dialog { padding: 18px 14px; }
@@ -3552,6 +3564,27 @@
         <div class="faq-answer">
           Yes. ResizeHub processes 100% of images locally in your browser using client-side HTML5 Canvas. Your photos never leave your device or upload to any server.
         </div>
+      </div>
+    </section>
+
+
+    <!-- Step-by-step Guides -->
+    <section class="guides-section" id="guides" aria-label="Photo guides">
+      <div class="guides-header">
+        <h2>Step-by-Step Guides</h2>
+        <p>Simple guides for the exact photo and signature sizes that SSC, bank, passport and visa forms ask for — free, in your browser.</p>
+      </div>
+      <div class="guides-grid">
+          <a class="guide-card" href="/guide-ssc-signature-20kb.html"><h3>How to Resize Your SSC Signature to Under 20 KB (300×80 px)</h3><p>SSC signature under 20 KB at 300×80 px — step by step.</p><span class="guide-link">Read the guide &rarr;</span></a>
+          <a class="guide-card" href="/guide-passport-photo-600x600.html"><h3>How to Make a 600×600 px Passport Photo at Home (2×2 Inch)</h3><p>Make a 2×2 inch passport photo at home, 600×600 px.</p><span class="guide-link">Read the guide &rarr;</span></a>
+          <a class="guide-card" href="/guide-exam-photo-size-limits.html"><h3>Exam Photo Size Limits Explained: 20 KB, 50 KB or 100 KB?</h3><p>20 KB, 50 KB or 100 KB — which limit does your exam want?</p><span class="guide-link">Read the guide &rarr;</span></a>
+          <a class="guide-card" href="/guide-bank-signature-140x60.html"><h3>Bank Job Signature: 140×60 px Under 20 KB</h3><p>Bank job signature at 140×60 px, under 20 KB.</p><span class="guide-link">Read the guide &rarr;</span></a>
+          <a class="guide-card" href="/guide-visa-photo-sizes.html"><h3>Schengen vs UK Visa Photo Size: 35×45 mm or 600×750 px?</h3><p>Schengen 35×45 mm vs UK 600×750 px — compare and choose.</p><span class="guide-link">Read the guide &rarr;</span></a>
+          <a class="guide-card" href="/guide-compress-photo-20kb.html"><h3>How to Compress a Photo to Exactly 20 KB Without Blur</h3><p>Shrink any photo to under 20 KB without making it blurry.</p><span class="guide-link">Read the guide &rarr;</span></a>
+          <a class="guide-card" href="/guide-batch-resize-zip.html"><h3>Batch Resize 50 Photos at Once and Download as ZIP</h3><p>Resize 50 photos at once and download them as one ZIP.</p><span class="guide-link">Read the guide &rarr;</span></a>
+          <a class="guide-card" href="/guide-images-to-pdf.html"><h3>Images to PDF for Job Applications (A4, No Watermark)</h3><p>Turn photos and certificates into one clean A4 PDF.</p><span class="guide-link">Read the guide &rarr;</span></a>
+          <a class="guide-card" href="/guide-white-background-photo.html"><h3>How to Get a White Background for Passport and Exam Photos</h3><p>Get a plain white background for passport and exam photos.</p><span class="guide-link">Read the guide &rarr;</span></a>
+          <a class="guide-card" href="/guide-jpg-png-webp.html"><h3>JPG vs PNG vs WebP: Which Format Should You Use?</h3><p>JPG for photos, PNG for graphics, WebP for the web.</p><span class="guide-link">Read the guide &rarr;</span></a>
       </div>
     </section>
 

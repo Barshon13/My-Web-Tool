@@ -2157,6 +2157,23 @@
       .toast-notice { left: 16px; right: 16px; max-width: none; }
       .workspace-top-bar { flex-direction: column; align-items: stretch; gap: 12px; }
       .workspace-back-btn { width: 100%; text-align: center; }
+      /* Specs table: stacked cards on mobile so no column is clipped by sideways scroll */
+      .specs-table-responsive { overflow: visible; border: none; border-radius: 0; margin-bottom: 20px; }
+      .specs-table thead { display: none; }
+      .specs-table, .specs-table tbody, .specs-table tr, .specs-table td { display: block; width: 100%; }
+      .specs-table tr { border: 1px solid #E2E8F0; border-radius: 14px; margin-bottom: 12px; padding: 6px 0; background: #FFFFFF; }
+      .specs-table tr:hover td { background: transparent; }
+      .specs-table td { border-bottom: none; padding: 6px 16px; }
+      .specs-table td::before { display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; margin-bottom: 2px; }
+      .specs-table td:nth-child(2)::before { content: "Required Dimensions"; }
+      .specs-table td:nth-child(3)::before { content: "Strict Size Limit"; }
+      .specs-table td:nth-child(4)::before { content: "DPI / Aspect Ratio"; }
+      .specs-table td:nth-child(5)::before { content: "Background & Composition"; }
+      .specs-table td:nth-child(6)::before { content: "Quick Action"; }
+      .specs-table td:first-child { padding-top: 12px; }
+      .specs-table td:first-child::before { display: none; }
+      .specs-table td:last-child { padding-bottom: 12px; }
+      .specs-table .spec-pill-badge { white-space: normal; }
     }
     @media (max-width: 480px) {
       .brand-logo { font-size: 1.12rem; gap: 6px; }

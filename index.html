@@ -113,7 +113,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN for Utility Classes -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 
   <!-- jsPDF CDN for Client-Side PDF Generation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -2246,12 +2246,8 @@
   <meta name="monetag" content="11743662">
 
   <!-- Monetag Social Bar (In-Page Push), Vignette & Multi-Tag Monetization -->
-  <script>(function(s){s.dataset.zone='11743662',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
   <script>(function(s){s.dataset.zone='11743661',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
   <script src="https://quge5.com/88/tag.min.js" data-zone="277871" async data-cfasync="false"></script>
-
-  <!-- Monetization: Adsterra Social Bar / In-Page Push Network -->
-  <script src="https://pl31247915.profitableratecpmnetwork.com/21/cd/ef/21cdef6bb1847b92d4861c5bd592be3e.js"></script>
 
   <!-- Service Worker Registration for Monetag Social Banner & Web Push -->
   <script>
@@ -4670,6 +4666,33 @@
     });
 
     // File Drop & Select Ingestion
+    // iPhone photos (HEIC/HEIF) cannot be decoded by Chrome/Android browsers,
+    // so they fail with "Failed to decode image". Detect them and convert to
+    // JPG inside the browser; the decoder library loads on demand, only for HEIC.
+    function isHeicFile(file) {
+      return /image\/(heic|heif)/i.test(file.type || '') || /\.(heic|heif)$/i.test(file.name || '');
+    }
+    let heic2anyPromise = null;
+    function loadHeicDecoder() {
+      if (window.heic2any) return Promise.resolve(window.heic2any);
+      if (!heic2anyPromise) {
+        heic2anyPromise = new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js';
+          s.onload = () => resolve(window.heic2any);
+          s.onerror = () => reject(new Error('HEIC decoder failed to load'));
+          document.head.appendChild(s);
+        });
+      }
+      return heic2anyPromise;
+    }
+    async function convertHeicToJpeg(file) {
+      const heic2any = await loadHeicDecoder();
+      const out = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.92 });
+      const blob = Array.isArray(out) ? out[0] : out;
+      return new File([blob], file.name.replace(/\.(heic|heif)$/i, '.jpg'), { type: 'image/jpeg' });
+    }
+
     function handleSelectedFiles(files) {
       if (!files || !files.length) return;
       const file = files[0];
@@ -4700,6 +4723,19 @@
       }
 
       hideAlert();
+
+      // iPhone photos (HEIC) cannot be decoded by this browser directly:
+      // convert them to JPG first, then run the normal flow on the result.
+      if (isHeicFile(file)) {
+        showAlert('Converting iPhone photo (HEIC)…', 'success');
+        convertHeicToJpeg(file).then((converted) => {
+          handleSelectedFiles([converted]);
+        }).catch(() => {
+          showAlert('Could not convert this iPhone photo (HEIC). Please convert it to JPG first and try again.', 'error');
+        });
+        return;
+      }
+
       currentFile = file;
 
       const reader = new FileReader();
@@ -4728,7 +4764,7 @@
           outputBox.classList.remove('active');
           executeProcessing();
         };
-        img.onerror = () => showAlert('Failed to decode image. Please try another file.', 'error');
+        img.onerror = () => showAlert('Could not read "' + file.name + '" (' + (file.type || 'unknown format') + '). This browser cannot open that image — please try a JPG, PNG or WebP file.', 'error');
         img.src = e.target.result;
       };
       reader.readAsDataURL(file);
@@ -5071,6 +5107,10 @@
 
       hideAlert();
       validImageFiles.forEach(file => {
+        if (isHeicFile(file)) {
+          convertHeicToJpeg(file).then((converted) => addFilesToBatch([converted])).catch(() => showAlert('Could not convert "' + file.name + '" (iPhone HEIC photo). Please convert it to JPG first.', 'error'));
+          return;
+        }
         const item = {
           id: 'batch_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now(),
           file: file,
@@ -5328,7 +5368,7 @@
             reject(err);
           }
         };
-        img.onerror = () => reject(new Error('Failed to load image for processing'));
+        img.onerror = () => reject(new Error('Failed to load image for processing: ' + item.name));
         img.src = item.thumbUrl || URL.createObjectURL(item.file);
       });
     }
@@ -6604,5 +6644,35 @@
 
   <!-- Web Analytics Insights -->
   <script defer src="/_vercel/insights/script.js"></script>
+  <!-- Hide ad slots that never fill, so visitors never see an empty "ADVERTISEMENT" box -->
+  <script>
+    (function () {
+      var hideIfEmpty = function (slot) {
+        var frame = slot.querySelector('iframe');
+        if (!frame || !frame.offsetHeight) slot.style.display = 'none';
+      };
+      if (!('IntersectionObserver' in window)) {
+        window.addEventListener('load', function () {
+          setTimeout(function () {
+            document.querySelectorAll('.ad-slot-wrapper').forEach(function (slot) {
+              if (slot.offsetParent !== null) hideIfEmpty(slot);
+            });
+          }, 6000);
+        });
+        return;
+      }
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var slot = entry.target;
+          observer.unobserve(slot);
+          setTimeout(function () { hideIfEmpty(slot); }, 6000);
+        });
+      });
+      document.querySelectorAll('.ad-slot-wrapper').forEach(function (slot) {
+        observer.observe(slot);
+      });
+    })();
+  </script>
 </body>
 </html>

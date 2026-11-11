@@ -3009,7 +3009,7 @@
               <div class="prep-step-num">3</div>
               <h4>Exact Cropping &amp; Compression on ResizeHub</h4>
               <p>
-                Drop your photo into ResizeHub's <strong>Passport Photo Maker</strong> or <strong>Exam Photo Resizer</strong>. Our client-side engine automatically centers your portrait, adjusts aspect ratios (2x2 inch or 35x45 mm), and performs precise binary compression to fit strictly under 20KB or 50KB with zero quality distortion.
+                Drop your photo into ResizeHub's <strong>Passport Photo Maker</strong> or <strong>Exam Photo Resizer</strong>. Our client-side engine automatically centers your portrait, adjusts aspect ratios (2x2 inch or 35x45 mm), and performs precise binary compression to fit strictly under 20KB or 50KB with minimal visible quality loss.
               </p>
             </div>
           </div>
@@ -4773,29 +4773,57 @@
 
       if (targetLimitBytes && mimeType !== 'image/png') {
         (async () => {
-          let low = 0.05, high = 0.95;
-          let bestBlob = null;
-
-          for (let iter = 0; iter < 7; iter++) {
-            const mid = (low + high) / 2;
-            const b = await new Promise(r => canvas.toBlob(r, mimeType, mid));
-            if (!b) break;
-            // Keep ONLY blobs that meet the target: the old code kept the
-            // last blob even when it was over the limit (e.g. a "20KB"
-            // signature coming out at 24KB and being rejected by portals).
-            if (b.size <= targetLimitBytes) {
-              bestBlob = b;
-              low = mid;
-              if (targetLimitBytes - b.size < targetLimitBytes * 0.08) break;
-            } else {
-              high = mid;
+          // Quality-first target search. The old code crushed JPEG/WebP
+          // quality down to 0.05 when a target was hard to hit, which made
+          // outputs visibly blocky. Now: search quality down to a 0.55
+          // floor first; only when dimensions are NOT mandated (compress /
+          // batch tools) step the render down in size and re-search, so a
+          // slightly smaller image at good quality wins over full-size mush.
+          const encodeAt = (cv, q) => new Promise(r => cv.toBlob(r, mimeType, q));
+          const searchQuality = async (cv) => {
+            let low = 0.55, high = 0.95, best = null;
+            for (let iter = 0; iter < 8; iter++) {
+              const mid = (low + high) / 2;
+              const b = await encodeAt(cv, mid);
+              if (!b) break;
+              // Keep ONLY blobs that meet the target: the old code kept the
+              // last blob even when it was over the limit (e.g. a "20KB"
+              // signature coming out at 24KB and being rejected by portals).
+              if (b.size <= targetLimitBytes) {
+                best = b;
+                low = mid;
+                if (targetLimitBytes - b.size < targetLimitBytes * 0.08) break;
+              } else {
+                high = mid;
+              }
+            }
+            return best;
+          };
+          const scaledCanvas = (src, scale) => {
+            const w = Math.max(1, Math.round(src.width * scale));
+            const h = Math.max(1, Math.round(src.height * scale));
+            const c = document.createElement('canvas');
+            c.width = w; c.height = h;
+            const x = c.getContext('2d');
+            x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+            x.drawImage(src, 0, 0, w, h);
+            return c;
+          };
+          let result = await searchQuality(canvas);
+          if (!result && config && !config.showDimensions) {
+            for (const scale of [0.9, 0.8, 0.7, 0.6, 0.5]) {
+              const sc = scaledCanvas(canvas, scale);
+              result = await searchQuality(sc);
+              if (result) break;
             }
           }
-
-          // No quality reached the target: use the smallest (lowest-quality)
-          // render so the result is as close as possible; displayResult
+          // Last resort: smallest render at the quality floor; displayResult
           // warns the user instead of silently claiming success.
-          displayResult(bestBlob || await new Promise(r => canvas.toBlob(r, mimeType, 0.05)), ext);
+          if (!result) {
+            const sc = (config && !config.showDimensions) ? scaledCanvas(canvas, 0.5) : canvas;
+            result = await encodeAt(sc, 0.55);
+          }
+          displayResult(result, ext);
         })();
       } else {
         canvas.toBlob((blob) => {
@@ -5123,25 +5151,47 @@
 
             if (selectedTargetKb && (selectedFormat === 'jpg' || selectedFormat === 'webp')) {
               const targetBytes = selectedTargetKb * 1024;
-              let minQ = 0.05, maxQ = 0.98, bestBlob = null;
-
-              for (let iter = 0; iter < 7; iter++) {
-                const midQ = (minQ + maxQ) / 2;
-                const b = await new Promise(res => canvas.toBlob(res, mimeType, midQ));
-                if (!b) break;
-                if (b.size <= targetBytes) {
-                  bestBlob = b;
-                  minQ = midQ;
-                } else {
-                  maxQ = midQ;
+              // Quality-first, same as the single-image engine: never crush
+              // quality to 0.05. Search down to a 0.55 floor, then step the
+              // render down in size and re-search (batch dimensions are not
+              // mandated, so a slightly smaller image at good quality wins).
+              const encodeAt = (cv, q) => new Promise(res => cv.toBlob(res, mimeType, q));
+              const searchQuality = async (cv) => {
+                let minQ = 0.55, maxQ = 0.95, best = null;
+                for (let iter = 0; iter < 8; iter++) {
+                  const midQ = (minQ + maxQ) / 2;
+                  const b = await encodeAt(cv, midQ);
+                  if (!b) break;
+                  if (b.size <= targetBytes) { best = b; minQ = midQ; }
+                  else { maxQ = midQ; }
+                }
+                return best;
+              };
+              const scaledCanvas = (src, scale) => {
+                const w = Math.max(1, Math.round(src.width * scale));
+                const h = Math.max(1, Math.round(src.height * scale));
+                const c = document.createElement('canvas');
+                c.width = w; c.height = h;
+                const x = c.getContext('2d');
+                x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+                x.drawImage(src, 0, 0, w, h);
+                return c;
+              };
+              let outCanvas = canvas;
+              let bestBlob = await searchQuality(canvas);
+              if (!bestBlob) {
+                for (const scale of [0.9, 0.8, 0.7, 0.6, 0.5]) {
+                  const sc = scaledCanvas(canvas, scale);
+                  bestBlob = await searchQuality(sc);
+                  if (bestBlob) { outCanvas = sc; break; }
                 }
               }
-
               if (!bestBlob) {
-                bestBlob = await new Promise(res => canvas.toBlob(res, mimeType, 0.05));
+                outCanvas = scaledCanvas(canvas, 0.5);
+                bestBlob = await encodeAt(outCanvas, 0.55);
               }
 
-              resolve({ blob: bestBlob, width: targetW, height: targetH, filename: getCleanDownloadName(item.name, ext) });
+              resolve({ blob: bestBlob, width: outCanvas.width, height: outCanvas.height, filename: getCleanDownloadName(item.name, ext) });
             } else {
               const quality = selectedFormat === 'png' ? undefined : 0.92;
               canvas.toBlob((blob) => {

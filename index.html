@@ -115,12 +115,7 @@
   <!-- Tailwind CSS CDN for Utility Classes -->
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 
-  <!-- jsPDF CDN for Client-Side PDF Generation -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <!-- PDF.js for Client-Side PDF to Image Extraction -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <!-- JSZip CDN for Client-Side Bulk ZIP Archive Generation -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <!-- Heavy libraries (jsPDF, PDF.js, JSZip) are NOT loaded here: they are lazy-loaded on demand via loadExternalScript() when their tool runs (see buildPdfDocument, handlePdfExtraction, generateBatchZip). This keeps the first paint fast and loads nothing until needed. -->
 
   <style>
     :root {
@@ -5362,6 +5357,10 @@
     }
 
     async function generateBatchZip(items) {
+      // Lazy-load JSZip on first use (it is not in <head> any more).
+      if (!window.JSZip) {
+        try { await loadExternalScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'); } catch (e) { /* falls through to the uncompressed-ZIP fallback below */ }
+      }
       if (window.JSZip) {
         try {
           const zip = new JSZip();
@@ -5672,10 +5671,24 @@
       });
     }
 
-    function buildPdfDocument() {
+    async function buildPdfDocument() {
       if (!pdfImagesList.length) {
         showAlert('Please select at least one image to create a PDF.', 'error');
         return;
+      }
+
+      // Lazy-load jsPDF on first use (it is not in <head> any more).
+      if (!window.jspdf) {
+        processBtn.disabled = true;
+        processBtn.textContent = 'Loading PDF library...';
+        try {
+          await loadExternalScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+        } catch (e) {
+          processBtn.disabled = false;
+          processBtn.textContent = 'Process & Download File';
+          showAlert('PDF library failed to load (check your connection and reload the page).', 'error');
+          return;
+        }
       }
 
       if (!window.jspdf) {
@@ -5762,7 +5775,17 @@
     }
 
     // PDF Page Extractor via PDF.js
-    function handlePdfExtraction(file) {
+    async function handlePdfExtraction(file) {
+      // Lazy-load PDF.js on first use (it is not in <head> any more).
+      if (typeof pdfjsLib === 'undefined') {
+        showAlert('Loading PDF library...', 'info');
+        try {
+          await loadExternalScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+        } catch (e) {
+          showAlert('PDF library failed to load (check your connection and reload the page).', 'error');
+          return;
+        }
+      }
       if (typeof pdfjsLib === 'undefined') {
         showAlert('PDF library failed to load (check your connection and reload the page).', 'error');
         return;
@@ -5827,6 +5850,10 @@
         const origText = downloadAllPagesBtn.textContent;
         downloadAllPagesBtn.textContent = 'Preparing download...';
         try {
+          // Lazy-load JSZip on first use (it is not in <head> any more).
+          if (!window.JSZip) {
+            try { await loadExternalScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'); } catch (e) { /* falls through to per-page downloads below */ }
+          }
           if (window.JSZip) {
             const zip = new JSZip();
             extractedPdfPages.forEach(pg => {

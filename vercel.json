@@ -4,6 +4,17 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "resizehub.vercel.app"
+        }
+      ],
+      "destination": "https://resizehub.tech/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {

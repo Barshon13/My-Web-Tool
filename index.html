@@ -3,34 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ResizeHub - Free Passport Photo Maker & Image Resizer</title>
+  <title>Photo Resizer, Image Compressor & Passport Photo Maker | ResizeHub</title>
   <meta name="application-name" content="ResizeHub">
   <meta name="apple-mobile-web-app-title" content="ResizeHub">
-  <meta name="description" content="Resize and compress photos free in your browser. Make 2×2 passport photos, shrink signatures under 20 KB, and convert images to PDF — no upload.">
-  <meta name="keywords" content="photo resizer, image resizer, image compressor, passport photo maker, 2x2 photo maker, signature resizer 20kb, signature resize under 20kb, exam photo 50kb, convert jpg to pdf, free image compressor, upscale image online, resizehub">
+  <meta name="description" content="Resize and compress photos free in your browser — passport photos, signatures to 20/50/100 KB, photo to PDF. Your files never leave your device.">
   <meta name="author" content="ResizeHub">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <meta name="theme-color" content="#2563EB">
   <link rel="canonical" href="https://resizehub.tech/">
 
   <!-- Favicons and Touch Icons -->
   <link rel="icon" type="image/svg+xml" href="/icon-300.svg">
-  <link rel="apple-touch-icon" href="/icon-300.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <!-- Open Graph / Social Sharing -->
   <meta property="og:site_name" content="ResizeHub">
-  <meta property="og:title" content="ResizeHub - Free Passport Photo Maker & Image Resizer">
-  <meta property="og:description" content="Instant client-side image compression, passport photo generator, and 20KB signature resizing without server uploads.">
+  <meta property="og:title" content="Photo Resizer, Image Compressor & Passport Photo Maker | ResizeHub">
+  <meta property="og:description" content="Resize and compress photos free in your browser — passport photos, signatures to 20/50/100 KB, photo to PDF. Your files never leave your device.">
   <meta property="og:url" content="https://resizehub.tech/">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://resizehub.tech/og-banner.svg">
+  <meta property="og:image" content="https://resizehub.tech/og-banner.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ResizeHub — free photo resizer, image compressor and passport photo maker">
 
   <!-- Twitter Card Metadata -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ResizeHub - Free Passport Photo Maker & Image Resizer">
-  <meta name="twitter:description" content="Instant client-side image compression, passport photo generator, and 20KB signature resizing without server uploads.">
-  <meta name="twitter:image" content="https://resizehub.tech/og-banner.svg">
+  <meta name="twitter:title" content="Photo Resizer, Image Compressor & Passport Photo Maker | ResizeHub">
+  <meta name="twitter:description" content="Resize and compress photos free in your browser — passport photos, signatures to 20/50/100 KB, photo to PDF. Your files never leave your device.">
+  <meta name="twitter:image" content="https://resizehub.tech/og-banner.png">
 
   <!-- Google Search Console Verification Meta Tag -->
   <meta name="google-site-verification" content="googlea71e5613a66966fe" />
@@ -53,6 +54,9 @@
     gtag('config', 'G-H7XL69GFVJ');
   </script>
 
+  <!-- Google AdSense verification (no ad slots yet; verification only) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2155734719055426" crossorigin="anonymous"></script>
+
   <!-- Structured Data: WebSite, WebApplication & FAQPage Schema -->
   <script type="application/ld+json">
   {
@@ -62,7 +66,8 @@
         "@type": "WebSite",
         "name": "ResizeHub",
         "alternateName": ["Resize Hub", "ResizeHub Official"],
-        "url": "https://resizehub.tech/"
+        "url": "https://resizehub.tech/",
+        "logo": "https://resizehub.tech/icon-300.svg"
       },
       {
         "@type": "WebApplication",
@@ -73,6 +78,12 @@
         "description": "Comprehensive client-side image editing tool for passport photos, exam signatures, compression, and PDF conversion.",
         "keywords": "photo resizer, image compressor, passport photo maker, signature resize 20kb, photo to pdf, crop photo, upscale image",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+      },
+      {
+        "@type": "Organization",
+        "name": "ResizeHub",
+        "url": "https://resizehub.tech/",
+        "logo": "https://resizehub.tech/icon-300.svg"
       },
       {
         "@type": "FAQPage",
@@ -2257,11 +2268,11 @@
       </a>
       <div class="nav-right">
         <nav class="nav-links" id="desktopNavLinks">
-          <a class="nav-link" href="#gov-tools">Gov Tools</a>
-          <a class="nav-link" href="#resize-tools">Image Tools</a>
-          <a class="nav-link" href="#pdf-tools">PDF Tools</a>
-          <a class="nav-link" href="#social-tools">Social Media</a>
-          <a class="nav-link" onclick="openModal('privacyModal');">Privacy</a>
+          <a class="nav-link" href="/">All Tools</a>
+          <a class="nav-link" href="/passport-photo-maker">Passport</a>
+          <a class="nav-link" href="/image-compressor">Compress</a>
+          <a class="nav-link" href="/guides">Guides</a>
+          <a class="nav-link" href="/privacy-policy">Privacy</a>
         </nav>
         <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu" onclick="toggleMobileMenu()">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
@@ -2276,15 +2287,17 @@
     <!-- Mobile Navigation Drawer -->
     <div class="mobile-menu-drawer" id="mobileMenuDrawer">
       <div class="mobile-menu-links">
-        <a class="mobile-nav-link" href="#gov-tools" onclick="closeMobileMenu()">🏛️ Government &amp; Exam Tools</a>
-        <a class="mobile-nav-link" href="#resize-tools" onclick="closeMobileMenu()">⚡ Image Resize &amp; Compress</a>
-        <a class="mobile-nav-link" href="#pdf-tools" onclick="closeMobileMenu()">📄 PDF &amp; Document Tools</a>
-        <a class="mobile-nav-link" href="#social-tools" onclick="closeMobileMenu()">📱 Social Media Resizers</a>
+        <a class="mobile-nav-link" href="/" onclick="closeMobileMenu()">🏠 All Tools</a>
+        <a class="mobile-nav-link" href="/passport-photo-maker" onclick="closeMobileMenu()">🛂 Passport Photo Maker</a>
+        <a class="mobile-nav-link" href="/image-compressor" onclick="closeMobileMenu()">⚡ Image Compressor</a>
+        <a class="mobile-nav-link" href="/batch-image-resizer" onclick="closeMobileMenu()">📦 Batch Image Resizer</a>
+        <a class="mobile-nav-link" href="/photo-to-pdf" onclick="closeMobileMenu()">📄 Photo to PDF</a>
+        <a class="mobile-nav-link" href="/guides" onclick="closeMobileMenu()">📖 Guides</a>
         <div style="height:1px; background:var(--color-border); margin:6px 0;"></div>
-        <a class="mobile-nav-link" onclick="openModal('privacyModal'); closeMobileMenu();">🔒 Privacy Policy (100% Client-Side)</a>
-        <a class="mobile-nav-link" onclick="openModal('aboutModal'); closeMobileMenu();">ℹ️ About Us</a>
-        <a class="mobile-nav-link" onclick="openModal('termsModal'); closeMobileMenu();">⚖️ Terms of Service</a>
-        <a class="mobile-nav-link" onclick="openModal('contactModal'); closeMobileMenu();">✉️ Contact &amp; Support</a>
+        <a class="mobile-nav-link" href="/privacy-policy" onclick="closeMobileMenu()">🔒 Privacy Policy (100% Client-Side)</a>
+        <a class="mobile-nav-link" href="/about" onclick="closeMobileMenu()">ℹ️ About Us</a>
+        <a class="mobile-nav-link" href="/terms" onclick="closeMobileMenu()">⚖️ Terms of Service</a>
+        <a class="mobile-nav-link" href="/contact" onclick="closeMobileMenu()">✉️ Contact &amp; Support</a>
       </div>
     </div>
 
@@ -3493,7 +3506,7 @@
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
             </div>
             <h3>Privacy by Design — No Uploads</h3>
-            <p>Because no personally identifiable information or biometric facial imagery is ever transferred across the internet or stored on a remote server, your photos stay on your device. See the <a href="/privacy">Privacy Policy</a> for details.</p>
+            <p>Because no personally identifiable information or biometric facial imagery is ever transferred across the internet or stored on a remote server, your photos stay on your device. See the <a href="/privacy-policy">Privacy Policy</a> for details.</p>
           </div>
         </div>
       </section>
@@ -3590,6 +3603,10 @@
           <a class="guide-card" href="/guide-batch-resize-zip"><h3>Batch Resize Photos and Download as ZIP</h3><p>Resize 50 photos at once and download them as one ZIP.</p><span class="guide-link">Read the guide &rarr;</span></a>
           <a class="guide-card" href="/guide-images-to-pdf"><h3>Images to PDF for Job Applications</h3><p>Turn photos and certificates into one clean A4 PDF.</p><span class="guide-link">Read the guide &rarr;</span></a>
           <a class="guide-card" href="/guide-white-background-photo"><h3>White Background for Passport &amp; Exam Photos</h3><p>Get a plain white background for passport and exam photos.</p><span class="guide-link">Read the guide &rarr;</span></a>
+                    <a class="guide-card" href="/guide-exam-photo-signature-sizes"><h3>Exam Photo &amp; Signature Sizes: SSC, UPSC, IBPS, NEET, JEE, GATE</h3><p>Exact photo and signature sizes for every major exam — pixels and KB limits.</p><span class="guide-link">Read the guide &rarr;</span></a>
+          <a class="guide-card" href="/guide-us-visa-photo-ds160-dv-lottery"><h3>US Visa Photo: DS-160 &amp; DV Lottery Rules</h3><p>DS-160 and DV Lottery photo rules: 600×600 px, 240 KB, head size and more.</p><span class="guide-link">Read the guide &rarr;</span></a>
+          <a class="guide-card" href="/guide-reduce-image-size-without-losing-quality"><h3>Reduce Image Size Without Losing Quality</h3><p>Shrink photos without the blur: format, dimensions and exact KB targets.</p><span class="guide-link">Read the guide &rarr;</span></a>
+          <a class="guide-card" href="/guide-social-media-image-sizes"><h3>Social Media Image Sizes Cheat Sheet 2026</h3><p>Every size for Instagram, Facebook, LinkedIn, X, YouTube, TikTok and Pinterest.</p><span class="guide-link">Read the guide &rarr;</span></a>
           <a class="guide-card" href="/guide-jpg-png-webp"><h3>JPG vs PNG vs WebP: Which Format Should You Use?</h3><p>JPG for photos, PNG for graphics, WebP for the web.</p><span class="guide-link">Read the guide &rarr;</span></a>
       </div>
     </section>
@@ -3641,34 +3658,36 @@
         <div class="footer-col">
           <h4>Official Tools</h4>
           <ul>
-            <li><a onclick="openTool('passport')">Passport Photo Maker</a></li>
-            <li><a onclick="openTool('signature')">Signature Resizer (&lt;20KB)</a></li>
-            <li><a onclick="openTool('exam')">Exam Photo Resizer</a></li>
+            <li><a href="/passport-photo-maker">Passport Photo Maker</a></li>
+            <li><a href="/signature-resizer">Signature Resizer (&lt;20KB)</a></li>
+            <li><a href="/exam-photo-resizer">Exam Photo Resizer</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
           <h4>Image &amp; Social</h4>
           <ul>
-            <li><a onclick="openTool('batch')">Batch Image Resizer (Bulk ZIP)</a></li>
+            <li><a href="/batch-image-resizer">Batch Image Resizer (Bulk ZIP)</a></li>
             <li><a onclick="openSafezoneModal()">Safe-Zone &amp; Ratio Fitter</a></li>
-            <li><a onclick="openTool('compress')">Image Compressor</a></li>
-            <li><a onclick="openTool('upscale')">8K Image Upscaler</a></li>
-            <li><a onclick="openTool('convert')">Format Converter (WebP/SVG)</a></li>
-            <li><a onclick="openTool('instagram')">Instagram Post Resizer</a></li>
-            <li><a onclick="openTool('youtube')">YouTube Thumbnail (16:9)</a></li>
+            <li><a href="/image-compressor">Image Compressor</a></li>
+            <li><a href="/4k-8k-upscaler">8K Image Upscaler</a></li>
+            <li><a href="/format-converter">Format Converter (WebP/SVG)</a></li>
+            <li><a href="/social-media-resizer">Instagram Post Resizer</a></li>
+            <li><a href="/social-media-resizer">YouTube Thumbnail (16:9)</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
           <h4>PDF &amp; Legal</h4>
           <ul>
-            <li><a onclick="openTool('pdf-create')">Images to PDF</a></li>
-            <li><a onclick="openTool('pdf-extract')">PDF to Image Extractor</a></li>
-            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/photo-to-pdf">Images to PDF</a></li>
+            <li><a href="/pdf-to-image">PDF to Image Extractor</a></li>
+            <li><a href="/privacy-policy">Privacy Policy</a></li>
             <li><a href="/terms">Terms of Service</a></li>
             <li><a href="/about">About Us</a></li>
             <li><a href="/contact">Contact &amp; Support</a></li>
+            <li><a href="/guides">Photo &amp; Exam Guides</a></li>
+            <li><a href="/sitemap">Sitemap</a></li>
           </ul>
         </div>
       </div>
@@ -3848,66 +3867,6 @@
 
       </div>
 
-    </div>
-  </div>
-
-  <div class="modal-backdrop" id="privacyModal">
-    <div class="modal-dialog">
-      <button type="button" class="modal-close-btn" onclick="closeModal('privacyModal')">&times;</button>
-      <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:12px; color:#0B1526;">Privacy Policy</h3>
-      <div style="font-size:0.92rem; color:#475569; line-height:1.6; max-height:65vh; overflow-y:auto; padding-right:6px;">
-        <p style="margin-bottom:12px;"><strong>Effective Date:</strong> January 1, 2026</p>
-        <p style="margin-bottom:12px;">At <strong>ResizeHub</strong> (https://resizehub.tech/), user privacy and data sovereignty are fundamental architectural principles. ResizeHub operates on an uncompromising <strong>100% Client-Side Processing</strong> architecture.</p>
-        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">1. Zero Server Uploads &amp; Local Execution</h4>
-        <p style="margin-bottom:12px;">All image resizing, cropping, compression, conversion, and PDF operations are executed entirely within your local web browser using the HTML5 Canvas API, Typed Arrays, and Web Workers. <strong>No photos, signatures, exam cards, or documents are ever uploaded, transmitted, or stored on any external server or cloud database.</strong> Your media remains strictly on your personal device at all times.</p>
-        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">2. Third-Party Advertising &amp; Cookies</h4>
-        <p style="margin-bottom:12px;">ResizeHub may in future be supported by third-party advertising networks, including Google AdSense (only after approval). These advertising providers may use cookies, web beacons, or non-personally identifiable identifiers to serve contextual advertisements and measure ad performance. These third-party vendors have their own independent privacy policies, and no user images or personal documents are ever accessible to or shared with advertising networks.</p>
-        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">3. Web Analytics</h4>
-        <p style="margin-bottom:12px;">We use lightweight web telemetry to track aggregate, non-personally identifiable metrics including page views, referrer URLs, and tool usage frequencies to optimize site performance.</p>
-        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">4. User Consent &amp; Rights</h4>
-        <p style="margin-bottom:12px;">By using ResizeHub, you acknowledge and consent to client-side local memory processing and applicable third-party advertising cookies. You may disable cookies through your browser settings at any time without impacting image processing capabilities.</p>
-      </div>
-    </div>
-  </div>
-  <div class="modal-backdrop" id="termsModal">
-    <div class="modal-dialog">
-      <button type="button" class="modal-close-btn" onclick="closeModal('termsModal')">&times;</button>
-      <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:12px; color:#0B1526;">Terms of Service</h3>
-      <div style="font-size:0.92rem; color:#475569; line-height:1.6; max-height:65vh; overflow-y:auto; padding-right:6px;">
-        <p style="margin-bottom:12px;"><strong>Last Updated:</strong> January 1, 2026</p>
-        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">1. Acceptance of Terms</h4>
-        <p style="margin-bottom:12px;">By accessing and using <strong>ResizeHub</strong> (https://resizehub.tech/), you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you should discontinue use of the site immediately.</p>
-        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">2. Intellectual Property &amp; Media Ownership</h4>
-        <p style="margin-bottom:12px;">You retain 100% intellectual property ownership, copyright, and full commercial rights to all media, photos, signatures, and documents processed using ResizeHub. ResizeHub claims zero rights, licenses, or ownership over your content.</p>
-        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">3. Fair Use &amp; Prohibited Conduct</h4>
-        <p style="margin-bottom:12px;">You agree to use ResizeHub solely for lawful purposes. You may not attempt to reverse engineer malicious scripts or flood the client application with automated denial-of-service traffic.</p>
-        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">4. 'As-Is' Service Disclaimer &amp; Limitation of Liability</h4>
-        <p style="margin-bottom:12px;">ResizeHub is provided on an <strong>'AS IS'</strong> and <strong>'AS AVAILABLE'</strong> basis without warranties of any kind, whether express, statutory, or implied. While we strive for absolute accuracy in dimension calculations and compression algorithms, ResizeHub and its creators shall not be liable for any submission rejections, exam portal failures, or data loss resulting from the use of this utility suite.</p>
-      </div>
-    </div>
-  </div>
-  <div class="modal-backdrop" id="aboutModal">
-    <div class="modal-dialog">
-      <button type="button" class="modal-close-btn" onclick="closeModal('aboutModal')">&times;</button>
-      <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:12px; color:#0B1526;">About ResizeHub</h3>
-      <div style="font-size:0.92rem; color:#475569; line-height:1.6; max-height:65vh; overflow-y:auto; padding-right:6px;">
-        <p style="margin-bottom:12px;"><strong>ResizeHub</strong> was built by web engineers committed to delivering ultra-fast, accessible, and privacy-respecting media tools without subscription paywalls, intrusive registrations, or cloud data risks.</p>
-        <h4 style="font-weight:700; color:#0B1526; margin:14px 0 6px;">Our Mission</h4>
-        <p style="margin-bottom:12px;">Every day, millions of applicants, students, designers, and job seekers struggle with rigid government exam photo portals (such as 20KB-50KB limits, exact 2x2 inch dimensions, and clean ink signatures). Most existing tools require uploading sensitive personal documents to unknown remote servers or paywalling basic exports.</p>
-        <p style="margin-bottom:12px;">ResizeHub solves this through <strong>zero-upload client-side engineering</strong>. By taking full advantage of modern HTML5 Canvas APIs, typed binary arrays, Web Workers, and jsPDF, all operations happen directly on your device with lightning speed, zero bandwidth waste, and absolute confidentiality.</p>
-      </div>
-    </div>
-  </div>
-  <div class="modal-backdrop" id="contactModal">
-    <div class="modal-dialog">
-      <button type="button" class="modal-close-btn" onclick="closeModal('contactModal')">&times;</button>
-      <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:12px; color:#0B1526;">Contact &amp; Support</h3>
-      <div style="font-size:0.92rem; color:#475569; line-height:1.6;">
-        <p style="margin-bottom:12px;">Have questions, feedback, or a feature request for a specific government portal or exam specification? We would love to hear from you!</p>
-        <p style="margin-bottom:10px;"><strong>Project Repository:</strong> <a href="https://github.com/Barshon13/My-Web-Tool" target="_blank" rel="noopener" style="color:#1D4ED8; font-weight:600;">github.com/Barshon13/My-Web-Tool</a></p>
-        <p style="margin-bottom:10px;"><strong>Official Support:</strong> <a href="mailto:mailp6962@gmail.com" style="color:#1D4ED8; font-weight:600;">mailp6962@gmail.com</a></p>
-        <p style="color:#5B6472; font-size:0.85rem; margin-top:14px;">Open-source bug reports and community pull requests are welcome on GitHub.</p>
-      </div>
     </div>
   </div>
 
@@ -4523,7 +4482,7 @@
         const val = parseInt(customTargetKb.value, 10);
         if (val > 0) {
           selectedTargetKb = val;
-          if (currentImage) executeProcessing();
+          if (currentImage) scheduleProcessing(250);
         }
       });
     }
@@ -4716,9 +4675,141 @@
       });
     }
 
+    // ---- Fast target-size search (shared by single + batch engines) ----
+    // The old binary search re-encoded the FULL-resolution image up to 49
+    // times (8 quality steps x up to 6 sizes). A 12MP phone photo took
+    // ~43s to compress (measured in Chrome: 37 encodes, 43s of encode
+    // time). Probe-and-jump: one small probe encode estimates
+    // bytes-per-pixel, then we jump straight to the size that should hit
+    // the target and only fine-tune quality there. Typical cost now:
+    // ~7 encodes, most of them small.
+    const encodeCanvasAt = (cv, mime, q) => new Promise((res) => cv.toBlob(res, mime, q));
+    const scaledCanvas = (src, scale) => {
+      const w = Math.max(1, Math.round(src.width * scale));
+      const h = Math.max(1, Math.round(src.height * scale));
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      const x = c.getContext('2d');
+      x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+      x.drawImage(src, 0, 0, w, h);
+      return c;
+    };
+    // Stepwise downscale (halving steps): visibly sharper than one big jump.
+    const stepScaleCanvas = (src, targetScale) => {
+      let cur = src, curScale = 1;
+      while (curScale * 0.5 >= targetScale) { cur = scaledCanvas(cur, 0.5); curScale *= 0.5; }
+      if (curScale > targetScale) cur = scaledCanvas(cur, targetScale / curScale);
+      return cur;
+    };
+    // High-quality draw with stepwise downscale when shrinking a lot.
+    const drawImageHQ = (ctx, img, dx, dy, dw, dh) => {
+      const sw = img.naturalWidth || img.width, sh = img.naturalHeight || img.height;
+      if (dw >= sw * 0.5 && dh >= sh * 0.5) { ctx.drawImage(img, dx, dy, dw, dh); return; }
+      let cur = img, cw = sw, ch = sh;
+      while (cw * 0.5 >= dw && ch * 0.5 >= dh) {
+        const c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(cw * 0.5)); c.height = Math.max(1, Math.round(ch * 0.5));
+        const x = c.getContext('2d'); x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+        x.drawImage(cur, 0, 0, c.width, c.height);
+        cur = c; cw = c.width; ch = c.height;
+      }
+      ctx.drawImage(cur, dx, dy, dw, dh);
+    };
+    // Binary-search quality on ONE canvas. Early-exits when within 8% under
+    // target, or when the encoder stops responding to quality changes
+    // (identical byte sizes = wasted encodes).
+    const searchQualityOnCanvas = async (cv, mime, targetBytes, maxIter, isStale) => {
+      let low = 0.55, high = 0.95, best = null, prevSize = -1, sameSize = 0, encodes = 0;
+      for (let iter = 0; iter < maxIter; iter++) {
+        if (isStale && isStale()) return { blob: null, stale: true, encodes };
+        const mid = (low + high) / 2;
+        const b = await encodeCanvasAt(cv, mime, mid);
+        encodes++;
+        if (!b) break;
+        if (isStale && isStale()) return { blob: null, stale: true, encodes };
+        if (b.size === prevSize) {
+          sameSize++;
+          if (sameSize >= 1 && b.size > targetBytes) break; // quantiser floor: lower quality will not help at this size
+        } else sameSize = 0;
+        prevSize = b.size;
+        if (b.size <= targetBytes) {
+          best = b; low = mid;
+          if (targetBytes - b.size < targetBytes * 0.08) break;
+        } else high = mid;
+      }
+      return { blob: best, encodes };
+    };
+    // Full probe-and-jump search. Returns { blob, width, height, encodes, stale }.
+    const searchTargetSize = async (canvas, mime, targetBytes, allowScaleDown, isStale, onProgress) => {
+      let encodes = 0;
+      const say = (label) => { if (onProgress) onProgress(label); };
+      // 1. Probe on a small thumbnail (<=720px wide) to estimate bytes-per-pixel.
+      say('Compressing\u2026 estimating size');
+      const probeScale = Math.min(1, 720 / Math.max(canvas.width, canvas.height));
+      const probe = probeScale < 1 ? scaledCanvas(canvas, probeScale) : canvas;
+      const probeBlob = await encodeCanvasAt(probe, mime, 0.8);
+      encodes++;
+      if (!probeBlob) return { blob: null, width: canvas.width, height: canvas.height, encodes };
+      if (isStale && isStale()) return { blob: null, stale: true, encodes };
+      // 2. Jump straight to the size that should hit the target.
+      const bpp = probeBlob.size / Math.max(1, probe.width * probe.height);
+      const affordPx = targetBytes / Math.max(bpp, 0.0001);
+      let scale = Math.min(1, Math.sqrt(affordPx / Math.max(1, canvas.width * canvas.height)));
+      if (!allowScaleDown) scale = 1;
+      scale = Math.max(0.15, scale); // never shrink to a postage stamp chasing an impossible target
+      let work = scale < 0.99 ? stepScaleCanvas(canvas, scale) : canvas;
+      // 3. Fine-tune quality at the estimated size.
+      say('Compressing\u2026 fine-tuning quality');
+      let r = await searchQualityOnCanvas(work, mime, targetBytes, 6, isStale);
+      encodes += r.encodes;
+      if (r.stale) return { blob: null, stale: true, encodes };
+      // 4. If still over, step down once or twice more (each with a short search).
+      let attempts = 0;
+      while (!r.blob && allowScaleDown && attempts < 2) {
+        attempts++;
+        say('Compressing\u2026 adjusting size');
+        work = stepScaleCanvas(work, 0.8);
+        r = await searchQualityOnCanvas(work, mime, targetBytes, 4, isStale);
+        encodes += r.encodes;
+        if (r.stale) return { blob: null, stale: true, encodes };
+      }
+      if (!r.blob) {
+        // Last resort: smallest render at the quality floor. displayResult
+        // warns the user instead of silently claiming success.
+        const last = await encodeCanvasAt(work, mime, 0.55);
+        encodes++;
+        return { blob: last, width: work.width, height: work.height, encodes };
+      }
+      return { blob: r.blob, width: work.width, height: work.height, encodes };
+    };
+
+    // Debounced re-processing + run tokens: rapid input (typing a custom KB
+    // target) used to queue a full multi-encode search per keystroke with no
+    // cancellation — overlapping runs raced and the page stayed busy for a
+    // minute (measured: 88 encodes / 129s of encode time for two quick
+    // keystrokes). Now input waits 250ms after the last keystroke, and a
+    // superseded run aborts after its current encode.
+    let processRunId = 0;
+    let processDebounceTimer = null;
+    function scheduleProcessing(delay = 250) {
+      if (processDebounceTimer) clearTimeout(processDebounceTimer);
+      processDebounceTimer = setTimeout(() => { executeProcessing(); }, delay);
+    }
+    // Social-tool preview renders at most once per animation frame while
+    // dragging the scale slider (was: a full re-render per input event).
+    let szRenderQueued = false;
+    function scheduleSzRender() {
+      if (szRenderQueued) return;
+      szRenderQueued = true;
+      requestAnimationFrame(() => { szRenderQueued = false; szRender(); });
+    }
+
     // Core Canvas Processing Engine
     function executeProcessing() {
       if (!currentImage) return;
+      if (processDebounceTimer) { clearTimeout(processDebounceTimer); processDebounceTimer = null; }
+      const runId = ++processRunId;
+      const isStale = () => runId !== processRunId;
 
       const targetW = Math.max(1, parseInt(widthInput.value, 10) || origWidth);
       const targetH = Math.max(1, parseInt(heightInput.value, 10) || origHeight);
@@ -4762,9 +4853,9 @@
           offsetX = 0;
           offsetY = (targetH - renderH) / 2;
         }
-        ctx.drawImage(currentImage, offsetX, offsetY, renderW, renderH);
+        drawImageHQ(ctx, currentImage, offsetX, offsetY, renderW, renderH);
       } else {
-        ctx.drawImage(currentImage, 0, 0, targetW, targetH);
+        drawImageHQ(ctx, currentImage, 0, 0, targetW, targetH);
       }
 
       // 3. Signature Ink Filter
@@ -4804,7 +4895,7 @@
               scale: 1, pathomit: 8, colorsampling: 2, numberofcolors: 16
             });
             const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-            displayResult(blob, 'svg');
+            if (!isStale()) displayResult(blob, 'svg');
           })
           .catch(err => {
             processBtn.disabled = false;
@@ -4814,68 +4905,33 @@
         return;
       }
 
-      // 5. Binary Search Target Compression
+      // 5. Probe-and-Jump Target Compression (fast search — see helpers above)
       const config = TOOL_CONFIGS[currentToolKey];
       const targetLimitBytes = (config && config.showTargetKb && selectedTargetKb) ? selectedTargetKb * 1024 : null;
       const mimeType = selectedFormat === 'png' ? 'image/png' : (selectedFormat === 'webp' ? 'image/webp' : 'image/jpeg');
       const ext = selectedFormat === 'png' ? 'png' : (selectedFormat === 'webp' ? 'webp' : 'jpg');
 
       if (targetLimitBytes && mimeType !== 'image/png') {
-        (async () => {
-          // Quality-first target search. The old code crushed JPEG/WebP
-          // quality down to 0.05 when a target was hard to hit, which made
-          // outputs visibly blocky. Now: search quality down to a 0.55
-          // floor first; only when dimensions are NOT mandated (compress /
-          // batch tools) step the render down in size and re-search, so a
-          // slightly smaller image at good quality wins over full-size mush.
-          const encodeAt = (cv, q) => new Promise(r => cv.toBlob(r, mimeType, q));
-          const searchQuality = async (cv) => {
-            let low = 0.55, high = 0.95, best = null;
-            for (let iter = 0; iter < 8; iter++) {
-              const mid = (low + high) / 2;
-              const b = await encodeAt(cv, mid);
-              if (!b) break;
-              // Keep ONLY blobs that meet the target: the old code kept the
-              // last blob even when it was over the limit (e.g. a "20KB"
-              // signature coming out at 24KB and being rejected by portals).
-              if (b.size <= targetLimitBytes) {
-                best = b;
-                low = mid;
-                if (targetLimitBytes - b.size < targetLimitBytes * 0.08) break;
-              } else {
-                high = mid;
-              }
+        searchTargetSize(canvas, mimeType, targetLimitBytes, !!(config && !config.showDimensions), isStale, (label) => { processBtn.textContent = label; })
+          .then((r) => {
+            if (!r || r.stale || isStale()) return; // superseded — the newer run owns the result
+            if (!r.blob) {
+              processBtn.disabled = false;
+              processBtn.textContent = 'Process & Download File';
+              showAlert('Processing error occurred. Please try smaller dimensions.', 'error');
+              return;
             }
-            return best;
-          };
-          const scaledCanvas = (src, scale) => {
-            const w = Math.max(1, Math.round(src.width * scale));
-            const h = Math.max(1, Math.round(src.height * scale));
-            const c = document.createElement('canvas');
-            c.width = w; c.height = h;
-            const x = c.getContext('2d');
-            x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
-            x.drawImage(src, 0, 0, w, h);
-            return c;
-          };
-          let result = await searchQuality(canvas);
-          if (!result && config && !config.showDimensions) {
-            for (const scale of [0.9, 0.8, 0.7, 0.6, 0.5]) {
-              const sc = scaledCanvas(canvas, scale);
-              result = await searchQuality(sc);
-              if (result) break;
-            }
-          }
-          // Last resort: smallest render at the quality floor; displayResult
-          // warns the user instead of silently claiming success.
-          if (!result) {
-            const sc = (config && !config.showDimensions) ? scaledCanvas(canvas, 0.5) : canvas;
-            result = await encodeAt(sc, 0.55);
-          }
-          displayResult(result, ext);
-        })();
+            displayResult(r.blob, ext);
+          })
+          .catch(() => {
+            if (isStale()) return;
+            processBtn.disabled = false;
+            processBtn.textContent = 'Process & Download File';
+            showAlert('Processing error occurred. Please try smaller dimensions.', 'error');
+          });
       } else {
         canvas.toBlob((blob) => {
+          if (isStale()) return;
           displayResult(blob, ext);
         }, mimeType, 0.98);
       }
@@ -5183,9 +5239,9 @@
               } else {
                 rW = targetW; rH = targetW / imgRatio; oX = 0; oY = (targetH - rH) / 2;
               }
-              ctx.drawImage(img, oX, oY, rW, rH);
+              drawImageHQ(ctx, img, oX, oY, rW, rH);
             } else {
-              ctx.drawImage(img, 0, 0, targetW, targetH);
+              drawImageHQ(ctx, img, 0, 0, targetW, targetH);
             }
 
             let mimeType = 'image/jpeg';
@@ -5204,47 +5260,15 @@
 
             if (selectedTargetKb && (selectedFormat === 'jpg' || selectedFormat === 'webp')) {
               const targetBytes = selectedTargetKb * 1024;
-              // Quality-first, same as the single-image engine: never crush
-              // quality to 0.05. Search down to a 0.55 floor, then step the
-              // render down in size and re-search (batch dimensions are not
-              // mandated, so a slightly smaller image at good quality wins).
-              const encodeAt = (cv, q) => new Promise(res => cv.toBlob(res, mimeType, q));
-              const searchQuality = async (cv) => {
-                let minQ = 0.55, maxQ = 0.95, best = null;
-                for (let iter = 0; iter < 8; iter++) {
-                  const midQ = (minQ + maxQ) / 2;
-                  const b = await encodeAt(cv, midQ);
-                  if (!b) break;
-                  if (b.size <= targetBytes) { best = b; minQ = midQ; }
-                  else { maxQ = midQ; }
-                }
-                return best;
-              };
-              const scaledCanvas = (src, scale) => {
-                const w = Math.max(1, Math.round(src.width * scale));
-                const h = Math.max(1, Math.round(src.height * scale));
-                const c = document.createElement('canvas');
-                c.width = w; c.height = h;
-                const x = c.getContext('2d');
-                x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
-                x.drawImage(src, 0, 0, w, h);
-                return c;
-              };
-              let outCanvas = canvas;
-              let bestBlob = await searchQuality(canvas);
-              if (!bestBlob) {
-                for (const scale of [0.9, 0.8, 0.7, 0.6, 0.5]) {
-                  const sc = scaledCanvas(canvas, scale);
-                  bestBlob = await searchQuality(sc);
-                  if (bestBlob) { outCanvas = sc; break; }
-                }
-              }
-              if (!bestBlob) {
-                outCanvas = scaledCanvas(canvas, 0.5);
-                bestBlob = await encodeAt(outCanvas, 0.55);
-              }
+              // Probe-and-jump target search (shared helper): ~7 encodes
+              // instead of up to 49. Batch dimensions are not mandated, so
+              // the render may step down in size to hit the target.
+              const r = await searchTargetSize(canvas, mimeType, targetBytes, true, null, null);
+              const bestBlob = r.blob || await encodeCanvasAt(canvas, mimeType, 0.55);
+              const outW = r.blob ? r.width : targetW;
+              const outH = r.blob ? r.height : targetH;
 
-              resolve({ blob: bestBlob, width: outCanvas.width, height: outCanvas.height, filename: getCleanDownloadName(item.name, ext) });
+              resolve({ blob: bestBlob, width: outW, height: outH, filename: getCleanDownloadName(item.name, ext) });
             } else {
               const quality = selectedFormat === 'png' ? undefined : 0.92;
               canvas.toBlob((blob) => {
@@ -6086,12 +6110,12 @@
       });
     }
 
-    // Scale Slider
+    // Scale Slider (rAF-coalesced: rapid drags render once per frame)
     if (szScaleSlider) {
       szScaleSlider.addEventListener('input', () => {
         szScale = parseInt(szScaleSlider.value, 10) || 100;
         if (szScaleVal) szScaleVal.textContent = `${szScale}%`;
-        szRender();
+        scheduleSzRender();
       });
     }
 

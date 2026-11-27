@@ -2596,6 +2596,10 @@
               <div class="metric-title">Efficiency Gain</div>
               <div class="metric-val saved" id="metricSaved">-</div>
             </div>
+            <div class="metric-card">
+              <div class="metric-title">Output Dimensions</div>
+              <div class="metric-val" id="metricOutDims">-</div>
+            </div>
           </div>
 
           <!-- In-Tool Output Banner Ad (468x60 Desktop / 320x50 Mobile) -->
@@ -3234,6 +3238,7 @@
     const metricOrigSize = document.getElementById('metricOrigSize');
     const metricNewSize = document.getElementById('metricNewSize');
     const metricSaved = document.getElementById('metricSaved');
+    const metricOutDims = document.getElementById('metricOutDims');
     const downloadBtn = document.getElementById('downloadBtn');
     const resetBtn = document.getElementById('resetBtn');
 
@@ -4049,9 +4054,23 @@
         outputPreview.style.display = '';
         if (outputPdfNote) outputPdfNote.style.display = 'none';
         outputPreview.src = activeBlobUrl;
+        // Show output dimensions + warn when a KB target forced a big shrink.
+        // (Previously the user only saw file sizes, so a 12MP photo silently
+        // becoming 656x492 to hit 20KB looked like a quality bug.)
+        outputPreview.onload = () => {
+          const ow = outputPreview.naturalWidth, oh = outputPreview.naturalHeight;
+          if (metricOutDims) metricOutDims.textContent = (ow && oh) ? `${ow} \u00d7 ${oh} px` : '-';
+          const tW = parseInt(widthInput.value, 10) || 0, tH = parseInt(heightInput.value, 10) || 0;
+          const cfg = TOOL_CONFIGS[currentToolKey];
+          const limit = (cfg && cfg.showTargetKb && selectedTargetKb) ? selectedTargetKb : null;
+          if (limit && ow && oh && tW > 0 && tH > 0 && blob.size <= limit * 1024 && (ow * oh) < (tW * tH) * 0.25) {
+            showAlert(`Heads up: to hit ${limit} KB, the photo was resized to ${ow} \u00d7 ${oh} px (from ${origWidth} \u00d7 ${origHeight} px). For a sharper result, try a higher KB target or WebP format.`, 'info');
+          }
+        };
       }
 
       metricNewSize.textContent = formatBytes(blob.size);
+      if (metricOutDims) metricOutDims.textContent = '-';
       if (currentFile && currentFile.size > 0) {
         const diff = currentFile.size - blob.size;
         const pct = Math.round((diff / currentFile.size) * 100);
